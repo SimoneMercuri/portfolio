@@ -8,7 +8,7 @@
 <link rel="alternate" hreflang="it" href="index.html">
 <link rel="alternate" hreflang="en" href="en.html">
 <script src="./support.js"></script>
-</head>
+<style id="mobile-guard">@supports (overflow:clip){html,body{overflow-x:clip}}</style></head>
 <body>
 <x-dc>
 <helmet>
@@ -61,7 +61,7 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
     <li style="font-weight:400">Lecce, Italy · remote too</li>
   </ul>
   <h1 id="hero-title" style="margin:clamp(72px,14vh,160px) 0 0;max-width:11ch;font-size:clamp(52px,10vw,148px);line-height:.92;font-weight:800;letter-spacing:-0.04em;text-wrap:balance">I design digital products everyone can use.</h1>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:32px 24px;margin-top:72px;padding-top:16px;border-top:1px solid #0A0A0A;align-items:start">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:32px 24px;margin-top:72px;padding-top:16px;border-top:1px solid #0A0A0A;align-items:start">
     <p style="margin:0;max-width:38ch;font-size:clamp(18px,1.6vw,21px);line-height:1.5">I’m Simone Mercuri. I make complex services and products simple, from public administration to fashion, with usability as the measure of every decision and a visual character people remember.</p>
     <div style="display:flex;flex-direction:column;gap:14px;align-items:flex-start">
       <a href="#lavori" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 24px;background:#0A0A0A;color:#FFFFFF;border:2px solid #0A0A0A;border-radius:0;font-weight:800;text-decoration:none" style-hover="background:transparent;color:#0A0A0A">See the work<svg aria-hidden="true" width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v10M3.5 8.5L8 13l4.5-4.5"></path></svg></a>
@@ -101,7 +101,7 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
       <a href="#tavola" style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 32px;align-items:baseline;padding:32px 0;color:#111111;text-decoration:none" style-hover="background:#FFD60A;padding-left:12px">
         <span style="font-size:clamp(24px,2.8vw,34px);font-weight:800;line-height:1.15;letter-spacing:-0.015em">Tavola</span>
         <span style="font-size:16px;color:#555555">Case study</span>
-        <span style="grid-column:1 / -1;max-width:64ch;font-size:17px;color:#555555">A menu editor for small restaurants, built on the Salento design system: update items, prices and availability in under a minute.</span>
+        <span style="grid-column:1 / -1;max-width:64ch;font-size:17px;color:#555555">A menu editor for small restaurants, built on the Salento design system and designed to update items, prices and availability in under a minute.</span>
       </a>
     </li>
     <li style="border-bottom:1px solid #DDDDDD">
@@ -126,7 +126,7 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
   </div>
 
   <h3 style="margin:72px 0 24px;font-size:24px;font-weight:800;letter-spacing:-0.01em">Four recurring challenges</h3>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:28px 32px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:28px 32px">
     <div style="border-top:1px solid #111111;padding-top:16px">
       <h4 style="margin:0 0 6px;font-size:18px;font-weight:800">Bureaucratic language</h4>
       <p style="margin:0;font-size:16px;color:#555555">Jargon and acronyms the office knows and the applicant doesn’t.</p>
@@ -201,7 +201,7 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
   <div style="margin-top:96px">
     <h3 style="margin:0;font-size:clamp(24px,2.6vw,32px);font-weight:800;line-height:1.15;letter-spacing:-0.015em">Document actions</h3>
     <p style="margin:12px 0 0;max-width:64ch">Approving is instant and can be undone. Rejecting or requesting more information requires a reason, because someone on the other side will read it. Each action keeps the same name from button to confirmation.</p>
-    <div style="margin-top:28px;background:#FFFFFF;border:1px solid #DDDDDD;border-radius:8px;padding:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px">
+    <div style="margin-top:28px;background:#FFFFFF;border:1px solid #DDDDDD;border-radius:8px;padding:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:32px">
       <div style="display:flex;gap:16px;align-items:flex-start">
         <div aria-hidden="true" style="flex:none;width:56px;height:72px;border:2px solid #111111;border-radius:4px;position:relative;background:#FFFFFF">
           <div style="position:absolute;left:10px;right:10px;top:16px;height:2px;background:#DDDDDD"></div>
@@ -398,7 +398,7 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
   <h2 id="tavola-title" style="margin:0;font-size:clamp(34px,4.4vw,56px);line-height:1.04;font-weight:800;letter-spacing:-0.022em">Tavola</h2>
   <p style="margin:20px 0 0;max-width:52ch;font-size:clamp(19px,1.8vw,23px);line-height:1.45">A menu editor for small restaurants, where the menu changes daily and is updated by front-of-house staff, often from a phone.</p>
 
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px 48px;margin-top:56px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:40px 48px;margin-top:56px">
     <div>
       <h3 style="margin:0 0 8px;font-size:20px;font-weight:800">Problem</h3>
       <p style="margin:0;color:#111111">Existing tools are built for chains: dozens of fields, long flows, desktop interfaces. So the online menu lags behind the real one, and guests order dishes that have run out.</p>
@@ -410,8 +410,8 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
   </div>
 
   <h3 style="margin:56px 0 16px;font-size:20px;font-weight:800">Process</h3>
-  <ol style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px 32px">
-    <li style="border-top:1px solid #111111;padding-top:14px"><span style="display:block;font-size:15px;color:#555555">Step 1</span><strong style="display:block;margin:2px 0 4px">Observation</strong><span style="font-size:16px;color:#555555">Interviews with restaurateurs in Salento and observation of the moment the menu changes.</span></li>
+  <ol style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:24px 32px">
+    <li style="border-top:1px solid #111111;padding-top:14px"><span style="display:block;font-size:15px;color:#555555">Step 1</span><strong style="display:block;margin:2px 0 4px">Observation</strong><span style="font-size:16px;color:#555555">Working with the restaurant the project started from: who updates the menu, when, and on which device.</span></li>
     <li style="border-top:1px solid #111111;padding-top:14px"><span style="display:block;font-size:15px;color:#555555">Step 2</span><strong style="display:block;margin:2px 0 4px">Minimal flow</strong><span style="font-size:16px;color:#555555">Three actions cover almost everything: mark an item as sold out, change a price, add today’s special.</span></li>
     <li style="border-top:1px solid #111111;padding-top:14px"><span style="display:block;font-size:15px;color:#555555">Step 3</span><strong style="display:block;margin:2px 0 4px">Salento design system</strong><span style="font-size:16px;color:#555555">Colour and type tokens, documented components, an identity that is warm but legible.</span></li>
     <li style="border-top:1px solid #111111;padding-top:14px"><span style="display:block;font-size:15px;color:#555555">Step 4</span><strong style="display:block;margin:2px 0 4px">Coded prototype</strong><span style="font-size:16px;color:#555555">A working editor to try on the floor, not a sequence of screens.</span></li>
@@ -433,9 +433,9 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
       <p style="position:relative;z-index:2;margin:6px 0 0;max-width:18ch;font-family:'DM Serif Display',Georgia,serif;font-size:clamp(28px,3.4vw,40px);line-height:1.1">A venue’s menu is a tailored garment.</p>
       <span aria-hidden="true" style="position:absolute;right:-12px;bottom:-0.5em;z-index:1;font-family:'DM Serif Display',Georgia,serif;font-size:clamp(110px,16vw,200px);line-height:1;color:#3B4A6B;white-space:nowrap;pointer-events:none;user-select:none">tavola</span>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1px;background:#E3E6EA">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:1px;background:#E3E6EA">
       <div style="background:#FFFFFF;padding:22px;display:flex;flex-direction:column;gap:16px;min-width:0">
-        <p style="margin:0;font-size:12px;font-weight:700;letter-spacing:.12em;color:#6B727B">THE STUDIO</p>
+        <p style="margin:0;font-size:12px;font-weight:700;letter-spacing:.12em;color:#6B727B;text-transform:uppercase;">The studio</p>
         <div role="group" aria-label="Menu sections" style="display:flex;flex-wrap:wrap;gap:6px">
           <sc-for list="{{ tCats }}" as="c" hint-placeholder-count="3">
             <button type="button" aria-pressed="{{ c.pressed }}" onClick="{{ c.onClick }}" style="min-height:44px;padding:0 14px;border-radius:8px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.fg }};font-family:'Archivo',sans-serif;font-weight:600;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;gap:8px">{{ c.name }}<span style="font-weight:400;font-variant-numeric:tabular-nums">{{ c.count }}</span></button>
@@ -486,7 +486,7 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
                   </sc-for>
                 </div>
               </div>
-              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px">
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(150px,100%),1fr));gap:14px">
                 <sc-for list="{{ nvFields }}" as="f" hint-placeholder-count="6">
                   <div style="display:flex;flex-direction:column;gap:6px;grid-column:{{ f.span }}">
                     <label for="{{ f.id }}" style="font-size:14px;font-weight:700;color:#23262B">{{ f.label }}</label>
@@ -509,7 +509,7 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
           <p style="margin:0;font-family:'DM Serif Display',Georgia,serif;font-size:24px;line-height:1.15">Tailoring, not templates.</p>
           <p style="margin:4px 0 0;font-size:15px;color:#AEB4BE">The same menu, dressed stage by stage.</p>
         </div>
-        <ol aria-label="Dressing stages" style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px">
+        <ol aria-label="Dressing stages" style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(130px,100%),1fr));gap:6px">
           <sc-for list="{{ vSteps }}" as="s" hint-placeholder-count="4">
             <li>
               <button type="button" aria-current="{{ s.current }}" onClick="{{ s.onClick }}" style="width:100%;min-height:44px;display:flex;align-items:baseline;gap:10px;text-align:left;padding:10px 12px;border-radius:10px;border:1px solid {{ s.border }};background:{{ s.bg }};color:{{ s.fg }};cursor:pointer;font-family:'Archivo',sans-serif">
@@ -525,7 +525,7 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
             <sc-if value="{{ vm.mast }}" hint-placeholder-val="{{ true }}">
               <div style="margin:-32px -28px 22px;padding:26px 28px 20px;background:#9E2A18;color:#F4E8D4">
                 <span style="display:block;font-family:'DM Serif Display',Georgia,serif;font-size:32px;line-height:1.04">Osteria<br>della Vigna</span>
-                <span style="display:block;font-size:11px;font-weight:600;letter-spacing:.26em;color:#EEC2A0;margin-top:9px">WINES &amp; COCKTAILS</span>
+                <span style="display:block;font-size:11px;font-weight:600;letter-spacing:.26em;color:#EEC2A0;margin-top:9px;text-transform:uppercase;">Wines &amp; cocktails</span>
               </div>
             </sc-if>
             <sc-for list="{{ preview }}" as="g" hint-placeholder-count="3">
@@ -554,10 +554,10 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
   </div>
   <p style="margin:12px 0 0;font-size:15px;color:#555555">Rebuilt from the Tavola repository: the header and studio follow the product’s design system (ink, slate, DM Serif Display and Archivo), the preview follows the tenant (cream and brick). Osteria della Vigna is the demo venue.</p>
 
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px 48px;margin-top:56px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:40px 48px;margin-top:56px">
     <div>
       <h3 style="margin:0 0 8px;font-size:20px;font-weight:800">Current status</h3>
-      <p style="margin:0">In development. Editor and Salento design system complete; the public menu page is being piloted with the first venues.</p>
+      <p style="margin:0">In development. Editor and Salento design system complete; the public menu page is in progress.</p>
     </div>
     <div>
       <h3 style="margin:0 0 8px;font-size:20px;font-weight:800">Next steps</h3>
@@ -574,7 +574,7 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
   <h2 id="amf-title" style="margin:0;max-width:18ch;font-size:clamp(34px,4.4vw,56px);line-height:1.04;font-weight:800;letter-spacing:-0.022em">AMF: from still life to looping on-model video</h2>
   <p style="margin:20px 0 0;max-width:56ch;font-size:clamp(19px,1.8vw,23px);line-height:1.45">For a faux-fur fashion brand’s shop, I proposed opening every product with a silent clip a few seconds long: the garment worn, in motion, front and back in a single asset.</p>
 
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px 48px;margin-top:56px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:40px 48px;margin-top:56px">
     <div>
       <h3 style="margin:0 0 8px;font-size:20px;font-weight:800">Problem</h3>
       <p style="margin:0">A garment on a hanger doesn’t show how it falls, how it opens, how long it is when worn. For a fur coat, that is exactly what drives the purchase.</p>
@@ -586,7 +586,7 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
   </div>
 
   <h3 style="margin:56px 0 16px;font-size:20px;font-weight:800">Three decisions</h3>
-  <ol style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px 32px">
+  <ol style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:24px 32px">
     <li style="border-top:1px solid #111111;padding-top:14px"><strong style="display:block;margin-bottom:4px">The garment is worn</strong><span style="font-size:16px;color:#555555">Front and back on the same white background, with consistent lighting across the shop.</span></li>
     <li style="border-top:1px solid #111111;padding-top:14px"><strong style="display:block;margin-bottom:4px">The loop replaces the pose</strong><span style="font-size:16px;color:#555555">A few seconds: the model walks in facing forward, half-turns and ends from behind. First and last frames match, so the loop is seamless.</span></li>
     <li style="border-top:1px solid #111111;padding-top:14px"><strong style="display:block;margin-bottom:4px">An addition, not a constraint</strong><span style="font-size:16px;color:#555555">Where there is no video, the card shows the still on-model shot and reveals the still life on hover. The grid never breaks.</span></li>
@@ -607,7 +607,7 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
         <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="{{ amfIcon }}"></path></svg>{{ amfBtn }}
       </button>
     </div>
-    <ul style="list-style:none;margin:0;padding:1px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:#E3E1DC">
+    <ul style="list-style:none;margin:0;padding:1px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(200px,100%),1fr));gap:1px;background:#E3E1DC">
       <sc-for list="{{ amfProducts }}" as="p" hint-placeholder-count="6">
         <li tabindex="{{ p.tab }}" aria-label="{{ p.aria }}" onMouseEnter="{{ p.onEnter }}" onMouseLeave="{{ p.onLeave }}" onFocus="{{ p.onEnter }}" onBlur="{{ p.onLeave }}" style="background:#FFFFFF;display:flex;flex-direction:column">
           <div style="position:relative;aspect-ratio:3 / 4;background:#FFFFFF;overflow:hidden">
@@ -634,7 +634,7 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
     </ul>
   </sc-if>
 
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px 56px;align-items:center;margin-top:72px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:40px 56px;align-items:center;margin-top:72px">
     <div>
       <h3 style="margin:0 0 8px;font-size:20px;font-weight:800">On mobile</h3>
       <p style="margin:0;max-width:52ch">One column, full-width cards. A loop plays only when its card is in the middle of the screen and stops when it leaves: one video at a time, less battery and data. Scroll inside the phone.</p>
@@ -666,7 +666,7 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
     </div>
   </div>
 
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px 48px;margin-top:56px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:40px 48px;margin-top:56px">
     <div>
       <h3 style="margin:0 0 8px;font-size:20px;font-weight:800">Behaviour rules</h3>
       <ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px">
@@ -676,7 +676,7 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
     </div>
     <div>
       <h3 style="margin:0 0 8px;font-size:20px;font-weight:800">Current status</h3>
-      <p style="margin:0">Proposal v1 delivered in August 2026. Four loops already shot, three of them in the grid; 58 images to produce across three collections. First launch with Unite, then Am Fake and Metamorph with still life re-lit to match.</p>
+      <p style="margin:0">Proposal delivered to the client in August 2026. The first loops are already shot; the other collections will follow with the same light and framing.</p>
     </div>
   </div>
 </section>
@@ -684,35 +684,35 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
 <section id="metodo" aria-labelledby="metodo-title" style="background:#FFD60A;border-top:2px solid #0A0A0A;scroll-margin-top:72px">
  <div style="max-width:1160px;margin:0 auto;padding:96px 24px 104px">
   <h2 id="metodo-title" style="margin:0;max-width:15ch;font-size:clamp(38px,5.4vw,72px);line-height:1.02;font-weight:800;letter-spacing:-0.03em">If it isn’t easy to use, it isn’t finished.</h2>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px 56px;margin-top:40px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:24px 56px;margin-top:40px">
     <p style="margin:0;font-size:clamp(19px,1.8vw,23px);line-height:1.45">I put usability at the centre of every project. A product works when anyone understands it at first glance and uses it effortlessly, whatever their tools, their time or their abilities.</p>
     <p style="margin:0;color:#3B3300">That doesn’t mean giving up on creativity. It means building it on solid foundations: clarity first, then character. When the most striking visual solution is also the clearest, the product doesn’t just work. It stays with you.</p>
   </div>
   <div style="margin-top:80px">
     <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 32px;padding:0 0 18px;border-bottom:2px solid #0A0A0A">
-      <p style="margin:0;font-size:clamp(40px,9vw,120px);font-weight:800;line-height:.86;letter-spacing:-0.035em">USABLE</p>
+      <p style="margin:0;font-size:clamp(30px,9vw,120px);font-weight:800;line-height:.86;letter-spacing:-0.035em;text-transform:uppercase;">Usable</p>
       <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;font-size:16px;font-weight:700;line-height:1.35;color:#0A0A0A"><li>clear</li><li>predictable</li><li>accessible</li></ul>
     </div>
     <div style="display:flex;flex-wrap:wrap-reverse;align-items:flex-end;justify-content:space-between;gap:12px 32px;padding:22px 24px 20px;background:#0A0A0A;color:#FFD60A">
       <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;font-size:16px;font-weight:700;line-height:1.35;color:#FFD60A"><li>distinctive</li><li>expressive</li><li>crafted</li></ul>
-      <p style="margin:0;margin-left:auto;font-size:clamp(40px,9vw,120px);font-weight:800;line-height:.86;letter-spacing:-0.035em;text-align:right">ENGAGING</p>
+      <p style="margin:0;margin-left:auto;font-size:clamp(30px,9vw,120px);font-weight:800;line-height:.86;letter-spacing:-0.035em;text-align:right;text-transform:uppercase;">Engaging</p>
     </div>
     <p style="margin:16px 0 0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;font-size:17px"><span>I don’t choose between clarity and character: I keep them together.</span><span style="font-weight:800">together, not either/or</span></p>
   </div>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px 64px;margin-top:80px">
-    <div style="border-top:2px solid #0A0A0A;padding-top:18px"><h3 style="margin:0 0 10px;font-size:clamp(22px,2.2vw,28px);font-weight:800;line-height:1.15;letter-spacing:-0.01em">Usable, above all</h3><p style="margin:0;max-width:52ch;color:#3B3300">Every choice starts from one question: can people do what they need, on the first try? I check it with prototypes and tests with real users, not opinions.</p></div>
+    <div style="border-top:2px solid #0A0A0A;padding-top:18px"><h3 style="margin:0 0 10px;font-size:clamp(22px,2.2vw,28px);font-weight:800;line-height:1.15;letter-spacing:-0.01em">Usable, above all</h3><p style="margin:0;max-width:52ch;color:#3B3300">Every choice starts from one question: can people do what they need, on the first try? I check it with prototypes and, when the project allows it, with real users, not opinions.</p></div>
     <div style="border-top:2px solid #0A0A0A;padding-top:18px"><h3 style="margin:0 0 10px;font-size:clamp(22px,2.2vw,28px);font-weight:800;line-height:1.15;letter-spacing:-0.01em">Within everyone’s reach</h3><p style="margin:0;max-width:52ch;color:#3B3300">I design for people using a keyboard, a screen reader, an old phone, or with little time. Accessibility is a requirement from day one, not a check at the end.</p></div>
     <div style="border-top:2px solid #0A0A0A;padding-top:18px"><h3 style="margin:0 0 10px;font-size:clamp(22px,2.2vw,28px);font-weight:800;line-height:1.15;letter-spacing:-0.01em">Simple and intuitive</h3><p style="margin:0;max-width:52ch;color:#3B3300">I remove until only the essential is left: fewer steps, everyday words, predictable behaviour. If an interface needs explaining, it needs redesigning.</p></div>
     <div style="border-top:2px solid #0A0A0A;padding-top:18px"><h3 style="margin:0 0 10px;font-size:clamp(22px,2.2vw,28px);font-weight:800;line-height:1.15;letter-spacing:-0.01em">Creative, without compromise</h3><p style="margin:0;max-width:52ch;color:#3B3300">A clear interface can still move people. AMF’s loops are in motion, yet stop with a tap; Tavola’s style is warm, yet stays legible.</p></div>
   </div>
   <h3 style="margin:96px 0 24px;font-size:22px;font-weight:800">The method, in four beats</h3>
-  <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px 32px">
+  <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:24px 32px">
     <li style="border-top:1px solid #0A0A0A;padding-top:14px"><strong style="display:block;font-size:18px;margin-bottom:4px">Understand</strong><span style="font-size:16px;color:#3B3300">Interviews, observation, data analysis: people first, screens later.</span></li>
     <li style="border-top:1px solid #0A0A0A;padding-top:14px"><strong style="display:block;font-size:18px;margin-bottom:4px">Simplify</strong><span style="font-size:16px;color:#3B3300">Flows, information architecture, language. The shortest path to the goal.</span></li>
     <li style="border-top:1px solid #0A0A0A;padding-top:14px"><strong style="display:block;font-size:18px;margin-bottom:4px">Shape</strong><span style="font-size:16px;color:#3B3300">Interface and design system: tokens, components and documented rules.</span></li>
     <li style="border-top:1px solid #0A0A0A;padding-top:14px"><strong style="display:block;font-size:18px;margin-bottom:4px">Validate</strong><span style="font-size:16px;color:#3B3300">Usability testing, WCAG, keyboard and screen readers. Then repeat.</span></li>
   </ol>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px;margin-top:72px;padding-top:32px;border-top:1px solid #B89B00">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:32px;margin-top:72px;padding-top:32px;border-top:1px solid #B89B00">
     <div><h3 style="margin:0 0 10px;font-size:17px;font-weight:800">Tools</h3><ul style="margin:0;padding:0;list-style:none;color:#3B3300;display:flex;flex-direction:column;gap:4px"><li>Figma</li><li>Miro</li><li>HTML and CSS</li><li>Git</li></ul></div>
     <div><h3 style="margin:0 0 10px;font-size:17px;font-weight:800">Methods</h3><ul style="margin:0;padding:0;list-style:none;color:#3B3300;display:flex;flex-direction:column;gap:4px"><li>Design Thinking</li><li>Lean UX</li><li>Agile UX</li><li>Prototyping and usability testing</li></ul></div>
     <div><h3 style="margin:0 0 10px;font-size:17px;font-weight:800">Accessibility</h3><ul style="margin:0;padding:0;list-style:none;color:#3B3300;display:flex;flex-direction:column;gap:4px"><li>WCAG 2.2 AA</li><li>EN 301 549</li><li>NVDA and VoiceOver</li><li>AgID guidelines</li></ul></div>
