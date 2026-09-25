@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;background:#3a322c;}
+  @page{ size:A3 portrait; margin:0; }
+  @media print{
+    html,body{background:#fff;}
+    .screenpad{padding:0 !important;background:#fff !important;gap:0 !important;}
+    .page{box-shadow:none !important;page-break-after:always;break-after:page;}
+  }
+</style>
+</helmet>
+
+<div class="screenpad" style="background:#3a322c;padding:32px;display:flex;flex-direction:column;align-items:center;gap:26px;font-family:'Archivo',sans-serif;">
+
+  <sc-for list="{{ pages }}" as="p" hint-placeholder-count="6">
+    <div class="page" style="position:relative;overflow:hidden;width:297mm;height:420mm;background:{{ p.bg }};box-shadow:0 24px 60px rgba(0,0,0,.45);">
+      <div style="position:absolute;top:0;left:0;width:210mm;height:297mm;transform:scale(1.4142);transform-origin:top left;color:{{ p.ink }};padding:20mm 18mm;">
+
+      <!-- top bar -->
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:3;">
+        <img src="{{ p.logo }}" alt="Terra Rossa — La Cantina" style="width:150px;height:auto;display:block;margin:-8px 0 0 -6px;"/>
+        <div style="text-align:right;font-size:8.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:{{ p.meta }};line-height:1.7;">Salento · London<br>Carta {{ p.foliotxt }}</div>
+      </div>
+
+      <!-- section header -->
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-top:30px;position:relative;z-index:3;">
+        <div>
+          <div style="font-family:'DM Serif Display',serif;font-style:italic;font-size:20px;color:{{ p.word }};line-height:1;">{{ p.kicker }}</div>
+          <h1 style="font-family:'Archivo',sans-serif;font-weight:800;font-size:44px;letter-spacing:.01em;text-transform:uppercase;margin:4px 0 0;line-height:.9;color:{{ p.ink }};white-space:nowrap;">{{ p.title }}</h1>
+        </div>
+        <sc-if value="{{ p.priceLabel }}" hint-placeholder-val="x"><span style="flex:none;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:{{ p.meta }};margin-bottom:8px;white-space:nowrap;">{{ p.priceLabel }}</span></sc-if>
+      </div>
+
+      <!-- columns of groups -->
+      <div style="margin-top:22px;position:relative;z-index:3;column-count:{{ p.cols }};column-gap:14mm;font-size:11px;">
+        <sc-for list="{{ p.groups }}" as="g" hint-placeholder-count="4">
+          <div style="break-inside:avoid;margin-bottom:13px;">
+            <sc-if value="{{ g.label }}" hint-placeholder-val="x">
+              <div style="display:flex;align-items:baseline;gap:9px;margin-bottom:7px;">
+                <span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:18px;color:{{ p.word }};">{{ g.label }}</span>
+                <span style="flex:1;border-bottom:1px solid {{ p.hair }};transform:translateY(-4px);"></span>
+              </div>
+            </sc-if>
+            <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="4">
+              <div style="padding:4px 0;break-inside:avoid;">
+                <div style="display:flex;align-items:baseline;gap:7px;">
+                  <div style="flex:1;min-width:0;line-height:1.25;">
+                    <span style="font-weight:700;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:{{ p.ink }};">{{ it.name }}</span><!--
+                    --><sc-if value="{{ it.organic }}"><span style="font-size:10px;color:{{ p.word }};margin-left:5px;">✻</span></sc-if><!--
+                    --><sc-if value="{{ it.tag }}"><span style="font-size:6.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:{{ p.bg }};background:{{ p.ink }};padding:1px 4px;margin-left:5px;white-space:nowrap;">{{ it.tag }}</span></sc-if>
+                  </div>
+                  <sc-if value="{{ p.leaders }}"><span style="flex:1;border-bottom:1px dotted {{ p.leader }};transform:translateY(-3px);min-width:10px;"></span></sc-if>
+                  <span style="flex:none;font-weight:600;font-size:11px;color:{{ p.ink }};white-space:nowrap;font-variant-numeric:tabular-nums;">{{ it.price }}</span>
+                </div>
+                <sc-if value="{{ it.detail }}"><div style="font-size:9px;color:{{ p.meta }};margin-top:1px;line-height:1.3;">{{ it.detail }}</div></sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- feature callout -->
+      <sc-if value="{{ p.feature }}">
+        <div style="position:absolute;left:18mm;bottom:30mm;z-index:3;border:1.5px solid {{ p.ink }};padding:14px 16px;max-width:300px;background:{{ p.bg }};">
+          <div style="font-family:'DM Serif Display',serif;font-style:italic;font-size:22px;color:{{ p.ink }};line-height:1;">{{ p.feature.title }}</div>
+          <div style="font-size:10px;color:{{ p.meta }};margin-top:7px;line-height:1.45;">{{ p.feature.body }}</div>
+        </div>
+      </sc-if>
+
+      <!-- giant bleed word -->
+      <div style="position:absolute;left:14mm;bottom:-12mm;font-family:'DM Serif Display',serif;font-size:230px;line-height:.8;color:{{ p.word }};letter-spacing:-.02em;white-space:nowrap;pointer-events:none;z-index:1;">{{ p.bleed }}</div>
+
+      <!-- footer fine print -->
+      <div style="position:absolute;left:18mm;right:18mm;bottom:10mm;z-index:3;font-size:8px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:{{ p.meta }};display:flex;justify-content:space-between;gap:16px;">
+        <span><span style="color:{{ p.word }};">✻</span> organic · two prices = glass · bottle (½ · pint for beer)</span>
+        <span>prices £ incl. VAT · 12.5% service</span>
+      </div>
+      </div>
+    </div>
+  </sc-for>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1123,&quot;height&quot;:1587}}">
+class Component extends DCLogic {
+  THEMES = {
+    red:   { bg:'#9E2A18', ink:'#F4E8D4', word:'#EEC2A0', meta:'#D9A57F', leader:'rgba(244,232,212,.55)', hair:'rgba(244,232,212,.42)' },
+    rust:  { bg:'#A8432F', ink:'#F4E8D4', word:'#EEC2A0', meta:'#E6B48C', leader:'rgba(244,232,212,.55)', hair:'rgba(244,232,212,.4)' },
+    blush: { bg:'#EEC2A0', ink:'#9E2A18', word:'#A8432F', meta:'#A06A45', leader:'rgba(158,42,24,.42)', hair:'rgba(158,42,24,.3)' },
+    cream: { bg:'#F0E4D0', ink:'#9E2A18', word:'#A8432F', meta:'#8A7763', leader:'rgba(158,42,24,.35)', hair:'rgba(158,42,24,.24)' },
+  };
+
+  PAGES = [
+    { theme:'cream', kicker:'i vini', title:'Vino', bleed:'vino', priceLabel:'Glass · Bottle', folio:'01', cols:2,
+      groups:[
+        { label:'Puglia', items:[
+          { name:'Terra Rossa Salento', organic:true, detail:'2024 · Negroamaro & Malvasia Nera · Cantine Bonsegna · IGT 13%', price:'8 · 31.5' },
+          { name:'Vascello', detail:'2023 · Falanghina · Alberto Longo · IGP 13%', price:'39' },
+          { name:'Jema Primitivo', detail:'2022 · Primitivo · Masseria L’Astore · IGP 14%', price:'62' },
+          { name:'Il Falcone', detail:'2018 · Aglianico · Rivera · DOCG 13.5%', price:'46' },
+          { name:'Bocca di Lupo', detail:'2018 · Aglianico · Tormaresca · DOC 14.5%', price:'115' },
+        ]},
+        { label:'Toscana', items:[
+          { name:'Le Centine', detail:'2022 · Sangiovese, Merlot, Cab · Banfi · IGT 13.5%', price:'45' },
+          { name:'Brunello di Montalcino', detail:'2019 · Sangiovese · Banfi · DOCG 14.5%', price:'140' },
+          { name:'Tignanello', detail:'2021 · Sangiovese, Cab Franc · Antinori · IGT 15%', price:'275' },
+          { name:'Sassicaia', tag:'Coravin', detail:'2009 · Cab Sauv & Franc · San Guido · DOC 14%', price:'60 · 850' },
+        ]},
+        { label:'Piemonte & Nord', items:[
+          { name:'Gavi di Gavi', detail:'2024 · Cortese · Bisio · DOCG 12%', price:'46' },
+          { name:'Barolo Cannubi', detail:'2019 · Nebbiolo · Pico Macario · DOCG 14.5%', price:'195' },
+          { name:'Ripassa Valpolicella', detail:'2021 · Corvina, Rondinella · Zenato · DOC 14%', price:'74' },
+          { name:'Amarone Morar', detail:'2005 · Corvina, Corvinone · Valentina Cubi · DOC 14%', price:'160' },
+        ]},
+        { label:'Isole', items:[
+          { name:'Liburna Frappato', organic:true, detail:'2024 · Frappato · Cantine Birigi · IGP 12.5%', price:'37' },
+          { name:'Etna Rosso Altamora', detail:'2023 · Nerello Mascalese · Cusumano · DOC 14%', price:'56' },
+          { name:'Turriga', detail:'2021 · Cannonau & indigenous · Argiolas · IGT 14.5%', price:'180' },
+        ]},
+        { label:'Bollicine', items:[
+          { name:'Prosecco Superiore', detail:'2024 · Glera · Canevel · Valdobbiadene DOCG', price:'10 · 52' },
+          { name:'Brut Nature Rosé', organic:true, detail:'2015 · Nero di Troia · Alberto Longo · M. Classico', price:'64' },
+          { name:'Bellavista alla Scala', detail:'2020 · Chardonnay & Pinot Nero · Franciacorta', price:'15 · 90' },
+        ]},
+      ]},
+    { theme:'red', kicker:'i cocktail', title:'Cocktails', bleed:'cocktails', priceLabel:'', folio:'02', cols:1,
+      groups:[
+        { label:'', items:[
+          { name:'Terrarossa Fizz', detail:'Gin, Fresco di Masi Bianco, tonic, lemon & rosemary', price:'14' },
+          { name:'Spritz Salentino', detail:'Aperol, Prosecco, soda, orange', price:'12' },
+          { name:'Negroni', detail:'Gin, Campari, choose your Vermouth', price:'13.5' },
+          { name:'Old Fashioned', detail:'Cane-sugar bourbon, Angostura bitters', price:'13' },
+          { name:'Espresso Martini', detail:'Vodka, Kahlúa, coffee, sugar syrup', price:'14' },
+        ]},
+        { label:'Analcolici', items:[
+          { name:'Gin Zero', tag:'0%', detail:'Zero-alcohol gin, cranberry, lime, soda', price:'9' },
+          { name:'Crodino Spritz', tag:'0%', detail:'Crodino, soda water, orange', price:'8' },
+        ]},
+      ]},
+    { theme:'blush', kicker:'la birra', title:'Birra & Cider', bleed:'birra', priceLabel:'½ · Pint', folio:'03', cols:1,
+      feature:{ title:'Birra Salento', body:'Craft beer brewed in Puglia — Km0, top-fermented and hop-balanced. Birrai per passione.' },
+      groups:[
+        { label:'Alla spina', items:[
+          { name:'Taranta', detail:'Belgian Ale · 5% · soft & hop-balanced', price:'6 · 8' },
+          { name:'TIPA', detail:'Session IPA · 5% · bright Italian hops', price:'6 · 8' },
+        ]},
+        { label:'In bottiglia', items:[
+          { name:'Igea', detail:'Golden Ale · 5.3% · gluten-free · 33cl', price:'7' },
+          { name:'FRIPA', tag:'0%', detail:'Session IPA · alcohol-free · 33cl', price:'7' },
+          { name:'Craft Italian Cider', detail:'4.7% · crisp Salento apples · 50cl', price:'6 · 8' },
+        ]},
+      ]},
+    { theme:'rust', kicker:'amari & spiriti', title:'Spiriti', bleed:'spiriti', priceLabel:'35–50 ml', folio:'04', cols:2,
+      groups:[
+        { label:'Grappa', items:[
+          { name:'Grappa di Barbera Nibbio', price:'14' },
+          { name:'Grappa Riserva Amarone', price:'17' },
+          { name:'Grappa Brunello di Montalcino', price:'17' },
+          { name:'Grappa Riserva 7 anni', price:'19' },
+        ]},
+        { label:'Whisky & Rum', items:[
+          { name:'Glenfiddich 12yrs', price:'12' },
+          { name:'Laphroaig 10yrs', price:'12' },
+          { name:'Jameson', price:'9' },
+          { name:'Zacapa 23yrs', price:'15' },
+          { name:'Havana Club', price:'10' },
+        ]},
+        { label:'Amari & Digestivi', items:[
+          { name:'Amaro Lucano', price:'7' },
+          { name:'Fernet Branca', price:'7' },
+          { name:'Montenegro', price:'7' },
+          { name:'Limoncello', detail:'Homemade', price:'7' },
+        ]},
+      ]},
+    { theme:'blush', kicker:'le bibite', title:'Soft Drinks', bleed:'bibite', priceLabel:'', folio:'05', cols:2,
+      groups:[
+        { label:'', items:[
+          { name:'Homemade fresh lemonade', price:'5.5' },
+          { name:'Chinotto', detail:'San Bernardo', price:'4.95' },
+          { name:'Limonata', detail:'Lurisia', price:'4.5' },
+          { name:'Crodino', tag:'0%', detail:'100ml · alcohol-free aperitivo', price:'4.75' },
+          { name:'San Bernardo', detail:'Still · Sparkling', price:'4.95' },
+          { name:'Coke · Diet · Zero', price:'3.8' },
+        ]},
+      ]},
+  ];
+
+  renderVals() {
+    const pages = this.PAGES.map(p => {
+      const t = this.THEMES[p.theme];
+      const groups = p.groups.map(g => ({
+        label: g.label || '',
+        items: g.items.map(it => ({ name:it.name, detail:it.detail||'', price:('£'+it.price).replace(/ · /g,' · £'), organic:!!it.organic, tag:it.tag||'' })),
+      }));
+      return { ...t, kicker:p.kicker, title:p.title, bleed:p.bleed, priceLabel:p.priceLabel||'', foliotxt:p.folio, cols:p.cols, leaders:(p.cols===1), logo:(p.theme==='red'||p.theme==='rust')?'assets/logo-white.png':'assets/logo-red.png', groups, feature:p.feature||null };
+    });
+    return { pages };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#EEF0F3;}
+  input::placeholder{color:#9aa0a8;}
+  ::selection{background:#3B4A6B;color:#fff;}
+  input:focus{outline:none;}
+  .tav-field:focus-within{border-color:#3B4A6B !important;box-shadow:0 0 0 3px rgba(59,74,107,.12);}
+  .tav-primary:hover{background:#2E3A55 !important;}
+  .tav-link:hover{color:#23262B !important;}
+  @media (max-width:780px){
+    .tav-wrap{flex-direction:column !important;}
+    .tav-brand{width:100% !important;max-width:none !important;padding:26px 26px 30px !important;gap:20px !important;}
+    .tav-brand-headline{font-size:30px !important;}
+    .tav-brand-copy{display:none !important;}
+    .tav-brand-bleed{font-size:150px !important;right:-18px !important;bottom:-42px !important;}
+    .tav-copyright{display:none !important;}
+    .tav-form{padding:32px 22px 48px !important;}
+  }
+</style>
+</helmet>
+
+<div class="tav-wrap" style="min-height:100vh;display:flex;font-family:'Archivo',sans-serif;color:#23262B;background:#EEF0F3;">
+
+  <!-- ===== LEFT — brand panel ===== -->
+  <div class="tav-brand" style="width:46%;max-width:620px;flex:none;background:#23262B;color:#E7E9ED;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:46px 48px;">
+    <div style="position:relative;z-index:2;display:flex;align-items:center;gap:11px;">
+      <div style="width:34px;height:34px;border-radius:9px;background:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;color:#23262B;font-size:20px;">T</div>
+      <div style="line-height:1;"><div style="font-family:'DM Serif Display',serif;font-size:22px;color:#fff;">Tavola</div><div style="font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:#8b919b;margin-top:3px;">menu studio</div></div>
+    </div>
+
+    <div style="position:relative;z-index:2;max-width:420px;">
+      <div style="font-family:'DM Serif Display',serif;font-style:italic;font-size:21px;color:#C8B79C;">la carta, curata</div>
+      <h1 class="tav-brand-headline" style="font-family:'DM Serif Display',serif;font-size:46px;line-height:1.04;font-weight:400;letter-spacing:-.01em;margin:8px 0 0;color:#fff;">Ogni menù,<br/>al suo posto.</h1>
+      <p class="tav-brand-copy" style="font-size:14.5px;line-height:1.6;color:#aeb4be;margin:18px 0 0;">Vini, drink e piatti — categorie, sottocategorie, prezzi e allergeni. Un solo studio per vestire ogni locale dei suoi colori.</p>
+    </div>
+
+    <div class="tav-copyright" style="position:relative;z-index:2;font-size:12px;color:#787e89;">© 2026 Tavola · La Cantina, Salento</div>
+
+    <!-- editorial bleed word -->
+    <div class="tav-brand-bleed" style="position:absolute;right:-30px;bottom:-58px;font-family:'DM Serif Display',serif;font-size:230px;line-height:.7;color:#9E2A18;opacity:.5;pointer-events:none;z-index:1;letter-spacing:-.02em;">vino</div>
+    <div style="position:absolute;left:0;right:0;top:0;height:5px;background:#9E2A18;z-index:3;"></div>
+  </div>
+
+  <!-- ===== RIGHT — form ===== -->
+  <div class="tav-form" style="flex:1;min-width:0;display:flex;align-items:center;justify-content:center;padding:40px 28px;">
+    <div style="width:100%;max-width:392px;">
+
+      <div style="font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#9aa0a8;">Bentornata</div>
+      <h2 style="font-family:'DM Serif Display',serif;font-size:32px;font-weight:400;letter-spacing:-.01em;margin:7px 0 4px;">Accedi a Tavola</h2>
+      <p style="font-size:13.5px;color:#6b727b;margin:0 0 26px;">Gestisci i menù del tuo locale.</p>
+
+      <!-- email -->
+      <label style="display:block;margin-bottom:13px;">
+        <span style="display:block;font-size:11.5px;font-weight:600;color:#5b626b;margin-bottom:6px;">Email</span>
+        <div class="tav-field" style="display:flex;align-items:center;gap:9px;background:#fff;border:1px solid #D5DAE1;border-radius:10px;padding:0 12px;transition:border-color .15s,box-shadow .15s;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          <input value="{{ email }}" onInput="{{ onEmail }}" type="email" placeholder="francesca@terrarossa.it" style="flex:1;border:none;background:none;font-family:'Archivo',sans-serif;font-size:14px;color:#23262B;padding:11px 0;"/>
+        </div>
+      </label>
+
+      <!-- password -->
+      <label style="display:block;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <span style="font-size:11.5px;font-weight:600;color:#5b626b;">Password</span>
+          <a href="#" class="tav-link" style="font-size:11.5px;font-weight:600;color:#3B4A6B;text-decoration:none;transition:color .15s;">Password dimenticata?</a>
+        </div>
+        <div class="tav-field" style="display:flex;align-items:center;gap:9px;background:#fff;border:1px solid #D5DAE1;border-radius:10px;padding:0 12px;transition:border-color .15s,box-shadow .15s;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          <input value="{{ pwd }}" onInput="{{ onPwd }}" type="{{ pwdType }}" placeholder="••••••••" style="flex:1;border:none;background:none;font-family:'Archivo',sans-serif;font-size:14px;color:#23262B;padding:11px 0;letter-spacing:.04em;"/>
+          <button onClick="{{ onTogglePwd }}" type="button" style="background:none;border:none;cursor:pointer;color:#9aa0a8;display:flex;padding:4px;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="{{ eyePath }}"/><circle cx="12" cy="12" r="3" style="display:{{ eyeCircle }}"/></svg>
+          </button>
+        </div>
+      </label>
+
+      <!-- remember -->
+      <label style="display:flex;align-items:center;gap:9px;cursor:pointer;font-size:13px;color:#5b626b;margin-bottom:20px;">
+        <input type="checkbox" checked="{{ remember }}" onChange="{{ onRemember }}" style="accent-color:#3B4A6B;width:16px;height:16px;cursor:pointer;"/>
+        Ricordami su questo dispositivo
+      </label>
+
+      <button class="tav-primary" onClick="{{ onSubmit }}" style="width:100%;background:#3B4A6B;border:none;border-radius:10px;padding:13px;cursor:pointer;font-family:'Archivo',sans-serif;font-size:14.5px;font-weight:700;color:#fff;transition:background .15s;">Accedi</button>
+
+      <sc-if value="{{ submitted }}">
+        <div style="margin-top:14px;display:flex;align-items:center;gap:8px;background:#EBF0E6;border:1px solid #9DB07E;border-radius:9px;padding:10px 13px;font-size:13px;color:#3f5024;">
+          <span style="font-size:15px;">✓</span> Accesso effettuato — bentornata{{ greetName }}.
+        </div>
+      </sc-if>
+
+      <p style="text-align:center;font-size:13px;color:#6b727b;margin:24px 0 0;">Non hai un account? <a href="#" class="tav-link" style="font-weight:700;color:#3B4A6B;text-decoration:none;transition:color .15s;">Richiedi accesso</a></p>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:820}}">
+class Component extends DCLogic {
+  state = { email:'', pwd:'', show:false, remember:true, submitted:false };
+  renderVals(){
+    const s=this.state;
+    const name = s.email.includes('@') ? ', '+s.email.split('@')[0] : '';
+    return {
+      email:s.email, pwd:s.pwd, remember:s.remember, submitted:s.submitted,
+      pwdType: s.show?'text':'password',
+      eyePath: s.show ? 'M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z' : 'M10.7 5.1A10.6 10.6 0 0 1 12 5c6.5 0 10 7 10 7a18 18 0 0 1-2.2 3M6.6 6.6A18 18 0 0 0 2 12s3.5 7 10 7a10.6 10.6 0 0 0 4-.8M3 3l18 18',
+      eyeCircle: s.show?'inline':'none',
+      greetName: name,
+      onEmail:e=>this.setState({email:e.target.value, submitted:false}),
+      onPwd:e=>this.setState({pwd:e.target.value, submitted:false}),
+      onTogglePwd:()=>this.setState(p=>({show:!p.show})),
+      onRemember:()=>this.setState(p=>({remember:!p.remember})),
+      onSubmit:()=>this.setState({submitted:true}),
+    };
+  }
+}
+</script>
+</body>
+</html>

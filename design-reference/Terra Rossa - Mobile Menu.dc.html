@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&amp;display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#1c1714;}
+  .noscroll{scrollbar-width:none;-ms-overflow-style:none;}
+  .noscroll::-webkit-scrollbar{display:none;}
+  input::placeholder{color:currentColor;opacity:.55;}
+  ::selection{background:#CE4327;color:#F1E7D1;}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;justify-content:center;background:#1c1714;font-family:'Archivo',sans-serif;">
+  <div class="noscroll" style="width: 390px; min-height: 100vh; position: relative; overflow: hidden; box-shadow: 0 0 60px rgba(0,0,0,.6); background-color: #9e2a18">
+
+    <!-- ===== HERO ===== -->
+    <header style="position:relative;background:#CE4327;color:#F1E7D1;padding:30px 24px 96px;overflow:hidden;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <img src="assets/logo-white.png" alt="Terra Rossa — La Cantina" style="width:172px;height:auto;display:block;margin:-10px 0 0 -8px;">
+        <div style="text-align:right;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#EEC2A0;line-height:1.5;margin-top:8px;">Salento<br>London</div>
+      </div>
+      <div style="font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:#EEC2A0;margin-top:18px;max-width:230px;line-height:1.7;">Carta dei vini, birre &amp; drinks — a taste of Puglia</div>
+      <div style="position:absolute;left:16px;bottom:-22px;font-family:'DM Serif Display',serif;font-size:150px;line-height:.8;color:#EEC2A0;letter-spacing:-.02em;white-space:nowrap;pointer-events:none;">menu</div>
+    </header>
+
+    <!-- ===== STICKY NAV ===== -->
+    <div style="position:sticky;top:0;z-index:30;background:#1c1714;">
+      <div class="noscroll" style="display:flex;gap:0;overflow-x:auto;">
+        <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="6">
+          <button onClick="{{ tab.onClick }}" style="flex:none;background:none;border:none;cursor:pointer;font-family:'Archivo',sans-serif;font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:13px 15px;white-space:nowrap;">
+            <sc-if value="{{ tab.active }}" hint-placeholder-val="{{ true }}"><span style="color:#1c1714;background:#ECC8A3;padding:13px 15px;margin:-13px -15px;">{{ tab.label }}</span></sc-if>
+            <sc-if value="{{ tab.notActive }}"><span style="color:#C9A88B;">{{ tab.label }}</span></sc-if>
+          </button>
+        </sc-for>
+      </div>
+      <div style="padding:10px 16px;background:#1c1714;border-top:1px solid #33291f;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 13px;border:1px solid #4a3c2f;border-radius:2px;color:#C9A88B;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          <input value="{{ q }}" onInput="{{ onSearch }}" placeholder="Search wine, grape, producer…" style="flex:1;border:none;background:none;outline:none;font-family:'Archivo',sans-serif;font-size:13px;color:#F1E7D1;">
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PANELS ===== -->
+    <main>
+      <sc-for list="{{ panels }}" as="p" hint-placeholder-count="5">
+        <section style="position:relative;overflow:hidden;padding:30px 24px 118px;background:{{ p.bg }};color:{{ p.ink }};">
+          <!-- header -->
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;position:relative;z-index:2;">
+            <div>
+              <div style="font-family:'DM Serif Display',serif;font-style:italic;font-size:15px;color:{{ p.word }};line-height:1;">{{ p.kicker }}</div>
+              <h2 style="font-family:'Archivo',sans-serif;font-weight:800;font-size:27px;letter-spacing:.02em;text-transform:uppercase;margin:3px 0 0;line-height:.95;color:{{ p.ink }};">{{ p.title }}</h2>
+            </div>
+            <sc-if value="{{ p.priceLabel }}" hint-placeholder-val="x"><span style="flex:none;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:{{ p.meta }};margin-top:6px;white-space:nowrap;">{{ p.priceLabel }}</span></sc-if>
+          </div>
+
+          <!-- subsections -->
+          <div style="position:relative;z-index:2;margin-top:16px;">
+            <sc-for list="{{ p.groups }}" as="g" hint-placeholder-count="3">
+              <div style="margin-top:18px;">
+                <sc-if value="{{ g.label }}" hint-placeholder-val="x">
+                  <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+                    <span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:18px;color:{{ p.word }};">{{ g.label }}</span>
+                    <span style="flex:1;border-bottom:1px solid {{ p.hair }};transform:translateY(-3px);"></span>
+                  </div>
+                </sc-if>
+                <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="4">
+                  <div style="padding:7px 0;">
+                    <div style="display:flex;align-items:baseline;gap:8px;">
+                      <span style="font-weight:700;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;line-height:1.3;color:{{ p.ink }};">{{ it.name }}</span>
+                      <sc-if value="{{ it.organic }}"><span style="font-size:11px;color:{{ p.word }};">✻</span></sc-if>
+                      <sc-if value="{{ it.tag }}"><span style="font-size:7.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:{{ p.bg }};background:{{ p.ink }};padding:2px 5px;border-radius:1px;white-space:nowrap;">{{ it.tag }}</span></sc-if>
+                      <span style="flex:1;border-bottom:1px dotted {{ p.leader }};transform:translateY(-3px);min-width:12px;"></span>
+                      <span style="flex:none;font-weight:600;font-size:12.5px;color:{{ p.ink }};white-space:nowrap;font-variant-numeric:tabular-nums;">{{ it.price }}</span>
+                    </div>
+                    <sc-if value="{{ it.detail }}"><div style="font-size:11px;color:{{ p.meta }};margin-top:2px;line-height:1.35;max-width:300px;">{{ it.detail }}</div></sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-for>
+
+            <!-- feature callout -->
+            <sc-if value="{{ p.feature }}">
+              <div style="margin-top:22px;border:1.5px solid {{ p.ink }};padding:15px 16px;max-width:320px;">
+                <div style="font-family:'DM Serif Display',serif;font-style:italic;font-size:22px;color:{{ p.ink }};line-height:1;">{{ p.feature.title }}</div>
+                <div style="font-size:11px;color:{{ p.meta }};margin-top:7px;line-height:1.45;">{{ p.feature.body }}</div>
+                <sc-if value="{{ p.feature.price }}"><div style="font-weight:700;font-size:12px;letter-spacing:.1em;color:{{ p.ink }};margin-top:9px;">{{ p.feature.price }}</div></sc-if>
+              </div>
+            </sc-if>
+          </div>
+
+          <!-- giant bleed word -->
+          <div style="position:absolute;left:14px;bottom:-26px;font-family:'DM Serif Display',serif;font-size:140px;line-height:.8;color:{{ p.word }};letter-spacing:-.02em;white-space:nowrap;pointer-events:none;z-index:1;opacity:.96;">{{ p.bleed }}</div>
+        </section>
+      </sc-for>
+
+      <sc-if value="{{ empty }}">
+        <section style="background:#EDE4CF;color:#BE3A20;padding:70px 24px;text-align:center;">
+          <div style="font-family:'DM Serif Display',serif;font-style:italic;font-size:34px;">niente…</div>
+          <div style="font-size:13px;color:#8A7C63;margin-top:8px;">Nothing matches “{{ q }}”.</div>
+        </section>
+      </sc-if>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer style="background:#1c1714;color:#C9A88B;padding:26px 24px 30px;text-align:center;position:relative;z-index:5;">
+      <div style="font-family:'DM Serif Display',serif;font-size:22px;color:#ECC8A3;">Birra Salento</div>
+      <div style="font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;margin-top:3px;">Birrai per passione</div>
+      <div style="height:1px;width:40px;background:#4a3c2f;margin:16px auto;"></div>
+      <p style="font-size:10px;letter-spacing:.08em;line-height:1.7;margin:0;text-transform:uppercase;">Vegetarian &amp; alcohol-free options available — please ask your server · all prices £ incl. VAT · 12.5% discretionary service</p>
+    </footer>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844}}">
+class Component extends DCLogic {
+  state = { cat: 'All', q: '' };
+
+  THEMES = {
+    red:   { bg:'#9E2A18', ink:'#F4E8D4', word:'#EEC2A0', meta:'#D9A57F', leader:'rgba(244,232,212,.5)', hair:'rgba(244,232,212,.4)' },
+    rust:  { bg:'#A8432F', ink:'#F4E8D4', word:'#EEC2A0', meta:'#E6B48C', leader:'rgba(244,232,212,.5)', hair:'rgba(244,232,212,.38)' },
+    blush: { bg:'#EEC2A0', ink:'#9E2A18', word:'#A8432F', meta:'#A06A45', leader:'rgba(158,42,24,.4)',  hair:'rgba(158,42,24,.28)' },
+    cream: { bg:'#F0E4D0', ink:'#9E2A18', word:'#A8432F', meta:'#8A7763', leader:'rgba(158,42,24,.32)', hair:'rgba(158,42,24,.22)' },
+  };
+
+  data() {
+    return [
+      { cat:'Vini', theme:'cream', kicker:'i vini', title:'Vino', bleed:'vino', priceLabel:'Glass · Bottle',
+        groups:[
+          { label:'Puglia', items:[
+            { name:'Terra Rossa Salento', organic:true, detail:'2024 · Negroamaro & Malvasia Nera · Cantine Bonsegna · IGT 13%', price:'8 · 31.5' },
+            { name:'Vascello', detail:'2023 · 100% Falanghina · Alberto Longo · IGP 13%', price:'39' },
+            { name:'Jema Primitivo', detail:'2022 · 100% Primitivo · Masseria L’Astore · IGP 14%', price:'62' },
+            { name:'Il Falcone', detail:'2018 · 100% Aglianico · Rivera · DOCG 13.5%', price:'46' },
+            { name:'Bocca di Lupo', detail:'2018 · 100% Aglianico · Tormaresca · DOC 14.5%', price:'115' },
+          ]},
+          { label:'Toscana', items:[
+            { name:'Le Centine', detail:'2022 · Sangiovese, Merlot, Cabernet · Banfi · IGT 13.5%', price:'45' },
+            { name:'Brunello di Montalcino', detail:'2019 · 100% Sangiovese · Banfi · DOCG 14.5%', price:'140' },
+            { name:'Tignanello', detail:'2021 · Sangiovese, Cab Franc, Cab Sauv · Antinori · IGT 15%', price:'275' },
+            { name:'Sassicaia', tag:'Coravin', detail:'2009 · Cab Sauv & Cab Franc · Tenuta San Guido · DOC 14%', price:'60 · 850' },
+          ]},
+          { label:'Piemonte & Nord', items:[
+            { name:'Gavi di Gavi', detail:'2024 · 100% Cortese · Bisio · DOCG 12%', price:'46' },
+            { name:'Barolo Cannubi', detail:'2019 · 100% Nebbiolo · Pico Macario · DOCG 14.5%', price:'195' },
+            { name:'Ripassa Valpolicella', detail:'2021 · Corvina, Rondinella · Zenato · DOC 14%', price:'74' },
+            { name:'Amarone Morar', detail:'2005 · Corvina, Corvinone, Rondinella · Valentina Cubi · DOC 14%', price:'160' },
+          ]},
+          { label:'Isole', items:[
+            { name:'Liburna Frappato', organic:true, detail:'2024 · 100% Frappato · Cantine Birigi · IGP 12.5%', price:'37' },
+            { name:'Etna Rosso Altamora', detail:'2023 · 100% Nerello Mascalese · Cusumano · DOC 14%', price:'56' },
+            { name:'Turriga', detail:'2021 · Cannonau & indigenous · Argiolas · IGT 14.5%', price:'180' },
+          ]},
+          { label:'Bollicine', items:[
+            { name:'Prosecco Superiore', detail:'2024 · 100% Glera · Canevel · Valdobbiadene DOCG 11%', price:'10 · 52' },
+            { name:'Brut Nature Rosé', organic:true, detail:'2015 · 100% Nero di Troia · Alberto Longo · Metodo Classico', price:'64' },
+            { name:'Bellavista alla Scala', detail:'2020 · Chardonnay & Pinot Nero · Franciacorta DOCG', price:'15 · 90' },
+          ]},
+        ]},
+      { cat:'Birra', theme:'blush', kicker:'la birra', title:'Birra & Cider', bleed:'birra', priceLabel:'½ · Pint',
+        feature:{ title:'Birra Salento', body:'Craft beer brewed in Puglia — Km0, top-fermented, hop-balanced. Birrai per passione.' },
+        groups:[
+          { label:'Alla spina', items:[
+            { name:'Taranta', detail:'Belgian Ale · 5% · soft & hop-balanced', price:'6 · 8' },
+            { name:'TIPA', detail:'Session IPA · 5% · bright Italian hops', price:'6 · 8' },
+          ]},
+          { label:'In bottiglia', items:[
+            { name:'Igea', detail:'Golden Ale · 5.3% · gluten-free · 33cl', price:'7' },
+            { name:'FRIPA', tag:'0%', detail:'Session IPA · alcohol-free · 33cl', price:'7' },
+            { name:'Craft Italian Cider', detail:'4.7% · crisp Salento apples · 50cl', price:'6 · 8' },
+          ]},
+        ]},
+      { cat:'Cocktails', theme:'red', kicker:'i cocktail', title:'Cocktails', bleed:'cocktails', priceLabel:'',
+        groups:[
+          { label:'', items:[
+            { name:'Terrarossa Fizz', detail:'Gin, Fresco di Masi Bianco, tonic, lemon & rosemary', price:'14' },
+            { name:'Spritz Salentino', detail:'Aperol, Prosecco, soda, orange', price:'12' },
+            { name:'Negroni', detail:'Gin, Campari, choose your Vermouth', price:'13.5' },
+            { name:'Old Fashioned', detail:'Cane-sugar bourbon, Angostura bitters', price:'13' },
+            { name:'Espresso Martini', detail:'Vodka, Kahlúa, coffee, sugar syrup', price:'14' },
+          ]},
+          { label:'Analcolici', items:[
+            { name:'Gin Zero', tag:'0%', detail:'Zero-alcohol gin, cranberry, lime, soda', price:'9' },
+            { name:'Crodino Spritz', tag:'0%', detail:'Crodino, soda water, orange', price:'8' },
+          ]},
+        ]},
+      { cat:'Spiriti', theme:'rust', kicker:'amari & spiriti', title:'Spiriti', bleed:'spiriti', priceLabel:'35–50 ml',
+        groups:[
+          { label:'Grappa', items:[
+            { name:'Grappa di Barbera Nibbio', price:'14' },
+            { name:'Grappa Riserva Amarone', price:'17' },
+            { name:'Grappa Brunello di Montalcino', price:'17' },
+          ]},
+          { label:'Whisky & Rum', items:[
+            { name:'Glenfiddich 12yrs', price:'12' },
+            { name:'Laphroaig 10yrs', price:'12' },
+            { name:'Zacapa 23yrs', price:'15' },
+            { name:'Havana Club', price:'10' },
+          ]},
+          { label:'Amari & Digestivi', items:[
+            { name:'Amaro Lucano', price:'7' },
+            { name:'Fernet Branca', price:'7' },
+            { name:'Montenegro', price:'7' },
+            { name:'Limoncello', detail:'Homemade', price:'7' },
+          ]},
+        ]},
+      { cat:'Bibite', theme:'blush', kicker:'le bibite', title:'Soft Drinks', bleed:'bibite', priceLabel:'',
+        groups:[
+          { label:'', items:[
+            { name:'Homemade fresh lemonade', price:'5.5' },
+            { name:'Chinotto', detail:'San Bernardo', price:'4.95' },
+            { name:'Limonata', detail:'Lurisia', price:'4.5' },
+            { name:'Crodino', tag:'0%', detail:'100ml · alcohol-free aperitivo', price:'4.75' },
+            { name:'San Bernardo', detail:'Still · Sparkling', price:'4.95' },
+            { name:'Coke · Diet · Zero', price:'3.8' },
+          ]},
+        ]},
+    ];
+  }
+
+  renderVals() {
+    const cats = ['All','Vini','Birra','Cocktails','Spiriti','Bibite'];
+    const tabs = cats.map(c => ({ label:c, active:this.state.cat===c, notActive:this.state.cat!==c, onClick:()=>this.setState({cat:c}) }));
+
+    const q = this.state.q.trim().toLowerCase();
+    let src = this.data();
+    if (this.state.cat !== 'All') src = src.filter(p => p.cat === this.state.cat);
+
+    const panels = src.map(p => {
+      const t = this.THEMES[p.theme];
+      let groups = p.groups.map(g => ({
+        label: g.label || '',
+        items: (q ? g.items.filter(it => (it.name+' '+(it.detail||'')).toLowerCase().includes(q)) : g.items)
+          .map(it => ({ name:it.name, detail:it.detail||'', price:('£'+it.price).replace(/ · /g,' · £'), organic:!!it.organic, tag:it.tag||'' })),
+      })).filter(g => g.items.length);
+      const feature = (!q && p.feature) ? p.feature : null;
+      return { ...t, kicker:p.kicker, title:p.title, bleed:p.bleed, priceLabel:p.priceLabel||'', groups, feature };
+    }).filter(p => p.groups.length || p.feature);
+
+    return {
+      tabs, panels,
+      q:this.state.q, onSearch:e=>this.setState({q:e.target.value}),
+      empty: panels.length===0,
+    };
+  }
+}
+</script>
+</body>
+</html>

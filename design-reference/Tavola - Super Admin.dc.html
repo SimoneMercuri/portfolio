@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#EEF0F3;}
+  input::placeholder{color:#9aa0a8;}
+  ::selection{background:#3B4A6B;color:#fff;}
+  input:focus{outline:none;}
+  .sa-field:focus-within{border-color:#6E7CA6;}
+  .sa-nav:hover{background:rgba(255,255,255,.06);}
+  .sa-row:hover{background:#F7F8FA !important;}
+  .sa-syscard:hover{box-shadow:0 8px 24px -10px rgba(28,30,34,.22);}
+  .sa-btn:hover{background:#2E3A55 !important;}
+  .sa-ghost:hover{background:#F1F2F5 !important;}
+  .sa-drop:hover{border-color:#3B4A6B !important;background:#F2F5FB !important;}
+  .noscroll{scrollbar-width:none}.noscroll::-webkit-scrollbar{display:none}
+</style>
+</helmet>
+
+<div style="min-height:100vh;font-family:'Archivo',sans-serif;color:#23262B;background:#EEF0F3;">
+
+  <!-- ===== LOGIN GATE ===== -->
+  <sc-if value="{{ showLogin }}">
+    <div style="min-height:100vh;background:#1B1D21;display:flex;align-items:center;justify-content:center;padding:30px;position:relative;overflow:hidden;">
+      <div style="position:absolute;right:-60px;bottom:-90px;font-family:'DM Serif Display',serif;font-size:300px;line-height:.7;color:#262A30;pointer-events:none;">T</div>
+      <div style="position:relative;z-index:2;width:100%;max-width:392px;background:#23262B;border:1px solid #32363D;border-radius:18px;padding:34px 34px 30px;box-shadow:0 40px 90px -30px rgba(0,0,0,.7);">
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:26px;">
+          <div style="width:34px;height:34px;border-radius:9px;background:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;color:#23262B;font-size:20px;">T</div>
+          <div style="line-height:1.1;"><div style="font-family:'DM Serif Display',serif;font-size:19px;color:#fff;">Tavola</div><div style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#7d838d;">console operatori</div></div>
+        </div>
+        <div style="display:inline-flex;align-items:center;gap:7px;background:#2C3038;border:1px solid #3a3f47;border-radius:20px;padding:5px 11px;margin-bottom:16px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C8A24B" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z"/></svg>
+          <span style="font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#C8A24B;">Super Admin</span>
+        </div>
+        <h1 style="font-family:'DM Serif Display',serif;font-size:27px;font-weight:400;color:#fff;margin:0 0 4px;">Accedi alla console</h1>
+        <p style="font-size:13px;color:#9298a2;margin:0 0 22px;line-height:1.5;">Accesso riservato al team Tavola — gestione clienti e design system.</p>
+
+        <label style="display:block;margin-bottom:13px;">
+          <span style="display:block;font-size:11px;font-weight:600;color:#9298a2;margin-bottom:6px;">Email operatore</span>
+          <div class="sa-field" style="display:flex;align-items:center;gap:9px;background:#1B1D21;border:1px solid #3a3f47;border-radius:10px;padding:0 12px;transition:border-color .15s;">
+            <input value="{{ email }}" onInput="{{ onEmail }}" type="email" placeholder="nome@tavola.app" style="flex:1;border:none;background:none;font-family:'Archivo',sans-serif;font-size:14px;color:#fff;padding:11px 0;"/>
+          </div>
+        </label>
+        <label style="display:block;margin-bottom:18px;">
+          <span style="display:block;font-size:11px;font-weight:600;color:#9298a2;margin-bottom:6px;">Password</span>
+          <div class="sa-field" style="display:flex;align-items:center;gap:9px;background:#1B1D21;border:1px solid #3a3f47;border-radius:10px;padding:0 12px;transition:border-color .15s;">
+            <input value="{{ pwd }}" onInput="{{ onPwd }}" type="password" placeholder="••••••••" style="flex:1;border:none;background:none;font-family:'Archivo',sans-serif;font-size:14px;color:#fff;padding:11px 0;letter-spacing:.05em;"/>
+          </div>
+        </label>
+        <button class="sa-btn" onClick="{{ onLogin }}" style="width:100%;background:#3B4A6B;border:none;border-radius:10px;padding:13px;cursor:pointer;font-family:'Archivo',sans-serif;font-size:14px;font-weight:700;color:#fff;transition:background .15s;">Entra nella console →</button>
+        <div style="display:flex;align-items:center;gap:7px;justify-content:center;margin-top:16px;font-size:11.5px;color:#6f757f;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          Connessione protetta · 2FA attiva
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===== CONSOLE ===== -->
+  <sc-if value="{{ showConsole }}">
+    <div style="min-height:100vh;display:flex;">
+
+      <!-- sidebar -->
+      <aside style="width:248px;flex:none;background:#23262B;color:#cfd3da;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;">
+        <div style="padding:20px 20px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #32363D;">
+          <div style="width:30px;height:30px;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;color:#23262B;font-size:17px;">T</div>
+          <div style="line-height:1.1;"><div style="font-family:'DM Serif Display',serif;font-size:17px;color:#fff;">Tavola</div><div style="font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:#7d838d;">console operatori</div></div>
+        </div>
+        <nav style="flex:1;padding:14px 12px;">
+          <sc-for list="{{ nav }}" as="n" hint-placeholder-count="2">
+            <div class="sa-nav" onClick="{{ n.onClick }}" style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:9px;cursor:pointer;margin-bottom:3px;background:{{ n.bg }};color:{{ n.color }};">
+              <span style="width:18px;display:flex;justify-content:center;" innerHTML="{{ n.icon }}"></span>
+              <span style="font-size:13.5px;font-weight:{{ n.weight }};">{{ n.label }}</span>
+              <span style="flex:1;"></span>
+              <sc-if value="{{ n.badge }}"><span style="font-size:11px;color:#7d838d;">{{ n.count }}</span></sc-if>
+            </div>
+          </sc-for>
+        </nav>
+        <div style="padding:14px;border-top:1px solid #32363D;display:flex;align-items:center;gap:10px;">
+          <div style="width:30px;height:30px;border-radius:50%;background:#C8A24B;color:#23262B;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">SA</div>
+          <div style="flex:1;line-height:1.15;"><div style="font-size:12.5px;font-weight:600;color:#fff;">Marco — Tavola</div><div style="font-size:11px;color:#7d838d;">Super Admin</div></div>
+          <button onClick="{{ onLogout }}" title="Esci" style="background:none;border:none;cursor:pointer;color:#7d838d;display:flex;padding:4px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+          </button>
+        </div>
+      </aside>
+
+      <!-- main -->
+      <div style="flex:1;min-width:0;display:flex;flex-direction:column;">
+
+        <!-- ===== CLIENTI ===== -->
+        <sc-if value="{{ showClients }}">
+          <header style="display:flex;align-items:center;justify-content:space-between;padding:18px 30px;background:#fff;border-bottom:1px solid #E3E6EA;position:sticky;top:0;z-index:10;">
+            <div>
+              <div style="font-size:19px;font-weight:700;letter-spacing:-.01em;">Clienti</div>
+              <div style="font-size:12px;color:#9aa0a8;margin-top:1px;">{{ clientCount }} locali · {{ unassignedCount }} senza design system</div>
+            </div>
+            <button class="sa-btn" style="background:#3B4A6B;border:none;border-radius:9px;padding:10px 16px;cursor:pointer;font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;color:#fff;transition:background .15s;">+ Nuovo cliente</button>
+          </header>
+          <div class="noscroll" style="flex:1;overflow-y:auto;padding:22px 30px 70px;">
+            <div style="background:#fff;border:1px solid #E3E6EA;border-radius:14px;overflow:hidden;">
+              <div style="display:grid;grid-template-columns:1fr 90px 1.1fr 120px 130px;gap:14px;padding:11px 20px;border-bottom:1px solid #EEF0F3;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#9aa0a8;">
+                <span>Locale</span><span>Piano</span><span>Design system</span><span>Stato</span><span style="text-align:right;">Azione</span>
+              </div>
+              <sc-for list="{{ clients }}" as="c" hint-placeholder-count="5">
+                <div class="sa-row" style="display:grid;grid-template-columns:1fr 90px 1.1fr 120px 130px;gap:14px;align-items:center;padding:14px 20px;border-bottom:1px solid #F3F4F6;">
+                  <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+                    <span style="width:38px;height:38px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:18px;color:#fff;background:{{ c.avatarBg }};">{{ c.initial }}</span>
+                    <div style="min-width:0;line-height:1.25;"><div style="font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ c.name }}</div><div style="font-size:12px;color:#9aa0a8;">{{ c.place }}</div></div>
+                  </div>
+                  <span style="font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:{{ c.planInk }};background:{{ c.planBg }};padding:3px 9px;border-radius:5px;width:max-content;">{{ c.plan }}</span>
+                  <sc-if value="{{ c.hasDs }}">
+                    <div style="display:flex;align-items:center;gap:9px;min-width:0;">
+                      <span style="display:flex;gap:3px;flex:none;">
+                        <sc-for list="{{ c.dsSwatches }}" as="sw" hint-placeholder-count="4"><span style="width:13px;height:18px;border-radius:3px;background:{{ sw }};border:1px solid rgba(0,0,0,.06);"></span></sc-for>
+                      </span>
+                      <span style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ c.dsName }}</span>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ c.noDs }}">
+                    <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#A4402C;background:#FBEAE6;border:1px solid #E7C3BA;padding:4px 9px;border-radius:6px;width:max-content;">⚠ Da assegnare</span>
+                  </sc-if>
+                  <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:#6b727b;"><span style="width:7px;height:7px;border-radius:50%;background:{{ c.statusDot }};"></span>{{ c.statusText }}</span>
+                  <div style="text-align:right;">
+                    <button class="sa-ghost" onClick="{{ c.onAssign }}" style="background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:8px 13px;cursor:pointer;font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:600;color:#23262B;transition:background .15s;">{{ c.actionLabel }}</button>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== DESIGN SYSTEM LIBRARY ===== -->
+        <sc-if value="{{ showSystems }}">
+          <header style="display:flex;align-items:center;justify-content:space-between;padding:18px 30px;background:#fff;border-bottom:1px solid #E3E6EA;position:sticky;top:0;z-index:10;">
+            <div>
+              <div style="font-size:19px;font-weight:700;letter-spacing:-.01em;">Libreria design system</div>
+              <div style="font-size:12px;color:#9aa0a8;margin-top:1px;">{{ sysCount }} sistemi · assegnabili ai clienti</div>
+            </div>
+            <button class="sa-btn" onClick="{{ onOpenUploadLibrary }}" style="background:#3B4A6B;border:none;border-radius:9px;padding:10px 16px;cursor:pointer;font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;color:#fff;transition:background .15s;">↑ Carica design system</button>
+          </header>
+          <div class="noscroll" style="flex:1;overflow-y:auto;padding:22px 30px 70px;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:18px;">
+              <sc-for list="{{ systems }}" as="s" hint-placeholder-count="4">
+                <div class="sa-syscard" style="background:#fff;border:1px solid #E3E6EA;border-radius:16px;overflow:hidden;transition:box-shadow .15s;">
+                  <div style="height:120px;background:{{ s.paper }};position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:14px;">
+                    <span style="position:absolute;left:14px;top:14px;width:22px;height:22px;border-radius:6px;background:{{ s.ink }};z-index:2;"></span>
+                    <span style="position:absolute;right:-6px;bottom:-22px;font-family:'DM Serif Display',serif;font-size:96px;line-height:.7;color:{{ s.word }};opacity:.9;z-index:1;">Aa</span>
+                    <span style="position:relative;z-index:2;font-family:'DM Serif Display',serif;font-style:italic;font-size:17px;color:{{ s.ink }};">{{ s.sample }}</span>
+                    <sc-if value="{{ s.custom }}"><span style="position:absolute;right:12px;top:12px;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#23262B;background:rgba(255,255,255,.85);padding:3px 7px;border-radius:5px;z-index:3;">Caricato</span></sc-if>
+                  </div>
+                  <div style="padding:15px 16px 16px;">
+                    <div style="font-size:15px;font-weight:700;">{{ s.name }}</div>
+                    <div style="font-size:12px;color:#9aa0a8;margin-top:1px;">{{ s.kicker }} · {{ s.font }}</div>
+                    <div style="font-size:12px;color:#6b727b;margin-top:9px;">Assegnato a <b>{{ s.assignedCount }}</b> {{ s.assignedWord }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+
+    <!-- ===== ASSIGN MODAL ===== -->
+    <sc-if value="{{ assignOpen }}">
+      <div onClick="{{ onCloseModals }}" style="position:fixed;inset:0;background:rgba(28,30,34,.55);display:flex;align-items:flex-start;justify-content:center;padding:48px 20px;z-index:60;overflow:auto;">
+        <div onClick="{{ stop }}" class="noscroll" style="width:580px;max-width:100%;background:#fff;border-radius:16px;box-shadow:0 30px 70px -20px rgba(0,0,0,.45);overflow:hidden;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid #EEF0F3;">
+            <div><div style="font-size:17px;font-weight:700;">Assegna design system</div><div style="font-size:12px;color:#9aa0a8;margin-top:1px;">a {{ assignClientName }} · il cliente non potrà modificarlo</div></div>
+            <button onClick="{{ onCloseModals }}" style="background:none;border:none;cursor:pointer;font-size:22px;color:#9aa0a8;line-height:1;">×</button>
+          </div>
+          <div class="noscroll" style="padding:18px 24px;max-height:54vh;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <sc-for list="{{ assignOptions }}" as="o" hint-placeholder-count="4">
+              <div onClick="{{ o.onPick }}" style="cursor:pointer;border:2px solid {{ o.ring }};border-radius:12px;overflow:hidden;background:#fff;">
+                <div style="height:74px;background:{{ o.paper }};position:relative;display:flex;align-items:flex-end;padding:10px;overflow:hidden;">
+                  <span style="position:absolute;right:-4px;bottom:-14px;font-family:'DM Serif Display',serif;font-size:60px;line-height:.7;color:{{ o.word }};opacity:.9;">Aa</span>
+                  <span style="position:relative;z-index:2;font-family:'DM Serif Display',serif;font-style:italic;font-size:14px;color:{{ o.ink }};">{{ o.sample }}</span>
+                </div>
+                <div style="padding:10px 12px;display:flex;align-items:center;justify-content:space-between;">
+                  <div style="line-height:1.15;"><div style="font-size:13.5px;font-weight:700;">{{ o.name }}</div><div style="font-size:11px;color:#9aa0a8;">{{ o.font }}</div></div>
+                  <sc-if value="{{ o.selected }}"><span style="width:18px;height:18px;border-radius:50%;background:#3B4A6B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;">✓</span></sc-if>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px;border-top:1px solid #EEF0F3;background:#FAFBFC;">
+            <button class="sa-ghost" onClick="{{ onOpenUploadAssign }}" style="background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:9px 14px;cursor:pointer;font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;color:#23262B;transition:background .15s;">↑ Carica nuovo…</button>
+            <div style="display:flex;gap:10px;">
+              <button onClick="{{ onCloseModals }}" style="font-family:'Archivo',sans-serif;font-size:13.5px;font-weight:600;color:#23262B;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:9px 18px;cursor:pointer;">Annulla</button>
+              <button class="sa-btn" onClick="{{ onSaveAssign }}" style="font-family:'Archivo',sans-serif;font-size:13.5px;font-weight:600;color:#fff;background:#3B4A6B;border:none;border-radius:8px;padding:9px 22px;cursor:pointer;transition:background .15s;">Assegna</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ===== UPLOAD MODAL ===== -->
+    <sc-if value="{{ uploadOpen }}">
+      <div onClick="{{ onCloseModals }}" style="position:fixed;inset:0;background:rgba(28,30,34,.55);display:flex;align-items:flex-start;justify-content:center;padding:54px 20px;z-index:70;overflow:auto;">
+        <div onClick="{{ stop }}" style="width:520px;max-width:100%;background:#fff;border-radius:16px;box-shadow:0 30px 70px -20px rgba(0,0,0,.45);overflow:hidden;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid #EEF0F3;">
+            <div><div style="font-size:17px;font-weight:700;">Carica design system</div><div style="font-size:12px;color:#9aa0a8;margin-top:1px;">File .tavola / .json esportato dallo strumento di brand</div></div>
+            <button onClick="{{ onCloseModals }}" style="background:none;border:none;cursor:pointer;font-size:22px;color:#9aa0a8;line-height:1;">×</button>
+          </div>
+
+          <sc-if value="{{ uploadDrop }}">
+            <div style="padding:24px;">
+              <div class="sa-drop" onClick="{{ onBrowse }}" style="border:2px dashed #C3CAD3;border-radius:14px;background:#FAFBFC;padding:42px 24px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;">
+                <div style="width:48px;height:48px;border-radius:12px;background:#E7EAF1;color:#3B4A6B;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4"/><path d="m6 10 6-6 6 6"/><path d="M4 20h16"/></svg>
+                </div>
+                <div style="font-size:14.5px;font-weight:700;">Trascina qui il file del design system</div>
+                <div style="font-size:12.5px;color:#9aa0a8;margin-top:4px;">oppure <span style="color:#3B4A6B;font-weight:600;">sfoglia dal computer</span> · .tavola, .json, .zip</div>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ uploadParsed }}">
+            <div style="padding:22px 24px;">
+              <div style="display:flex;align-items:center;gap:9px;background:#EBF0E6;border:1px solid #9DB07E;border-radius:9px;padding:9px 13px;font-size:12.5px;color:#3f5024;margin-bottom:18px;">
+                <span style="font-size:14px;">✓</span> Letto <b>{{ parsed.fileName }}</b> — token estratti automaticamente.
+              </div>
+              <label style="display:block;margin-bottom:16px;"><span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:5px;">Nome del design system</span><input value="{{ parsed.name }}" onInput="{{ onUploadName }}" style="width:100%;font-family:'Archivo',sans-serif;font-size:15px;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:11px 13px;"/></label>
+
+              <div style="font-size:11px;font-weight:600;color:#6b727b;margin-bottom:8px;">Palette</div>
+              <div style="display:flex;gap:10px;margin-bottom:18px;">
+                <sc-for list="{{ parsed.swatches }}" as="sw" hint-placeholder-count="4">
+                  <div style="flex:1;"><div style="height:46px;border-radius:9px;background:{{ sw }};border:1px solid rgba(0,0,0,.06);"></div><div style="font-size:10.5px;color:#9aa0a8;margin-top:5px;">{{ sw }}</div></div>
+                </sc-for>
+              </div>
+
+              <div style="display:flex;align-items:center;gap:14px;background:{{ parsed.paper }};border-radius:12px;padding:16px 18px;">
+                <span style="font-family:'DM Serif Display',serif;font-size:34px;line-height:1;color:{{ parsed.word }};">Aa</span>
+                <div><div style="font-size:13px;font-weight:700;color:{{ parsed.ink }};">{{ parsed.font }}</div><div style="font-size:11.5px;color:{{ parsed.ink }};opacity:.7;">{{ parsed.kicker }}</div></div>
+              </div>
+            </div>
+          </sc-if>
+
+          <div style="display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:15px 24px;border-top:1px solid #EEF0F3;background:#FAFBFC;">
+            <button onClick="{{ onCloseModals }}" style="font-family:'Archivo',sans-serif;font-size:13.5px;font-weight:600;color:#23262B;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:9px 18px;cursor:pointer;">Annulla</button>
+            <sc-if value="{{ uploadParsed }}"><button class="sa-btn" onClick="{{ onConfirmUpload }}" style="font-family:'Archivo',sans-serif;font-size:13.5px;font-weight:600;color:#fff;background:#3B4A6B;border:none;border-radius:8px;padding:9px 22px;cursor:pointer;transition:background .15s;">{{ uploadConfirmLabel }}</button></sc-if>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ===== TOAST ===== -->
+    <sc-if value="{{ toastOpen }}">
+      <div style="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:90;display:flex;align-items:center;gap:9px;background:#23262B;color:#fff;border-radius:11px;padding:12px 18px;box-shadow:0 18px 40px -14px rgba(0,0,0,.5);font-size:13.5px;font-weight:500;">
+        <span style="width:18px;height:18px;border-radius:50%;background:#5C8C4A;display:flex;align-items:center;justify-content:center;font-size:11px;">✓</span>
+        {{ toastMsg }}
+      </div>
+    </sc-if>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1380,&quot;height&quot;:880}}">
+class Component extends DCLogic {
+  uid(){ return Math.random().toString(36).slice(2,8); }
+
+  ICONS = {
+    clients:'<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>',
+    systems:'<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
+  };
+
+  state = {
+    authed:false, email:'', pwd:'', view:'clients',
+    assign:null, upload:null, toast:'',
+    systems:[
+      { id:'salento', name:'Salento', kicker:'Rosso editoriale', sample:'i vini', ink:'#9E2A18', word:'#A8432F', paper:'#F0E4D0', font:'DM Serif + Archivo', swatches:['#9E2A18','#A8432F','#EEC2A0','#F0E4D0'], custom:false },
+      { id:'notte', name:'Notte', kicker:'Scuro elegante', sample:'la carta', ink:'#1C1714', word:'#C8A24B', paper:'#262019', font:'DM Serif + Archivo', swatches:['#1C1714','#C8A24B','#3A3026','#E8DFCB'], custom:false },
+      { id:'lino', name:'Lino', kicker:'Crema & oliva', sample:'i piatti', ink:'#5C6B3A', word:'#8A7A4F', paper:'#F2EDE0', font:'Cormorant + Work Sans', swatches:['#5C6B3A','#8A7A4F','#F2EDE0','#DCD6BE'], custom:false },
+      { id:'mare', name:'Mare', kicker:'Blu adriatico', sample:'la cantina', ink:'#1F4E6B', word:'#3C7CA0', paper:'#E6EEF2', font:'Libre Caslon + Archivo', swatches:['#1F4E6B','#3C7CA0','#E6EEF2','#C7DAE3'], custom:false },
+    ],
+    clients:[
+      { id:'c1', name:'Terra Rossa', place:'La Cantina · Salento', plan:'Pro', status:'live', dsId:'salento' },
+      { id:'c2', name:'Osteria del Mare', place:'Bari · Puglia', plan:'Pro', status:'live', dsId:'mare' },
+      { id:'c3', name:'Bistrot Notturno', place:'Lecce', plan:'Base', status:'live', dsId:'notte' },
+      { id:'c4', name:'Cascina Verde', place:'Alberobello', plan:'Base', status:'bozza', dsId:'lino' },
+      { id:'c5', name:'Trattoria Bianca', place:'Ostuni', plan:'Pro', status:'bozza', dsId:null },
+    ],
+  };
+
+  SAMPLES = [
+    { name:'Vigneto', kicker:'Importato · bordeaux', sample:'i rossi', ink:'#5B2333', word:'#8C3A2B', paper:'#EFE4DC', font:'DM Serif + Archivo', swatches:['#5B2333','#8C3A2B','#C98B6B','#EFE4DC'], fileName:'vigneto.tavola.json' },
+    { name:'Agrumeto', kicker:'Importato · mediterraneo', sample:'la cucina', ink:'#2E5E3A', word:'#D58A2C', paper:'#F3EFD9', font:'Cormorant + Work Sans', swatches:['#2E5E3A','#D58A2C','#E7C66B','#F3EFD9'], fileName:'agrumeto.tavola.json' },
+  ];
+
+  toast(msg){ this.setState({toast:msg}); clearTimeout(this._t); this._t=setTimeout(()=>this.setState({toast:''}), 2800); }
+
+  sysById(id){ return this.state.systems.find(s=>s.id===id); }
+
+  saveAssign(){
+    this.setState(s=>{
+      const a=s.assign; if(!a||!a.dsId) return {assign:null};
+      const ds=s.systems.find(x=>x.id===a.dsId);
+      const clients=s.clients.map(c=> c.id===a.clientId ? {...c, dsId:a.dsId} : c);
+      const cn=(s.clients.find(c=>c.id===a.clientId)||{}).name;
+      clearTimeout(this._t); this._t=setTimeout(()=>this.setState({toast:''}),2800);
+      return {clients, assign:null, toast:'Design system “'+ds.name+'” assegnato a '+cn};
+    });
+  }
+  browse(){ this.setState(s=>{ const smp=this.SAMPLES[(s.systems.filter(x=>x.custom).length)%this.SAMPLES.length]; return {upload:{...s.upload, stage:'parsed', parsed:{...smp}}}; }); }
+  confirmUpload(){
+    this.setState(s=>{
+      const p=s.upload.parsed; const id=this.uid();
+      const sys={ id, name:(p.name||'Senza nome').trim(), kicker:p.kicker, sample:p.sample, ink:p.ink, word:p.word, paper:p.paper, font:p.font, swatches:p.swatches, custom:true };
+      const systems=[...s.systems, sys];
+      let clients=s.clients; let msg='Design system “'+sys.name+'” aggiunto alla libreria';
+      if(s.upload.ctx==='assign' && s.upload.clientId){ clients=s.clients.map(c=> c.id===s.upload.clientId?{...c,dsId:id}:c); const cn=(s.clients.find(c=>c.id===s.upload.clientId)||{}).name; msg='“'+sys.name+'” caricato e assegnato a '+cn; }
+      clearTimeout(this._t); this._t=setTimeout(()=>this.setState({toast:''}),2800);
+      return {systems, clients, upload:null, assign:null, toast:msg};
+    });
+  }
+
+  renderVals(){
+    const st=this.state;
+    const base={ stop:e=>e.stopPropagation(), onCloseModals:()=>this.setState({assign:null, upload:null}) };
+
+    if(!st.authed){
+      return { ...base, showLogin:true, showConsole:false,
+        email:st.email, pwd:st.pwd,
+        onEmail:e=>this.setState({email:e.target.value}), onPwd:e=>this.setState({pwd:e.target.value}),
+        onLogin:()=>this.setState({authed:true}) };
+    }
+
+    const planMeta={Pro:{bg:'#E7EAF1',ink:'#3B4A6B'},Base:{bg:'#F1F2F5',ink:'#6b727b'}};
+    const statusMeta={live:{dot:'#5C8C4A',text:'Online'},bozza:{dot:'#C8923A',text:'Bozza'}};
+
+    const nav=[
+      {key:'clients', label:'Clienti', icon:this.ICONS.clients, badge:true, count:st.clients.length},
+      {key:'systems', label:'Design system', icon:this.ICONS.systems, badge:true, count:st.systems.length},
+    ].map(n=>{ const on=st.view===n.key; return { label:n.label, icon:n.icon, badge:n.badge, count:n.count, onClick:()=>this.setState({view:n.key}), bg:on?'rgba(255,255,255,.10)':'transparent', color:on?'#fff':'#cfd3da', weight:on?'700':'500' }; });
+
+    const assignedCount=id=>st.clients.filter(c=>c.dsId===id).length;
+
+    const clients=st.clients.map(c=>{
+      const ds=this.sysById(c.dsId); const pm=planMeta[c.plan]||planMeta.Base; const sm=statusMeta[c.status]||statusMeta.bozza;
+      return { name:c.name, place:c.place, initial:c.name.charAt(0), avatarBg: ds?ds.ink:'#9aa0a8',
+        plan:c.plan, planBg:pm.bg, planInk:pm.ink,
+        hasDs:!!ds, noDs:!ds, dsName: ds?ds.name:'', dsSwatches: ds?ds.swatches:[],
+        statusDot:sm.dot, statusText:sm.text,
+        actionLabel: ds?'Gestisci':'Assegna',
+        onAssign:()=>this.setState({assign:{clientId:c.id, dsId:c.dsId}}) };
+    });
+
+    const systems=st.systems.map(s=>{ const n=assignedCount(s.id); return { ...s, assignedCount:n, assignedWord: n===1?'cliente':'clienti' }; });
+
+    const a=st.assign;
+    const assignClient = a ? st.clients.find(c=>c.id===a.clientId) : null;
+    const assignOptions = st.systems.map(s=>({ name:s.name, font:s.font, sample:s.sample, ink:s.ink, word:s.word, paper:s.paper,
+      selected: a && a.dsId===s.id, ring: a && a.dsId===s.id ? '#3B4A6B' : '#E3E6EA',
+      onPick:()=>this.setState(p=>({assign:{...p.assign, dsId:s.id}})) }));
+
+    const up=st.upload;
+
+    return {
+      ...base, showLogin:false, showConsole:true,
+      nav, onLogout:()=>this.setState({authed:false, view:'clients'}),
+      showClients: st.view==='clients', showSystems: st.view==='systems',
+      clientCount: st.clients.length, unassignedCount: st.clients.filter(c=>!c.dsId).length,
+      clients,
+      sysCount: st.systems.length, systems,
+
+      assignOpen:!!a, assignClientName: assignClient?assignClient.name:'', assignOptions,
+      onSaveAssign:()=>this.saveAssign(),
+      onOpenUploadAssign:()=>this.setState(p=>({upload:{ctx:'assign', clientId:p.assign&&p.assign.clientId, stage:'drop', parsed:null}})),
+      onOpenUploadLibrary:()=>this.setState({upload:{ctx:'library', clientId:null, stage:'drop', parsed:null}}),
+
+      uploadOpen:!!up, uploadDrop: !!up && up.stage==='drop', uploadParsed: !!up && up.stage==='parsed',
+      parsed: up&&up.parsed ? up.parsed : {name:'',kicker:'',fileName:'',ink:'#000',word:'#666',paper:'#eee',font:'',swatches:[]},
+      uploadConfirmLabel: up&&up.ctx==='assign' ? 'Carica & assegna' : 'Aggiungi alla libreria',
+      onBrowse:()=>this.browse(), onUploadName:e=>this.setState(p=>({upload:{...p.upload, parsed:{...p.upload.parsed, name:e.target.value}}})),
+      onConfirmUpload:()=>this.confirmUpload(),
+
+      toastOpen:!!st.toast, toastMsg:st.toast,
+    };
+  }
+}
+</script>
+</body>
+</html>

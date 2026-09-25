@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Work+Sans:wght@400;500;600;700&family=Libre+Caslon+Display&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#EEF0F3;}
+  input::placeholder,textarea::placeholder{color:#9aa0a8;}
+  ::selection{background:#3B4A6B;color:#fff;}
+  .row:hover{background:#F7F8FA !important;}
+  .navitem:hover{background:#F1F2F5;}
+  .menucard:hover{border-color:#C3CAD3 !important;box-shadow:0 6px 20px -8px rgba(28,30,34,.18);}
+  .themecard:hover{box-shadow:0 8px 24px -10px rgba(28,30,34,.22);}
+  .catcard:hover .catdrag{opacity:1;}
+  .cattool:hover{background:#F1F2F5 !important;color:#3B4A6B !important;}
+  input:focus,select:focus,textarea:focus{outline:2px solid #3B4A6B;outline-offset:1px;}
+  .noscroll{scrollbar-width:none}.noscroll::-webkit-scrollbar{display:none}
+  .pe-input,.pe-area{font-family:inherit;color:inherit;width:100%;border:none;background:transparent;outline:none;padding:3px 5px;border-radius:6px;display:block;}
+  .pe-input:hover,.pe-area:hover{background:rgba(0,0,0,.035);}
+  .pe-input:focus,.pe-area:focus{background:rgba(255,255,255,.6);outline:1px dashed rgba(0,0,0,.22);outline-offset:2px;}
+  .pe-area{resize:vertical;line-height:1.55;}
+  .peblk{position:relative;}
+  .peblk .pebtools{opacity:0;transition:opacity .15s;}
+  .peblk:hover .pebtools{opacity:1;}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;background:#EEF0F3;font-family:'Archivo',sans-serif;color:#23262B;">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside style="width:250px;flex:none;background:#fff;border-right:1px solid #E3E6EA;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;">
+    <div style="padding:20px 20px 14px;">
+      <div style="display:flex;align-items:center;gap:9px;">
+        <div style="width:28px;height:28px;border-radius:7px;background:#23262B;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;color:#fff;font-size:16px;">T</div>
+        <div style="line-height:1;"><div style="font-family:'DM Serif Display',serif;font-size:18px;">Tavola</div><div style="font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#9aa0a8;margin-top:2px;">menu studio</div></div>
+      </div>
+    </div>
+
+    <div style="padding:0 14px 12px;">
+      <button style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 11px;background:#F4F5F7;border:1px solid #E3E6EA;border-radius:9px;cursor:pointer;text-align:left;">
+        <span style="width:26px;height:26px;border-radius:6px;background:#9E2A18;flex:none;display:flex;align-items:center;justify-content:center;overflow:hidden;"><img src="assets/logo-white.png" alt="" style="width:30px;height:auto;"/></span>
+        <span style="flex:1;min-width:0;line-height:1.1;"><span style="display:block;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Terra Rossa</span><span style="display:block;font-size:11px;color:#9aa0a8;">La Cantina · Salento</span></span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2"><path d="m7 9 5-5 5 5"/><path d="m7 15 5 5 5-5"/></svg>
+      </button>
+    </div>
+
+    <div style="padding:4px 20px 6px;display:flex;align-items:center;justify-content:space-between;">
+      <span style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#9aa0a8;">I menù</span>
+      <button onClick="{{ onNewMenu }}" title="Nuovo menù" style="background:none;border:none;cursor:pointer;color:#3B4A6B;font-size:17px;line-height:1;padding:0;">＋</button>
+    </div>
+    <nav class="noscroll" style="flex:1;overflow-y:auto;padding:0 14px;">
+      <sc-for list="{{ menus }}" as="m" hint-placeholder-count="2">
+        <div class="navitem" onClick="{{ m.onClick }}" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:8px;cursor:pointer;margin-bottom:2px;background:{{ m.bg }};">
+          <span style="width:24px;height:24px;border-radius:6px;flex:none;display:flex;align-items:center;justify-content:center;background:{{ m.chipBg }};color:{{ m.chipInk }};font-size:12px;">{{ m.icon }}</span>
+          <span style="flex:1;min-width:0;line-height:1.15;"><span style="display:block;font-size:13.5px;font-weight:{{ m.weight }};color:{{ m.color }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ m.name }}</span><span style="display:block;font-size:10.5px;color:#9aa0a8;">{{ m.meta }}</span></span>
+        </div>
+      </sc-for>
+
+      <div style="height:1px;background:#EEF0F3;margin:10px 4px;"></div>
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="3">
+        <div class="navitem" onClick="{{ n.onClick }}" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:8px;cursor:pointer;margin-bottom:2px;background:{{ n.bg }};color:{{ n.color }};">
+          <span style="width:16px;display:flex;justify-content:center;">{{ n.icon }}</span>
+          <span style="font-size:13.5px;font-weight:{{ n.weight }};">{{ n.label }}</span>
+        </div>
+      </sc-for>
+    </nav>
+
+    <div style="padding:14px;border-top:1px solid #E3E6EA;display:flex;align-items:center;gap:10px;">
+      <div style="width:30px;height:30px;border-radius:50%;background:#3B4A6B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;">FB</div>
+      <div style="flex:1;line-height:1.15;"><div style="font-size:12.5px;font-weight:600;">Francesca B.</div><div style="font-size:11px;color:#9aa0a8;">Owner</div></div>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <div style="flex:1;min-width:0;display:flex;flex-direction:column;">
+
+    <!-- ====== LANDING ====== -->
+    <sc-if value="{{ showLanding }}">
+      <div class="noscroll" style="flex:1;overflow-y:auto;padding:54px 48px 60px;">
+        <div style="max-width:860px;margin:0 auto;">
+          <div style="font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#9aa0a8;">Terra Rossa · La Cantina</div>
+          <h1 style="font-family:'DM Serif Display',serif;font-size:38px;font-weight:400;margin:8px 0 6px;letter-spacing:-.01em;">Su quale menù vuoi lavorare?</h1>
+          <p style="font-size:15px;color:#6b727b;margin:0 0 30px;max-width:580px;line-height:1.55;">Ogni menù ha categorie e <b>sottocategorie</b> — es. <b>Vini rossi</b> raggruppati per <b>regione</b>. Imposta annata, vitigno, produttore, prezzi e allergeni, poi vesti tutto con un <b>tema grafico</b>.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:16px;">
+            <sc-for list="{{ menuCards }}" as="c" hint-placeholder-count="2">
+              <div class="menucard" onClick="{{ c.onClick }}" style="cursor:pointer;background:#fff;border:1px solid #E3E6EA;border-radius:14px;overflow:hidden;transition:box-shadow .15s,border-color .15s;">
+                <div style="height:88px;background:{{ c.banner }};display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+                  <span style="font-family:'DM Serif Display',serif;font-size:54px;color:{{ c.bannerInk }};opacity:.92;">{{ c.bigIcon }}</span>
+                </div>
+                <div style="padding:16px 18px 18px;">
+                  <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:15px;font-weight:700;">{{ c.name }}</span><span style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:{{ c.tagInk }};background:{{ c.tagBg }};padding:2px 6px;border-radius:4px;">{{ c.typeLabel }}</span></div>
+                  <div style="font-size:12.5px;color:#6b727b;margin-top:5px;line-height:1.45;">{{ c.meta }}</div>
+                  <div style="font-size:12.5px;font-weight:600;color:#3B4A6B;margin-top:13px;">Apri →</div>
+                </div>
+              </div>
+            </sc-for>
+            <div class="menucard" onClick="{{ onNewMenu }}" style="cursor:pointer;background:#fff;border:1px dashed #C3CAD3;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px;color:#6b727b;transition:box-shadow .15s,border-color .15s;">
+              <div style="width:42px;height:42px;border-radius:50%;background:#F1F2F5;display:flex;align-items:center;justify-content:center;font-size:22px;color:#3B4A6B;">＋</div>
+              <div style="font-size:13.5px;font-weight:600;margin-top:11px;">Nuovo menù</div>
+              <div style="font-size:11.5px;color:#9aa0a8;margin-top:2px;">Food o Vini &amp; Drinks</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ====== TEMPLATE & TEMA ====== -->
+    <sc-if value="{{ showTemplate }}">
+      <header style="display:flex;align-items:center;justify-content:space-between;padding:16px 28px;background:#fff;border-bottom:1px solid #E3E6EA;position:sticky;top:0;z-index:20;">
+        <div style="display:flex;align-items:center;gap:13px;">
+          <span style="width:34px;height:34px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;background:#E7EAF1;color:#3B4A6B;font-size:16px;">❖</span>
+          <div>
+            <div style="font-size:18px;font-weight:700;letter-spacing:-.01em;">Template &amp; Tema</div>
+            <div style="font-size:12px;color:#9aa0a8;margin-top:1px;">Design system assegnato da Tavola · formati di stampa e brand</div>
+          </div>
+        </div>
+        <a href="Terra Rossa - Carta A3.dc.html" style="font-size:12.5px;font-weight:600;color:#3B4A6B;text-decoration:none;padding:8px 13px;border:1px solid #D5DAE1;border-radius:8px;">Anteprima carta ↗</a>
+      </header>
+
+      <div class="noscroll" style="flex:1;overflow-y:auto;padding:26px 28px 70px;">
+        <div style="max-width:980px;">
+
+          <!-- ASSIGNED DESIGN SYSTEM (locked) -->
+          <div style="display:flex;align-items:center;gap:12px;background:#F4F5F7;border:1px solid #E3E6EA;border-radius:12px;padding:13px 16px;margin-bottom:20px;">
+            <span style="width:32px;height:32px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;background:#23262B;color:#fff;font-size:15px;">🔒</span>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:13px;font-weight:700;">Design system gestito da Tavola</div>
+              <div style="font-size:12px;color:#6b727b;margin-top:1px;line-height:1.45;">Tema e tipografia sono impostati dal tuo referente Tavola e non sono modificabili qui — così la carta resta sempre coerente. Per un cambio, scrivici.</div>
+            </div>
+          </div>
+
+          <h2 style="font-family:'DM Serif Display',serif;font-size:24px;font-weight:400;margin:0 0 14px;">Design system assegnato</h2>
+          <div style="background:#fff;border:1px solid #E3E6EA;border-radius:16px;overflow:hidden;display:grid;grid-template-columns:300px 1fr;">
+            <div style="background:{{ activeTheme.paper }};position:relative;overflow:hidden;min-height:200px;display:flex;align-items:flex-end;padding:18px;">
+              <span style="position:absolute;left:18px;top:18px;width:24px;height:24px;border-radius:7px;background:{{ activeTheme.ink }};z-index:2;"></span>
+              <span style="position:absolute;right:-8px;bottom:-26px;font-family:'DM Serif Display',serif;font-size:120px;line-height:.7;color:{{ activeTheme.word }};opacity:.9;z-index:1;">Aa</span>
+              <span style="position:relative;z-index:2;font-family:'DM Serif Display',serif;font-style:italic;font-size:19px;color:{{ activeTheme.ink }};">{{ activeTheme.sample }}</span>
+            </div>
+            <div style="padding:22px 24px;">
+              <div style="display:flex;align-items:center;gap:9px;">
+                <span style="font-size:19px;font-weight:700;">{{ activeTheme.name }}</span>
+                <span style="font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#3f5024;background:#EBF0E6;border:1px solid #9DB07E;padding:3px 8px;border-radius:5px;">Assegnato</span>
+              </div>
+              <div style="font-size:12.5px;color:#9aa0a8;margin-top:2px;">{{ activeTheme.kicker }}</div>
+              <div style="display:flex;gap:8px;margin-top:18px;">
+                <sc-for list="{{ activeTheme.swatches }}" as="sw" hint-placeholder-count="4">
+                  <div style="flex:1;"><div style="height:38px;border-radius:8px;background:{{ sw.hex }};border:1px solid rgba(0,0,0,.06);"></div><div style="font-size:10.5px;color:#9aa0a8;margin-top:5px;">{{ sw.hex }}</div></div>
+                </sc-for>
+              </div>
+              <div style="height:1px;background:#EEF0F3;margin:18px 0 14px;"></div>
+              <div style="display:flex;align-items:baseline;gap:11px;">
+                <span style="font-family:{{ activeFont.display }};font-size:28px;line-height:1;">Aa</span>
+                <div style="line-height:1.2;"><div style="font-weight:700;font-size:14px;">{{ activeFont.name }}</div><div style="font-size:11.5px;color:#9aa0a8;">{{ activeFont.note }}</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- LIVE PREVIEW -->
+          <h2 style="font-family:'DM Serif Display',serif;font-size:24px;font-weight:400;margin:36px 0 14px;">Anteprima dal vivo</h2>
+          <div style="background:{{ preview.paper }};border-radius:16px;padding:30px 32px 40px;position:relative;overflow:hidden;">
+            <div style="position:relative;z-index:2;max-width:460px;">
+              <div style="font-family:{{ preview.display }};font-style:italic;font-size:19px;color:{{ preview.ink }};">{{ preview.sample }}</div>
+              <div style="font-family:{{ preview.display }};font-size:46px;line-height:.9;color:{{ preview.word }};">Vino</div>
+              <div style="margin-top:18px;font-family:{{ preview.text }};">
+                <div style="display:flex;align-items:baseline;gap:10px;color:{{ preview.ink }};">
+                  <span style="font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;">Terra Rossa Salento</span>
+                  <span style="flex:1;border-bottom:1px dotted;opacity:.4;transform:translateY(-3px);"></span>
+                  <span style="font-weight:600;font-size:13px;">£8 · £31.5</span>
+                </div>
+                <div style="font-size:12px;opacity:.7;margin-top:3px;color:{{ preview.ink }};">2024 · Negroamaro &amp; Malvasia Nera · Cantine Bonsegna · IGT 13%</div>
+              </div>
+            </div>
+            <div style="position:absolute;right:-8px;bottom:-26px;font-family:{{ preview.display }};font-size:150px;line-height:.7;color:{{ preview.word }};opacity:.35;z-index:1;">vino</div>
+          </div>
+
+          <!-- FORMATS -->
+          <h2 style="font-family:'DM Serif Display',serif;font-size:24px;font-weight:400;margin:36px 0 14px;">Formato</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:16px;">
+            <sc-for list="{{ formats }}" as="f" hint-placeholder-count="3">
+              <a href="{{ f.href }}" style="text-decoration:none;color:inherit;display:block;background:#fff;border:1px solid #E3E6EA;border-radius:14px;overflow:hidden;">
+                <div style="height:8px;background:{{ f.accent }};"></div>
+                <div style="padding:18px 18px 20px;">
+                  <div style="font-size:24px;">{{ f.icon }}</div>
+                  <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9aa0a8;margin-top:10px;">{{ f.tag }}</div>
+                  <div style="font-family:'DM Serif Display',serif;font-size:20px;margin-top:3px;">{{ f.title }}</div>
+                  <div style="font-size:12.5px;color:#6b727b;line-height:1.5;margin-top:6px;">{{ f.desc }}</div>
+                  <div style="font-size:12.5px;font-weight:600;color:{{ f.cta }};margin-top:12px;">{{ f.ctaLabel }}</div>
+                </div>
+              </a>
+            </sc-for>
+          </div>
+
+          <!-- BRAND -->
+          <h2 style="font-family:'DM Serif Display',serif;font-size:24px;font-weight:400;margin:36px 0 14px;">Brand</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div style="background:#fff;border:1px solid #E3E6EA;border-radius:14px;padding:20px 22px;">
+              <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9aa0a8;margin-bottom:12px;">Logo</div>
+              <div style="background:#9E2A18;border-radius:10px;padding:22px 20px;display:flex;align-items:center;justify-content:center;"><img src="assets/logo-white.png" alt="Terra Rossa" style="width:200px;max-width:100%;height:auto;"/></div>
+              <div style="display:flex;gap:9px;margin-top:13px;">
+                <button class="cattool" style="flex:1;font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:600;color:#23262B;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:9px;cursor:pointer;">Sostituisci</button>
+                <button class="cattool" style="flex:1;font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:600;color:#23262B;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:9px;cursor:pointer;">Versione chiara</button>
+              </div>
+            </div>
+            <div style="background:#fff;border:1px solid #E3E6EA;border-radius:14px;padding:20px 22px;">
+              <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9aa0a8;margin-bottom:12px;">Palette · {{ activeTheme.name }}</div>
+              <div style="display:flex;gap:10px;">
+                <sc-for list="{{ activeTheme.swatches }}" as="sw" hint-placeholder-count="4">
+                  <div style="flex:1;">
+                    <div style="height:52px;border-radius:9px;background:{{ sw.hex }};border:1px solid rgba(0,0,0,.06);"></div>
+                    <div style="font-size:11px;font-weight:600;margin-top:6px;">{{ sw.name }}</div>
+                    <div style="font-size:10.5px;color:#9aa0a8;">{{ sw.hex }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="height:1px;background:#EEF0F3;margin:18px 0 14px;"></div>
+              <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9aa0a8;margin-bottom:8px;">Font</div>
+              <div style="font-family:'DM Serif Display',serif;font-size:28px;line-height:1;">DM Serif Display</div>
+              <div style="font-size:12px;color:#9aa0a8;margin:2px 0 10px;">Display · titoli, parole giganti</div>
+              <div style="font-weight:700;font-size:15px;letter-spacing:.02em;">Archivo</div>
+              <div style="font-size:12px;color:#9aa0a8;margin-top:1px;">Testo · nomi, prezzi, UI</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ====== PAGE EDITOR ====== -->
+    <sc-if value="{{ showPage }}">
+      <header style="display:flex;align-items:center;justify-content:space-between;padding:16px 28px;background:#fff;border-bottom:1px solid #E3E6EA;position:sticky;top:0;z-index:20;">
+        <div style="display:flex;align-items:center;gap:13px;min-width:0;">
+          <button onClick="{{ onBackToVoci }}" class="cattool" style="background:#fff;border:1px solid #D5DAE1;border-radius:8px;cursor:pointer;font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;color:#23262B;padding:8px 12px;">← Voci</button>
+          <div>
+            <div style="font-size:18px;font-weight:700;letter-spacing:-.01em;">Pagina · {{ active.name }}</div>
+            <div style="font-size:12px;color:#9aa0a8;margin-top:1px;">Copertina, testo e foto · tema {{ activeTheme.name }} · {{ activeFont.name }}</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:9px;">
+          <button onClick="{{ onGoTemplate }}" title="Design system gestito da Tavola" style="font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:600;color:#6b727b;background:#F4F5F7;border:1px solid #E3E6EA;border-radius:8px;padding:9px 14px;cursor:pointer;">🔒 {{ activeTheme.name }} · {{ activeFont.name }}</button>
+          <a href="Terra Rossa - Mobile Menu.dc.html" style="font-size:12.5px;font-weight:600;color:#3B4A6B;text-decoration:none;padding:8px 13px;border:1px solid #D5DAE1;border-radius:8px;">Anteprima ↗</a>
+        </div>
+      </header>
+
+      <div class="noscroll" style="flex:1;overflow-y:auto;padding:28px 28px 80px;background:#EEF0F3;">
+        <div style="max-width:720px;margin:0 auto;">
+          <div style="font-size:12px;color:#9aa0a8;margin-bottom:12px;text-align:center;">Clicca sui testi per modificarli · trascina una foto nei riquadri</div>
+          <div style="background:{{ page.paper }};border-radius:16px;overflow:hidden;box-shadow:0 20px 50px -24px rgba(28,30,34,.4);font-family:{{ page.text }};color:{{ page.ink }};">
+            <image-slot id="{{ page.coverId }}" shape="rect" placeholder="Trascina la foto di copertina" style="display:block;width:100%;height:240px;"></image-slot>
+            <div style="padding:30px 36px 38px;">
+              <input class="pe-input" value="{{ page.kicker }}" onInput="{{ set.pageKicker }}" placeholder="occhiello (es. la cantina · i vini)" style="font-family:{{ page.display }};font-style:italic;font-size:19px;color:{{ page.word }};"/>
+              <input class="pe-input" value="{{ page.title }}" onInput="{{ set.pageTitle }}" placeholder="Titolo pagina" style="font-family:{{ page.display }};font-size:44px;line-height:1;margin-top:2px;"/>
+              <textarea class="pe-area" value="{{ page.intro }}" onInput="{{ set.pageIntro }}" rows="2" placeholder="Introduzione…" style="font-size:15px;margin-top:12px;opacity:.85;"></textarea>
+
+              <div style="height:1px;background:currentColor;opacity:.12;margin:24px 0;"></div>
+
+              <sc-for list="{{ pageBlocks }}" as="b" hint-placeholder-count="1">
+                <div class="peblk" style="margin-bottom:22px;">
+                  <div class="pebtools" style="position:absolute;top:-6px;right:-6px;display:flex;gap:4px;z-index:3;">
+                    <button onClick="{{ b.onUp }}" title="Su" style="width:26px;height:26px;border-radius:6px;border:1px solid rgba(0,0,0,.12);background:#fff;color:#6b727b;cursor:pointer;font-size:13px;">↑</button>
+                    <button onClick="{{ b.onDown }}" title="Giù" style="width:26px;height:26px;border-radius:6px;border:1px solid rgba(0,0,0,.12);background:#fff;color:#6b727b;cursor:pointer;font-size:13px;">↓</button>
+                    <button onClick="{{ b.onRemove }}" title="Rimuovi" style="width:26px;height:26px;border-radius:6px;border:1px solid rgba(0,0,0,.12);background:#fff;color:#b3402c;cursor:pointer;font-size:15px;">×</button>
+                  </div>
+                  <sc-if value="{{ b.isText }}">
+                    <input class="pe-input" value="{{ b.heading }}" onInput="{{ b.onHeading }}" placeholder="Titolo sezione" style="font-family:{{ page.display }};font-size:24px;line-height:1.1;"/>
+                    <textarea class="pe-area" value="{{ b.body }}" onInput="{{ b.onBody }}" rows="3" placeholder="Scrivi il testo…" style="font-size:14.5px;margin-top:6px;opacity:.85;"></textarea>
+                  </sc-if>
+                  <sc-if value="{{ b.isImage }}">
+                    <image-slot id="{{ b.slotId }}" shape="rounded" radius="12" placeholder="Trascina una foto" style="display:block;width:100%;height:260px;"></image-slot>
+                    <input class="pe-input" value="{{ b.caption }}" onInput="{{ b.onCaption }}" placeholder="didascalia (opzionale)" style="font-size:12.5px;margin-top:8px;opacity:.7;text-align:center;"/>
+                  </sc-if>
+                </div>
+              </sc-for>
+
+              <div style="display:flex;gap:10px;margin-top:8px;">
+                <button onClick="{{ onAddText }}" style="flex:1;font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;color:#23262B;background:rgba(255,255,255,.6);border:1px dashed rgba(0,0,0,.25);border-radius:10px;padding:12px;cursor:pointer;">+ Testo</button>
+                <button onClick="{{ onAddImage }}" style="flex:1;font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;color:#23262B;background:rgba(255,255,255,.6);border:1px dashed rgba(0,0,0,.25);border-radius:10px;padding:12px;cursor:pointer;">+ Foto</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ====== WORKSPACE ====== -->
+    <sc-if value="{{ showWorkspace }}">
+      <header style="display:flex;align-items:center;justify-content:space-between;padding:16px 28px;background:#fff;border-bottom:1px solid #E3E6EA;position:sticky;top:0;z-index:20;">
+        <div style="display:flex;align-items:center;gap:13px;min-width:0;">
+          <span style="width:34px;height:34px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;background:{{ active.chipBg }};color:{{ active.chipInk }};font-size:16px;">{{ active.icon }}</span>
+          <div style="min-width:0;">
+            <div style="display:flex;align-items:center;gap:9px;"><span style="font-size:18px;font-weight:700;letter-spacing:-.01em;white-space:nowrap;">{{ active.name }}</span><span style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:{{ active.tagInk }};background:{{ active.tagBg }};padding:2px 7px;border-radius:4px;">{{ active.typeLabel }}</span></div>
+            <div style="font-size:12px;color:#9aa0a8;margin-top:1px;">{{ active.catCount }} categorie · {{ active.itemCount }} voci</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:9px;">
+          <button onClick="{{ onEditPage }}" style="font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:600;color:#23262B;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:9px 14px;cursor:pointer;">✎ Pagina</button>
+          <a href="Terra Rossa - Mobile Menu.dc.html" style="font-size:12.5px;font-weight:600;color:#3B4A6B;text-decoration:none;padding:8px 13px;border:1px solid #D5DAE1;border-radius:8px;">Anteprima ↗</a>
+          <button onClick="{{ onAddCategory }}" style="font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:600;color:#23262B;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:9px 14px;cursor:pointer;">+ Categoria</button>
+          <button onClick="{{ onAddItem }}" style="font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;color:#fff;background:#3B4A6B;border:none;border-radius:8px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:6px;"><span style="font-size:15px;line-height:1;">＋</span> {{ active.addLabel }}</button>
+        </div>
+      </header>
+
+      <div class="noscroll" style="flex:1;overflow-y:auto;padding:20px 28px 70px;">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px;">
+          <div style="display:flex;align-items:center;gap:9px;padding:9px 13px;background:#fff;border:1px solid #E3E6EA;border-radius:9px;min-width:260px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9aa0a8" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            <input value="{{ q }}" onInput="{{ onSearch }}" placeholder="Cerca in questo menù…" style="flex:1;border:none;background:none;outline:none;font-family:'Archivo',sans-serif;font-size:13.5px;color:#23262B;"/>
+          </div>
+          <div style="display:flex;gap:14px;margin-left:6px;">
+            <sc-for list="{{ stats }}" as="s" hint-placeholder-count="3">
+              <div style="line-height:1.1;"><div style="font-size:19px;font-weight:700;letter-spacing:-.02em;">{{ s.value }}</div><div style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#9aa0a8;margin-top:2px;">{{ s.label }}</div></div>
+            </sc-for>
+          </div>
+        </div>
+
+        <sc-for list="{{ cats }}" as="cat" hint-placeholder-count="4">
+          <div class="catcard" style="background:#fff;border:1px solid #E3E6EA;border-radius:12px;margin-bottom:14px;overflow:hidden;">
+            <div style="display:flex;align-items:center;gap:11px;padding:14px 16px 13px;border-bottom:1px solid #EEF0F3;">
+              <span class="catdrag" style="opacity:.35;cursor:grab;color:#9aa0a8;font-size:15px;line-height:1;transition:opacity .15s;">⠿</span>
+              <span style="font-family:'DM Serif Display',serif;font-size:18px;">{{ cat.name }}</span>
+              <span style="font-size:11px;color:#9aa0a8;background:#F1F2F5;padding:2px 8px;border-radius:20px;">{{ cat.count }}</span>
+              <sc-if value="{{ cat.hasSubs }}"><span style="font-size:10px;color:#9aa0a8;letter-spacing:.04em;">· {{ cat.subLabel }}</span></sc-if>
+              <span style="flex:1;"></span>
+              <button onClick="{{ cat.onManage }}" title="Gestisci categoria e sottocategorie" class="cattool" style="background:none;border:none;cursor:pointer;color:#9aa0a8;border-radius:6px;padding:5px 7px;font-size:13px;line-height:1;transition:background .15s,color .15s;">⚙ Gestisci</button>
+              <button onClick="{{ cat.onAddItem }}" style="background:none;border:none;cursor:pointer;font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:600;color:#3B4A6B;padding:4px 6px;">+ Aggiungi</button>
+            </div>
+            <sc-if value="{{ cat.empty }}"><div style="padding:22px 16px;text-align:center;font-size:12.5px;color:#9aa0a8;">Nessuna voce in questa categoria.</div></sc-if>
+
+            <sc-for list="{{ cat.groups }}" as="g" hint-placeholder-count="2">
+              <sc-if value="{{ g.hasHeader }}">
+                <div style="display:flex;align-items:center;gap:9px;padding:10px 16px 8px;background:#FAFBFC;border-bottom:1px solid #F3F4F6;">
+                  <span style="font-size:6px;color:#C3CAD3;">●</span>
+                  <span style="font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8a9099;">{{ g.name }}</span>
+                  <span style="font-size:10.5px;color:#b3b8bf;">{{ g.count }}</span>
+                  <span style="flex:1;"></span>
+                  <button onClick="{{ g.onAddItem }}" style="background:none;border:none;cursor:pointer;font-family:'Archivo',sans-serif;font-size:11.5px;font-weight:600;color:#3B4A6B;padding:2px 4px;">+ Aggiungi</button>
+                </div>
+              </sc-if>
+              <sc-if value="{{ g.empty }}"><div style="padding:12px 16px;font-size:12px;color:#bdc2c9;">Nessuna voce in questa sottocategoria.</div></sc-if>
+              <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="3">
+                <div class="row" onClick="{{ it.onEdit }}" style="display:flex;align-items:center;gap:14px;padding:11px 16px;border-bottom:1px solid #F3F4F6;cursor:pointer;">
+                  <sc-if value="{{ it.showVintage }}"><span style="width:42px;flex:none;font-variant-numeric:tabular-nums;color:#9aa0a8;font-size:13px;">{{ it.vintage }}</span></sc-if>
+                  <div style="flex:1;min-width:0;">
+                    <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;">
+                      <span style="font-weight:600;font-size:14px;">{{ it.name }}</span>
+                      <sc-if value="{{ it.organic }}"><span style="font-size:11px;color:#5C6B3A;" title="Bio">✻</span></sc-if>
+                      <sc-for list="{{ it.badges }}" as="b" hint-placeholder-count="2"><span style="font-size:8px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:{{ b.ink }};border:1px solid {{ b.bd }};padding:1px 5px;border-radius:3px;">{{ b.label }}</span></sc-for>
+                    </div>
+                    <div style="font-size:12px;color:#8a9099;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:520px;">{{ it.sub }}</div>
+                  </div>
+                  <button onClick="{{ it.onToggle }}" style="flex:none;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:'Archivo',sans-serif;font-size:12px;padding:0;"><span style="width:7px;height:7px;border-radius:50%;background:{{ it.dot }};"></span><span style="color:#6b727b;">{{ it.statusText }}</span></button>
+                  <span style="flex:none;width:96px;text-align:right;font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums;">{{ it.priceText }}</span>
+                  <span style="flex:none;color:#c2c7ce;">⋯</span>
+                </div>
+              </sc-for>
+            </sc-for>
+          </div>
+        </sc-for>
+
+        <sc-if value="{{ noResults }}"><div style="padding:50px;text-align:center;color:#9aa0a8;background:#fff;border:1px solid #E3E6EA;border-radius:12px;">Nessuna voce trovata per “{{ q }}”.</div></sc-if>
+        <button onClick="{{ onAddCategory }}" style="width:100%;background:#fff;border:1px dashed #C3CAD3;border-radius:12px;padding:14px;cursor:pointer;font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;color:#3B4A6B;margin-top:4px;">+ Nuova categoria</button>
+      </div>
+    </sc-if>
+  </div>
+
+  <!-- ===== ITEM MODAL ===== -->
+  <sc-if value="{{ itemModalOpen }}">
+    <div onClick="{{ onClose }}" style="position:fixed;inset:0;background:rgba(28,30,34,.5);display:flex;align-items:flex-start;justify-content:center;padding:42px 20px;z-index:50;overflow:auto;">
+      <div onClick="{{ stop }}" class="noscroll" style="width:600px;max-width:100%;background:#fff;border-radius:14px;box-shadow:0 30px 70px -20px rgba(0,0,0,.45);overflow:hidden;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid #EEF0F3;">
+          <div><div style="font-size:17px;font-weight:700;">{{ itemModalTitle }}</div><div style="font-size:12px;color:#9aa0a8;margin-top:1px;">{{ active.name }} · {{ draft.catName }}</div></div>
+          <button onClick="{{ onClose }}" style="background:none;border:none;cursor:pointer;font-size:22px;color:#9aa0a8;line-height:1;">×</button>
+        </div>
+        <div style="padding:22px 24px;display:flex;flex-direction:column;gap:15px;">
+          <!-- category + subcategory -->
+          <div style="display:flex;gap:13px;">
+            <label style="flex:1;">
+              <span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:5px;">Categoria</span>
+              <select value="{{ draft.catId }}" onChange="{{ set.catId }}" style="width:100%;font-family:'Archivo',sans-serif;font-size:14px;color:#23262B;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:10px 12px;cursor:pointer;">
+                <sc-for list="{{ catOptions }}" as="o" hint-placeholder-count="4"><option value="{{ o.id }}">{{ o.name }}</option></sc-for>
+              </select>
+            </label>
+            <sc-if value="{{ showSubSelect }}">
+              <label style="flex:1;">
+                <span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:5px;">Sottocategoria</span>
+                <select value="{{ draft.subId }}" onChange="{{ set.subId }}" style="width:100%;font-family:'Archivo',sans-serif;font-size:14px;color:#23262B;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:10px 12px;cursor:pointer;">
+                  <sc-for list="{{ subOptions }}" as="o" hint-placeholder-count="3"><option value="{{ o.id }}">{{ o.name }}</option></sc-for>
+                </select>
+              </label>
+            </sc-if>
+          </div>
+
+          <sc-if value="{{ isDrinks }}">
+            <div>
+              <span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:7px;">Tipo di bevanda</span>
+              <div style="display:flex;gap:6px;">
+                <sc-for list="{{ drinkKinds }}" as="k" hint-placeholder-count="2"><button onClick="{{ k.onClick }}" style="flex:1;cursor:pointer;border-radius:8px;padding:9px 6px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;border:1px solid {{ k.bd }};background:{{ k.bg }};color:{{ k.color }};">{{ k.label }}</button></sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ showWineDetails }}">
+            <div style="display:flex;gap:13px;">
+              <label style="width:100px;flex:none;"><span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:5px;">Annata</span><input value="{{ draft.vintage }}" onInput="{{ set.vintage }}" placeholder="2024" style="width:100%;font-family:'Archivo',sans-serif;font-size:14px;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:10px 12px;"/></label>
+              <label style="flex:1;"><span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:5px;">Nome</span><input value="{{ draft.name }}" onInput="{{ set.name }}" placeholder="es. Terra Rossa Salento" style="width:100%;font-family:'Archivo',sans-serif;font-size:14px;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:10px 12px;"/></label>
+            </div>
+            <label style="display:block;"><span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:5px;">Vitigno / Blend</span><input value="{{ draft.grape }}" onInput="{{ set.grape }}" placeholder="es. Negroamaro &amp; Malvasia Nera" style="width:100%;font-family:'Archivo',sans-serif;font-size:14px;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:10px 12px;"/></label>
+            <div style="display:flex;gap:13px;">
+              <label style="flex:1;"><span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:5px;">Produttore</span><input value="{{ draft.producer }}" onInput="{{ set.producer }}" placeholder="es. Cantine Bonsegna" style="width:100%;font-family:'Archivo',sans-serif;font-size:14px;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:10px 12px;"/></label>
+              <label style="flex:1;"><span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:5px;">Regione</span>
+                <select value="{{ draft.region }}" onChange="{{ set.region }}" style="width:100%;font-family:'Archivo',sans-serif;font-size:14px;color:#23262B;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:10px 12px;cursor:pointer;"><option value="">—</option><sc-for list="{{ regionOpts }}" as="r" hint-placeholder-count="6"><option value="{{ r.name }}">{{ r.name }}</option></sc-for></select>
+              </label>
+            </div>
+            <div style="display:flex;gap:13px;">
+              <label style="flex:1;"><span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:5px;">Denominazione</span>
+                <select value="{{ draft.denom }}" onChange="{{ set.denom }}" style="width:100%;font-family:'Archivo',sans-serif;font-size:14px;color:#23262B;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:10px 12px;cursor:pointer;"><option value="">—</option><option>DOCG</option><option>DOC</option><option>IGT</option><option>IGP</option><option>DOP</option></select>
+              </label>
+              <label style="width:130px;flex:none;"><span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:5px;">Grado %</span><input value="{{ draft.abv }}" onInput="{{ set.abv }}" placeholder="13" style="width:100%;font-family:'Archivo',sans-serif;font-size:14px;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:10px 12px;"/></label>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ showSimpleFields }}">
+            <label style="display:block;"><span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:5px;">Nome</span><input value="{{ draft.name }}" onInput="{{ set.name }}" placeholder="{{ namePlaceholder }}" style="width:100%;font-family:'Archivo',sans-serif;font-size:14px;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:10px 12px;"/></label>
+            <label style="display:block;"><span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:5px;">{{ descLabel }}</span><textarea value="{{ draft.desc }}" onInput="{{ set.desc }}" placeholder="{{ descPlaceholder }}" rows="2" style="width:100%;font-family:'Archivo',sans-serif;font-size:14px;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:10px 12px;resize:vertical;"></textarea></label>
+          </sc-if>
+
+          <sc-if value="{{ isFood }}">
+            <div>
+              <span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:7px;">Diciture dietetiche</span>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                <sc-for list="{{ dietChips }}" as="d" hint-placeholder-count="4"><button onClick="{{ d.onClick }}" style="cursor:pointer;font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:600;border-radius:20px;padding:6px 13px;border:1px solid {{ d.bd }};background:{{ d.bg }};color:{{ d.color }};">{{ d.label }}</button></sc-for>
+              </div>
+            </div>
+            <label style="display:block;"><span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:5px;">Allergeni</span><input value="{{ draft.allergens }}" onInput="{{ set.allergens }}" placeholder="es. glutine, latticini, frutta a guscio" style="width:100%;font-family:'Archivo',sans-serif;font-size:14px;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:10px 12px;"/></label>
+          </sc-if>
+
+          <div style="background:#F4F5F7;border:1px solid #E3E6EA;border-radius:10px;padding:15px 16px;">
+            <span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:9px;">Prezzo</span>
+            <sc-if value="{{ showWineDetails }}">
+              <div style="display:flex;gap:6px;margin-bottom:13px;">
+                <sc-for list="{{ priceModes }}" as="m" hint-placeholder-count="2"><button onClick="{{ m.onClick }}" style="flex:1;cursor:pointer;border-radius:7px;padding:8px 6px;font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:600;border:1px solid {{ m.bd }};background:{{ m.bg }};color:{{ m.color }};">{{ m.label }}</button></sc-for>
+              </div>
+            </sc-if>
+            <div style="display:flex;gap:13px;">
+              <sc-if value="{{ showSingle }}"><label style="flex:1;"><span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:5px;">Prezzo £</span><input value="{{ draft.single }}" onInput="{{ set.single }}" placeholder="12" style="width:100%;font-family:'Archivo',sans-serif;font-size:14px;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:10px 12px;"/></label></sc-if>
+              <sc-if value="{{ showGB }}"><label style="flex:1;"><span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:5px;">Calice £</span><input value="{{ draft.glass }}" onInput="{{ set.glass }}" placeholder="8" style="width:100%;font-family:'Archivo',sans-serif;font-size:14px;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:10px 12px;"/></label></sc-if>
+              <sc-if value="{{ showGB }}"><label style="flex:1;"><span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:5px;">Bottiglia £</span><input value="{{ draft.bottle }}" onInput="{{ set.bottle }}" placeholder="31.5" style="width:100%;font-family:'Archivo',sans-serif;font-size:14px;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:10px 12px;"/></label></sc-if>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+            <div style="display:flex;gap:18px;">
+              <sc-if value="{{ showWineDetails }}"><label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:13.5px;"><input type="checkbox" checked="{{ draft.organic }}" onChange="{{ set.organic }}" style="accent-color:#5C6B3A;width:15px;height:15px;cursor:pointer;"/><span style="color:#5C6B3A;">✻</span> Bio</label></sc-if>
+              <sc-if value="{{ showWineDetails }}"><label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:13.5px;"><input type="checkbox" checked="{{ draft.coravin }}" onChange="{{ set.coravin }}" style="accent-color:#9E2A18;width:15px;height:15px;cursor:pointer;"/> Coravin</label></sc-if>
+              <sc-if value="{{ showAF }}"><label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:13.5px;"><input type="checkbox" checked="{{ draft.af }}" onChange="{{ set.af }}" style="accent-color:#5C6B3A;width:15px;height:15px;cursor:pointer;"/> 0% / Analcolico</label></sc-if>
+            </div>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13.5px;"><input type="checkbox" checked="{{ draft.available }}" onChange="{{ set.available }}" style="accent-color:#5C6B3A;width:15px;height:15px;cursor:pointer;"/> Disponibile</label>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px;border-top:1px solid #EEF0F3;background:#FAFBFC;">
+          <sc-if value="{{ isEdit }}"><button onClick="{{ onDelete }}" style="background:none;border:none;cursor:pointer;font-family:'Archivo',sans-serif;font-size:13px;color:#9aa0a8;">Elimina</button></sc-if>
+          <sc-if value="{{ isAdd }}"><span></span></sc-if>
+          <div style="display:flex;gap:10px;">
+            <button onClick="{{ onClose }}" style="font-family:'Archivo',sans-serif;font-size:13.5px;font-weight:600;color:#23262B;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:9px 18px;cursor:pointer;">Annulla</button>
+            <button onClick="{{ onSaveItem }}" style="font-family:'Archivo',sans-serif;font-size:13.5px;font-weight:600;color:#fff;background:#3B4A6B;border:none;border-radius:8px;padding:9px 22px;cursor:pointer;">Salva voce</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===== CATEGORY MODAL ===== -->
+  <sc-if value="{{ catModalOpen }}">
+    <div onClick="{{ onClose }}" style="position:fixed;inset:0;background:rgba(28,30,34,.5);display:flex;align-items:flex-start;justify-content:center;padding:54px 20px;z-index:50;overflow:auto;">
+      <div onClick="{{ stop }}" class="noscroll" style="width:480px;max-width:100%;background:#fff;border-radius:14px;box-shadow:0 30px 70px -20px rgba(0,0,0,.45);overflow:hidden;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid #EEF0F3;">
+          <div style="font-size:17px;font-weight:700;">{{ catModalTitle }}</div>
+          <button onClick="{{ onClose }}" style="background:none;border:none;cursor:pointer;font-size:22px;color:#9aa0a8;line-height:1;">×</button>
+        </div>
+        <div style="padding:22px 24px;">
+          <label style="display:block;"><span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:5px;">Nome categoria</span><input value="{{ catDraft.name }}" onInput="{{ set.catDraftName }}" placeholder="{{ active.catPlaceholder }}" style="width:100%;font-family:'Archivo',sans-serif;font-size:15px;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:11px 13px;"/></label>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;margin:20px 0 8px;">
+            <span style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9aa0a8;">Sottocategorie</span>
+            <span style="font-size:11px;color:#b3b8bf;">opzionali · es. regione</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <sc-for list="{{ catDraft.subs }}" as="sub" hint-placeholder-count="2">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:6px;color:#C3CAD3;">●</span>
+                <input value="{{ sub.name }}" onInput="{{ sub.onName }}" placeholder="es. Puglia" style="flex:1;font-family:'Archivo',sans-serif;font-size:14px;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:9px 11px;"/>
+                <button onClick="{{ sub.onRemove }}" title="Rimuovi" class="cattool" style="background:none;border:1px solid #E3E6EA;border-radius:7px;cursor:pointer;color:#9aa0a8;width:34px;height:34px;flex:none;font-size:16px;line-height:1;transition:background .15s,color .15s;">×</button>
+              </div>
+            </sc-for>
+            <sc-if value="{{ noSubs }}"><div style="font-size:12.5px;color:#b3b8bf;padding:4px 0;">Nessuna sottocategoria — le voci resteranno in un unico elenco.</div></sc-if>
+          </div>
+          <button onClick="{{ onAddSub }}" style="margin-top:10px;background:#F4F5F7;border:1px dashed #C3CAD3;border-radius:8px;padding:9px;width:100%;cursor:pointer;font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:600;color:#3B4A6B;">+ Aggiungi sottocategoria</button>
+
+          <div style="font-size:12px;color:#9aa0a8;margin-top:14px;line-height:1.45;">Verrà salvata in <b style="color:#6b727b;">{{ active.name }}</b>. Le voci si raggruppano automaticamente per sottocategoria.</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:15px 24px;border-top:1px solid #EEF0F3;background:#FAFBFC;">
+          <sc-if value="{{ catIsEdit }}"><button onClick="{{ onDeleteCategory }}" style="background:none;border:none;cursor:pointer;font-family:'Archivo',sans-serif;font-size:13px;color:#9aa0a8;">Elimina categoria</button></sc-if>
+          <sc-if value="{{ catIsAdd }}"><span></span></sc-if>
+          <div style="display:flex;gap:10px;">
+            <button onClick="{{ onClose }}" style="font-family:'Archivo',sans-serif;font-size:13.5px;font-weight:600;color:#23262B;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:9px 18px;cursor:pointer;">Annulla</button>
+            <button onClick="{{ onSaveCategory }}" style="font-family:'Archivo',sans-serif;font-size:13.5px;font-weight:600;color:#fff;background:#3B4A6B;border:none;border-radius:8px;padding:9px 22px;cursor:pointer;">{{ catSaveLabel }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===== NEW MENU MODAL ===== -->
+  <sc-if value="{{ newMenuOpen }}">
+    <div onClick="{{ onClose }}" style="position:fixed;inset:0;background:rgba(28,30,34,.5);display:flex;align-items:flex-start;justify-content:center;padding:60px 20px;z-index:50;overflow:auto;">
+      <div onClick="{{ stop }}" style="width:480px;max-width:100%;background:#fff;border-radius:14px;box-shadow:0 30px 70px -20px rgba(0,0,0,.45);overflow:hidden;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid #EEF0F3;">
+          <div style="font-size:17px;font-weight:700;">Nuovo menù</div>
+          <button onClick="{{ onClose }}" style="background:none;border:none;cursor:pointer;font-size:22px;color:#9aa0a8;line-height:1;">×</button>
+        </div>
+        <div style="padding:22px 24px;display:flex;flex-direction:column;gap:16px;">
+          <label style="display:block;"><span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:5px;">Nome del menù</span><input value="{{ newMenuDraft.name }}" onInput="{{ set.newMenuName }}" placeholder="es. Menù pranzo, Carta dei dolci…" style="width:100%;font-family:'Archivo',sans-serif;font-size:15px;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:11px 13px;"/></label>
+          <div>
+            <span style="display:block;font-size:11px;font-weight:600;color:#6b727b;margin-bottom:7px;">Tipo di menù</span>
+            <div style="display:flex;gap:10px;">
+              <sc-for list="{{ typeChoices }}" as="t" hint-placeholder-count="2">
+                <button onClick="{{ t.onClick }}" style="flex:1;cursor:pointer;text-align:left;border-radius:10px;padding:13px 14px;border:1.5px solid {{ t.bd }};background:{{ t.bg }};">
+                  <div style="font-size:22px;">{{ t.icon }}</div>
+                  <div style="font-size:13.5px;font-weight:700;margin-top:6px;color:#23262B;">{{ t.label }}</div>
+                  <div style="font-size:11px;color:#9aa0a8;margin-top:2px;line-height:1.35;">{{ t.desc }}</div>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:15px 24px;border-top:1px solid #EEF0F3;background:#FAFBFC;">
+          <button onClick="{{ onClose }}" style="font-family:'Archivo',sans-serif;font-size:13.5px;font-weight:600;color:#23262B;background:#fff;border:1px solid #D5DAE1;border-radius:8px;padding:9px 18px;cursor:pointer;">Annulla</button>
+          <button onClick="{{ onCreateMenu }}" style="font-family:'Archivo',sans-serif;font-size:13.5px;font-weight:600;color:#fff;background:#3B4A6B;border:none;border-radius:8px;padding:9px 22px;cursor:pointer;">Crea menù</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:880}}">
+class Component extends DCLogic {
+  REGIONS = ['Piemonte','Veneto','Toscana','Campania','Puglia','Sicilia','Sardegna','Friuli','Lombardia','Abruzzo'];
+  TYPE_META = {
+    drinks: { label:'Vini & Drinks', typeLabel:'Drinks', icon:'🍷', addLabel:'Aggiungi bevanda', chipBg:'#F3E0DC', chipInk:'#9E2A18', tagBg:'#F3E0DC', tagInk:'#9E2A18', banner:'#9E2A18', bannerInk:'#EEC2A0', bigIcon:'V', catPlaceholder:'es. Vini rossi, Bollicine' },
+    food:   { label:'Food menu', typeLabel:'Food', icon:'🍝', addLabel:'Aggiungi piatto', chipBg:'#E7EAF1', chipInk:'#3B4A6B', tagBg:'#E7EAF1', tagInk:'#3B4A6B', banner:'#EEC2A0', bannerInk:'#9E2A18', bigIcon:'F', catPlaceholder:'es. Antipasti, Primi' },
+  };
+  THEMES = [
+    { id:'salento', name:'Salento', kicker:'Rosso editoriale', sample:'i vini', ink:'#9E2A18', word:'#A8432F', paper:'#F0E4D0', swatches:[{name:'Rosso',hex:'#9E2A18'},{name:'Terra',hex:'#A8432F'},{name:'Pesca',hex:'#EEC2A0'},{name:'Crema',hex:'#F0E4D0'}] },
+    { id:'notte', name:'Notte', kicker:'Scuro elegante', sample:'la carta', ink:'#1C1714', word:'#C8A24B', paper:'#262019', swatches:[{name:'Notte',hex:'#1C1714'},{name:'Oro',hex:'#C8A24B'},{name:'Bruno',hex:'#3A3026'},{name:'Sabbia',hex:'#E8DFCB'}] },
+    { id:'lino', name:'Lino', kicker:'Crema & oliva', sample:'i piatti', ink:'#5C6B3A', word:'#8A7A4F', paper:'#F2EDE0', swatches:[{name:'Oliva',hex:'#5C6B3A'},{name:'Ocra',hex:'#8A7A4F'},{name:'Lino',hex:'#F2EDE0'},{name:'Salvia',hex:'#DCD6BE'}] },
+    { id:'mare', name:'Mare', kicker:'Blu adriatico', sample:'la cantina', ink:'#1F4E6B', word:'#3C7CA0', paper:'#E6EEF2', swatches:[{name:'Mare',hex:'#1F4E6B'},{name:'Onda',hex:'#3C7CA0'},{name:'Cielo',hex:'#E6EEF2'},{name:'Sale',hex:'#C7DAE3'}] },
+  ];
+  FONTS = [
+    { id:'salento', name:'Salento', note:'DM Serif Display + Archivo', display:"'DM Serif Display', serif", text:"'Archivo', sans-serif" },
+    { id:'garamond', name:'Garamond', note:'Cormorant + Work Sans', display:"'Cormorant Garamond', serif", text:"'Work Sans', sans-serif" },
+    { id:'caslon', name:'Caslon', note:'Libre Caslon + Archivo', display:"'Libre Caslon Display', serif", text:"'Archivo', sans-serif" },
+  ];
+
+  uid(){ return Math.random().toString(36).slice(2,8); }
+
+  state = {
+    view:'menu', activeMenuId:null, q:'', themeId:'salento', fontId:'salento',
+    item:null, cat:null, newMenu:null,
+    menus: [
+      { id:'drinks', type:'drinks', name:'Vini & Drinks', page:{ kicker:'la cantina · i vini', title:'Vini & Drinks', intro:'Una selezione che racconta la Puglia e l’Italia del vino — al calice o in bottiglia, con qualche etichetta da non perdere.', blocks:[ {id:this.uid(), type:'text', heading:'Servizio al calice', body:'Oltre 20 etichette disponibili al calice con sistema Coravin — per assaggiare anche i grandi rossi.'} ] }, cats:[
+        { id:'c-rossi', name:'Vini rossi', subs:[{id:'sr-pug',name:'Puglia'},{id:'sr-tos',name:'Toscana'}], items:[
+          { id:this.uid(), subId:'sr-pug', wine:true, vintage:'2024', name:'Terra Rossa Salento', grape:'Negroamaro & Malvasia Nera', producer:'Cantine Bonsegna', region:'Puglia', denom:'IGT', abv:'13', priceMode:'gb', glass:'8', bottle:'31.5', single:'', organic:true, coravin:false, af:false, available:true },
+          { id:this.uid(), subId:'sr-pug', wine:true, vintage:'2022', name:'Jema Primitivo', grape:'100% Primitivo', producer:'Masseria L’Astore', region:'Puglia', denom:'IGP', abv:'14', priceMode:'single', single:'62', glass:'', bottle:'', organic:false, coravin:false, af:false, available:true },
+          { id:this.uid(), subId:'sr-pug', wine:true, vintage:'2018', name:'Il Falcone', grape:'100% Aglianico', producer:'Rivera', region:'Puglia', denom:'DOCG', abv:'13.5', priceMode:'single', single:'46', glass:'', bottle:'', organic:false, coravin:false, af:false, available:true },
+          { id:this.uid(), subId:'sr-tos', wine:true, vintage:'2009', name:'Sassicaia', grape:'Cab Sauv & Cab Franc', producer:'Tenuta San Guido', region:'Toscana', denom:'DOC', abv:'14', priceMode:'gb', glass:'60', bottle:'850', single:'', organic:false, coravin:true, af:false, available:true },
+          { id:this.uid(), subId:'sr-tos', wine:true, vintage:'2021', name:'Tignanello', grape:'Sangiovese, Cab Franc', producer:'Antinori', region:'Toscana', denom:'IGT', abv:'15', priceMode:'single', single:'275', glass:'', bottle:'', organic:false, coravin:false, af:false, available:false },
+        ]},
+        { id:'c-bianchi', name:'Vini bianchi', subs:[{id:'sb-pug',name:'Puglia'},{id:'sb-cam',name:'Campania'}], items:[
+          { id:this.uid(), subId:'sb-pug', wine:true, vintage:'2024', name:'Calaprice Verdeca', grape:'100% Verdeca', producer:'Cantine San Marzano', region:'Puglia', denom:'IGP', abv:'12.5', priceMode:'gb', glass:'7', bottle:'28', single:'', organic:true, coravin:false, af:false, available:true },
+          { id:this.uid(), subId:'sb-cam', wine:true, vintage:'2023', name:'Fiano di Avellino', grape:'100% Fiano', producer:'Feudi di San Gregorio', region:'Campania', denom:'DOCG', abv:'13', priceMode:'single', single:'42', glass:'', bottle:'', organic:false, coravin:false, af:false, available:true },
+        ]},
+        { id:'c-bol', name:'Bollicine', subs:[], items:[
+          { id:this.uid(), subId:'', wine:true, vintage:'2024', name:'Prosecco Superiore', grape:'100% Glera', producer:'Canevel', region:'Veneto', denom:'DOCG', abv:'11', priceMode:'gb', glass:'10', bottle:'52', single:'', organic:false, coravin:false, af:false, available:true },
+          { id:this.uid(), subId:'', wine:true, vintage:'2015', name:'Brut Nature Rosé', grape:'100% Nero di Troia', producer:'Alberto Longo', region:'Puglia', denom:'IGP', abv:'11.5', priceMode:'single', single:'64', glass:'', bottle:'', organic:true, coravin:false, af:false, available:true },
+        ]},
+        { id:'c-coc', name:'Cocktails', subs:[], items:[
+          { id:this.uid(), subId:'', wine:false, name:'Spritz Salentino', desc:'Aperol, Prosecco, soda, arancia', single:'12', af:false, available:true },
+          { id:this.uid(), subId:'', wine:false, name:'Negroni', desc:'Gin, Campari, Vermouth a scelta', single:'13.5', af:false, available:true },
+        ]},
+        { id:'c-anal', name:'Analcolici', subs:[], items:[
+          { id:this.uid(), subId:'', wine:false, name:'Crodino Spritz', desc:'Crodino, soda, arancia', single:'8', af:true, available:true },
+        ]},
+      ]},
+      { id:'food', type:'food', name:'Food menu', page:{ kicker:'la cucina', title:'Food menu', intro:'Materia prima pugliese, stagionale e di territorio. Pasta fresca fatta in casa ogni mattina.', blocks:[ {id:this.uid(), type:'text', heading:'Allergeni & intolleranze', body:'Comunica al personale eventuali allergie: adattiamo i piatti quando possibile.'} ] }, cats:[
+        { id:'f-ant', name:'Antipasti', subs:[], items:[
+          { id:this.uid(), subId:'', name:'Burrata pugliese', desc:'Burrata di Andria, pomodorini confit, basilico, olio EVO', single:'11', diet:['veg'], allergens:'latticini', af:false, available:true },
+          { id:this.uid(), subId:'', name:'Polpo alla griglia', desc:'Polpo, crema di ceci, polvere di olive, prezzemolo', single:'14', diet:['gf'], allergens:'molluschi', af:false, available:true },
+        ]},
+        { id:'f-pri', name:'Primi', subs:[], items:[
+          { id:this.uid(), subId:'', name:'Orecchiette cime di rapa', desc:'Pasta fresca, cime di rapa, acciuga, mollica croccante', single:'15', diet:[], allergens:'glutine, pesce', af:false, available:true },
+          { id:this.uid(), subId:'', name:'Spaghetto all’assassina', desc:'Spaghetto risottato in salsa di pomodoro piccante', single:'14', diet:['vegan','spicy'], allergens:'glutine', af:false, available:true },
+        ]},
+        { id:'f-sec', name:'Secondi', subs:[], items:[
+          { id:this.uid(), subId:'', name:'Bombette pugliesi', desc:'Involtini di capocollo e caciocavallo, alla brace', single:'18', diet:[], allergens:'latticini', af:false, available:true },
+        ]},
+        { id:'f-dol', name:'Dolci', subs:[], items:[
+          { id:this.uid(), subId:'', name:'Pasticciotto leccese', desc:'Frolla, crema pasticcera, amarena', single:'7', diet:['veg'], allergens:'glutine, latticini, uova', af:false, available:true },
+        ]},
+      ]},
+    ],
+  };
+
+  getMenu(id){ return this.state.menus.find(m=>m.id===id); }
+  active(){ return this.getMenu(this.state.activeMenuId); }
+
+  priceText(it){
+    const f=v=>'£'+v;
+    if(it.wine && it.priceMode==='gb') return (it.glass?f(it.glass):'—')+' · '+(it.bottle?f(it.bottle):'—');
+    return it.single?f(it.single):'—';
+  }
+  blankItem(type, catId, subId){
+    if(type==='drinks') return {id:null,catId,subId:subId||'',wine:false,vintage:'',name:'',grape:'',producer:'',region:'Puglia',denom:'',abv:'',priceMode:'single',single:'',glass:'',bottle:'',desc:'',organic:false,coravin:false,af:false,available:true};
+    return {id:null,catId,subId:subId||'',name:'',desc:'',single:'',diet:[],allergens:'',af:false,available:true};
+  }
+  openAdd(catId, subId){ const am=this.active(); this.setState({item:{mode:'add', id:null, draft:this.blankItem(am.type, catId, subId)}}); }
+  updItem(k,v){ this.setState(s=>({item:{...s.item, draft:{...s.item.draft,[k]:v}}})); }
+  togItem(k){ this.setState(s=>({item:{...s.item, draft:{...s.item.draft,[k]:!s.item.draft[k]}}})); }
+  togDiet(tag){ this.setState(s=>{ const d=s.item.draft.diet||[]; const nd=d.includes(tag)?d.filter(x=>x!==tag):[...d,tag]; return {item:{...s.item, draft:{...s.item.draft,diet:nd}}}; }); }
+  setCatId(v){ this.setState(s=>({item:{...s.item, draft:{...s.item.draft, catId:v, subId:''}}})); }
+
+  saveItem(){
+    this.setState(s=>{
+      const d={...s.item.draft}; const targetCat=d.catId;
+      const menus=s.menus.map(m=>{
+        if(m.id!==s.activeMenuId) return m;
+        let cats=m.cats.map(c=>({...c, items:c.items.filter(i=>i.id!==s.item.id)}));
+        const item={...d, id:s.item.id||this.uid()};
+        cats=cats.map(c=> c.id===targetCat ? {...c, items:[...c.items, item]} : c);
+        return {...m, cats};
+      });
+      return {menus, item:null};
+    });
+  }
+  removeItem(){ this.setState(s=>({menus:s.menus.map(m=> m.id!==s.activeMenuId?m:{...m,cats:m.cats.map(c=>({...c,items:c.items.filter(i=>i.id!==s.item.id)}))}), item:null})); }
+  toggleAvail(catId,id,e){ e.stopPropagation(); this.setState(s=>({menus:s.menus.map(m=> m.id!==s.activeMenuId?m:{...m,cats:m.cats.map(c=> c.id!==catId?c:{...c,items:c.items.map(i=> i.id===id?{...i,available:!i.available}:i)})})})); }
+
+  // ----- categories + subcategories -----
+  openCatAdd(){ this.setState({cat:{mode:'add', id:null, name:'', subs:[]}}); }
+  openCatEdit(c){ this.setState({cat:{mode:'edit', id:c.id, name:c.name, subs:(c.subs||[]).map(s=>({...s}))}}); }
+  setCatName(v){ this.setState(s=>({cat:{...s.cat, name:v}})); }
+  addSub(){ this.setState(s=>({cat:{...s.cat, subs:[...(s.cat.subs||[]), {id:this.uid(), name:''}]}})); }
+  setSubName(idx,v){ this.setState(s=>({cat:{...s.cat, subs:s.cat.subs.map((x,i)=> i===idx?{...x,name:v}:x)}})); }
+  removeSub(idx){ this.setState(s=>({cat:{...s.cat, subs:s.cat.subs.filter((x,i)=>i!==idx)}})); }
+  saveCategory(){
+    this.setState(s=>{
+      const c=s.cat; const name=(c.name||'').trim(); if(!name) return {cat:null};
+      const subs=(c.subs||[]).filter(x=>(x.name||'').trim()).map(x=>({id:x.id||this.uid(), name:x.name.trim()}));
+      const menus=s.menus.map(m=>{
+        if(m.id!==s.activeMenuId) return m;
+        if(c.mode==='edit') return {...m, cats:m.cats.map(cat=> cat.id===c.id ? {...cat, name, subs} : cat)};
+        return {...m, cats:[...m.cats, {id:this.uid(), name, subs, items:[]}]};
+      });
+      return {menus, cat:null};
+    });
+  }
+  deleteCategory(){ this.setState(s=>({menus:s.menus.map(m=> m.id!==s.activeMenuId?m:{...m, cats:m.cats.filter(c=>c.id!==s.cat.id)}), cat:null})); }
+
+  createMenu(){ this.setState(s=>{ const d=s.newMenu; const name=(d.name||'').trim()||this.TYPE_META[d.type].label; const id=this.uid(); return {menus:[...s.menus, {id, type:d.type, name, page:{kicker:'', title:name, intro:'', blocks:[]}, cats:[]}], newMenu:null, view:'menu', activeMenuId:id}; }); }
+
+  // ----- page editor -----
+  updPage(k,v){ this.setState(s=>({menus:s.menus.map(m=> m.id!==s.activeMenuId?m:{...m, page:{...m.page, [k]:v}})})); }
+  addBlock(type){ const b = type==='image' ? {id:this.uid(), type:'image', slotId:'blk-'+this.uid(), caption:''} : {id:this.uid(), type:'text', heading:'', body:''}; this.setState(s=>({menus:s.menus.map(m=> m.id!==s.activeMenuId?m:{...m, page:{...m.page, blocks:[...(m.page.blocks||[]), b]}})})); }
+  updBlock(id,k,v){ this.setState(s=>({menus:s.menus.map(m=> m.id!==s.activeMenuId?m:{...m, page:{...m.page, blocks:m.page.blocks.map(b=> b.id===id?{...b,[k]:v}:b)}})})); }
+  removeBlock(id){ this.setState(s=>({menus:s.menus.map(m=> m.id!==s.activeMenuId?m:{...m, page:{...m.page, blocks:m.page.blocks.filter(b=>b.id!==id)}})})); }
+  moveBlock(id,dir){ this.setState(s=>({menus:s.menus.map(m=>{ if(m.id!==s.activeMenuId) return m; const arr=[...m.page.blocks]; const i=arr.findIndex(b=>b.id===id); const j=i+dir; if(i<0||j<0||j>=arr.length) return m; const t=arr[i]; arr[i]=arr[j]; arr[j]=t; return {...m, page:{...m.page, blocks:arr}}; })})); }
+
+  renderVals(){
+    const st=this.state, am=this.active();
+
+    const menus=st.menus.map(m=>{
+      const t=this.TYPE_META[m.type]; const n=m.cats.reduce((a,c)=>a+c.items.length,0); const on=m.id===st.activeMenuId && (st.view==='menu'||st.view==='page');
+      return { name:m.name, icon:t.icon, meta:n+' voci · '+m.cats.length+' cat.', chipBg:t.chipBg, chipInk:t.chipInk,
+        bg:on?'#F1F2F5':'transparent', color:on?'#23262B':'#3a3f47', weight:on?'700':'500', onClick:()=>this.setState({view:'menu', activeMenuId:m.id, q:''}) };
+    });
+    const navDefs=[
+      {label:'Panoramica', icon:'◵', active: st.view==='menu' && !am, onClick:()=>this.setState({view:'menu', activeMenuId:null}) },
+      {label:'Template & Tema', icon:'❖', active: st.view==='template', onClick:()=>this.setState({view:'template'}) },
+      {label:'Impostazioni locale', icon:'⚙', active:false, onClick:()=>{} },
+    ];
+    const nav=navDefs.map(n=>({ label:n.label, icon:n.icon, onClick:n.onClick, bg:n.active?'#F1F2F5':'transparent', color:n.active?'#23262B':'#5b626b', weight:n.active?'600':'500' }));
+    const menuCards=st.menus.map(m=>{
+      const t=this.TYPE_META[m.type]; const n=m.cats.reduce((a,c)=>a+c.items.length,0);
+      return { name:m.name, typeLabel:t.typeLabel, meta:n+' voci in '+m.cats.length+' categorie', banner:t.banner, bannerInk:t.bannerInk, bigIcon:t.bigIcon, tagBg:t.tagBg, tagInk:t.tagInk, onClick:()=>this.setState({view:'menu', activeMenuId:m.id, q:''}) };
+    });
+
+    // themes
+    const themes=this.THEMES.map(t=>({ name:t.name, kicker:t.kicker, sample:t.sample, ink:t.ink, word:t.word, paper:t.paper, active:t.id===st.themeId, ring:t.id===st.themeId?'#3B4A6B':'#E3E6EA', onClick:()=>this.setState({themeId:t.id}) }));
+    const activeTheme=this.THEMES.find(t=>t.id===st.themeId)||this.THEMES[0];
+    const fonts=this.FONTS.map(f=>({ name:f.name, note:f.note, display:f.display, text:f.text, active:f.id===st.fontId, ring:f.id===st.fontId?'#3B4A6B':'#E3E6EA', onClick:()=>this.setState({fontId:f.id}) }));
+    const activeFont=this.FONTS.find(f=>f.id===st.fontId)||this.FONTS[0];
+    const preview={ paper:activeTheme.paper, ink:activeTheme.ink, word:activeTheme.word, display:activeFont.display, text:activeFont.text, sample:activeTheme.sample };
+    const formats=[
+      {tag:'Guest · QR', title:'Mobile menu', desc:'Pannelli a colori, filtro categorie, ricerca live.', icon:'📱', accent:'#9E2A18', href:'Terra Rossa - Mobile Menu.dc.html', cta:'#3B4A6B', ctaLabel:'Apri anteprima ↗'},
+      {tag:'Print', title:'Carta A3', desc:'Una pagina a colori per categoria, pronta per la stampa.', icon:'📄', accent:'#EEC2A0', href:'Terra Rossa - Carta A3.dc.html', cta:'#3B4A6B', ctaLabel:'Apri anteprima ↗'},
+      {tag:'Print', title:'Carta A4', desc:'Formato compatto da tavolo — stesso sistema grafico.', icon:'🗒', accent:'#C8A24B', href:'Terra Rossa - Carta A3.dc.html', cta:'#9aa0a8', ctaLabel:'In arrivo'},
+    ];
+
+    const nm=st.newMenu;
+    const typeChoices=['food','drinks'].map(tp=>{
+      const t=this.TYPE_META[tp]; const on=nm&&nm.type===tp;
+      return { icon:t.icon, label:t.label, desc: tp==='drinks'?'Vini, cocktail, analcolici':'Piatti, descrizione, allergeni', onClick:()=>this.setState(s=>({newMenu:{...s.newMenu,type:tp}})), bd:on?'#3B4A6B':'#E3E6EA', bg:on?'#F2F5FB':'#fff' };
+    });
+
+    const base = {
+      menus, nav, menuCards, themes, activeTheme, formats,
+      onNewMenu:()=>this.setState({newMenu:{name:'', type:'food'}}),
+      onClose:()=>this.setState({item:null, cat:null, newMenu:null}), stop:e=>e.stopPropagation(),
+      showLanding: (st.view==='menu'||st.view==='page') && !am, showWorkspace: st.view==='menu' && !!am, showTemplate: st.view==='template', showPage: st.view==='page' && !!am,
+      fonts, activeFont, preview,
+      onEditPage:()=>this.setState({view:'page'}), onBackToVoci:()=>this.setState({view:'menu'}), onGoTemplate:()=>this.setState({view:'template'}),
+      onAddText:()=>this.addBlock('text'), onAddImage:()=>this.addBlock('image'),
+      page:{coverId:'',kicker:'',title:'',intro:'',paper:activeTheme.paper,ink:activeTheme.ink,word:activeTheme.word,display:activeFont.display,text:activeFont.text}, pageBlocks:[],
+      regionOpts:this.REGIONS.map(name=>({name})),
+      newMenuOpen:!!nm, newMenuDraft:nm||{name:'',type:'food'}, typeChoices, onCreateMenu:()=>this.createMenu(),
+      // safe modal defaults
+      catModalOpen:false, catModalTitle:'', catDraft:{name:'',subs:[]}, noSubs:true, catIsEdit:false, catIsAdd:true, catSaveLabel:'Crea categoria',
+      onAddSub:()=>this.addSub(), onSaveCategory:()=>this.saveCategory(), onDeleteCategory:()=>this.deleteCategory(),
+      itemModalOpen:false, q:st.q,
+    };
+
+    if(!am){
+      return { ...base,
+        set:{ newMenuName:e=>this.setState(s=>({newMenu:{...s.newMenu,name:e.target.value}})) },
+        active:{name:'',icon:'',chipBg:'#eee',chipInk:'#999',tagBg:'#eee',tagInk:'#999',typeLabel:'',catCount:0,itemCount:0,addLabel:'',catPlaceholder:''},
+        cats:[], stats:[] };
+    }
+
+    const t=this.TYPE_META[am.type];
+    const drinks=am.type==='drinks';
+    const itemCount=am.cats.reduce((a,c)=>a+c.items.length,0);
+    const active={ name:am.name, icon:t.icon, chipBg:t.chipBg, chipInk:t.chipInk, tagBg:t.tagBg, tagInk:t.tagInk, typeLabel:t.typeLabel, addLabel:t.addLabel, catPlaceholder:t.catPlaceholder, catCount:am.cats.length, itemCount };
+
+    const q=st.q.trim().toLowerCase();
+    const match=it=> !q || ((it.name+' '+(it.grape||'')+' '+(it.producer||'')+' '+(it.desc||'')).toLowerCase().includes(q));
+    const dietLabel={veg:'Veg',vegan:'Vegan',gf:'GF',spicy:'Piccante'};
+
+    const buildRow=(it,c)=>{
+      const isWineItem = drinks && it.wine;
+      const badges=[];
+      if(!drinks){ (it.diet||[]).forEach(tag=>badges.push({label:dietLabel[tag]||tag, ink:'#5C6B3A', bd:'#b7be9c'})); }
+      if(it.af) badges.push({label:'0%', ink:'#5C6B3A', bd:'#b7be9c'});
+      if(isWineItem && it.coravin) badges.push({label:'Coravin', ink:'#9E2A18', bd:'#d6a89e'});
+      const sub = isWineItem
+        ? [it.grape, it.producer, [it.region,(it.denom?it.denom+' '+(it.abv?it.abv+'%':''):'')].filter(Boolean).join(' · ')].filter(Boolean).join(' · ')
+        : (it.desc || (it.allergens?('Allergeni: '+it.allergens):''));
+      return { subId:it.subId||'', name:it.name, sub, showVintage:isWineItem, vintage:it.vintage||'—', organic:!!it.organic, badges,
+        priceText:this.priceText(it), dot: it.available?'#5C6B3A':'#d99', statusText: it.available?'Attivo':'Off',
+        onEdit:()=>this.setState({item:{mode:'edit', id:it.id, draft:{...it, catId:c.id, subId:it.subId||''}}}), onToggle:(e)=>this.toggleAvail(c.id,it.id,e) };
+    };
+
+    const cats=am.cats.map(c=>{
+      const subList=c.subs||[];
+      const rows=c.items.filter(match).map(it=>buildRow(it,c));
+      const groups=[];
+      const ungrouped=rows.filter(r=> !r.subId || !subList.some(s=>s.id===r.subId));
+      if(ungrouped.length) groups.push({hasHeader:false, name:'', count:ungrouped.length, items:ungrouped, empty:false, onAddItem:()=>this.openAdd(c.id,'')});
+      subList.forEach(s=>{
+        const its=rows.filter(r=>r.subId===s.id);
+        if(its.length || !q) groups.push({hasHeader:true, name:s.name, count:its.length, items:its, empty:its.length===0, onAddItem:()=>this.openAdd(c.id,s.id)});
+      });
+      return { name:c.name, count:c.items.length, hasSubs:subList.length>0, subLabel:subList.length+(subList.length===1?' sottocategoria':' sottocategorie'),
+        groups, empty:c.items.length===0,
+        onAddItem:()=>this.openAdd(c.id,''), onManage:()=>this.openCatEdit(c) };
+    });
+    const visibleItems=cats.reduce((a,c)=>a+c.groups.reduce((b,g)=>b+g.items.length,0),0);
+
+    const allItems=am.cats.flatMap(c=>c.items);
+    const stats = drinks
+      ? [{value:String(itemCount),label:'Voci'},{value:String(am.cats.length),label:'Categorie'},{value:String(allItems.filter(i=>i.wine).length),label:'Vini'}]
+      : [{value:String(itemCount),label:'Piatti'},{value:String(am.cats.length),label:'Categorie'},{value:String(allItems.filter(i=>(i.diet||[]).includes('vegan')).length),label:'Vegan'}];
+
+    const im=st.item, d=im?im.draft:this.blankItem(am.type, am.cats[0]&&am.cats[0].id);
+    const selCat=am.cats.find(c=>c.id===d.catId);
+    const catName=(selCat||{}).name||'';
+    const selSubs=(selCat&&selCat.subs)||[];
+    const isWineItem = drinks && !!d.wine;
+
+    const set={};
+    ['vintage','name','grape','producer','region','denom','abv','single','glass','bottle','desc','allergens','subId'].forEach(k=>{ set[k]=e=>this.updItem(k,e.target.value); });
+    ['organic','coravin','af','available'].forEach(k=>{ set[k]=()=>this.togItem(k); });
+    set.catId=e=>this.setCatId(e.target.value);
+    set.catDraftName=e=>this.setCatName(e.target.value);
+    set.newMenuName=e=>this.setState(s=>({newMenu:{...s.newMenu, name:e.target.value}}));
+    set.pageKicker=e=>this.updPage('kicker',e.target.value);
+    set.pageTitle=e=>this.updPage('title',e.target.value);
+    set.pageIntro=e=>this.updPage('intro',e.target.value);
+
+    const drinkKinds=[{k:true,label:'🍷 Vino'},{k:false,label:'🍸 Cocktail / Altro'}].map(o=>{
+      const on=!!d.wine===o.k; return {label:o.label, onClick:()=>this.updItem('wine',o.k), bg:on?'#3B4A6B':'#fff', color:on?'#fff':'#5b626b', bd:on?'#3B4A6B':'#D5DAE1'};
+    });
+    const priceModes=[{key:'single',label:'Prezzo unico'},{key:'gb',label:'Calice + Bottiglia'}].map(pm=>{
+      const on=d.priceMode===pm.key; return {label:pm.label, onClick:()=>this.updItem('priceMode',pm.key), bg:on?'#3B4A6B':'#fff', color:on?'#fff':'#5b626b', bd:on?'#3B4A6B':'#D5DAE1'};
+    });
+    const dietChips=[['veg','Veg'],['vegan','Vegan'],['gf','Senza glutine'],['spicy','Piccante']].map(([k,lab])=>{
+      const on=(d.diet||[]).includes(k); return {label:lab, onClick:()=>this.togDiet(k), bg:on?'#EBF0E6':'#fff', color:on?'#3f5024':'#5b626b', bd:on?'#9DB07E':'#D5DAE1'};
+    });
+
+    const showSimple = !drinks || !d.wine;
+
+    // page editor
+    const pg=am.page||{kicker:'',title:am.name,intro:'',blocks:[]};
+    const pageBlocks=(pg.blocks||[]).map((b,idx,arr)=>({
+      id:b.id, isText:b.type==='text', isImage:b.type==='image',
+      heading:b.heading||'', body:b.body||'', caption:b.caption||'', slotId:b.slotId||('blk-'+b.id),
+      onHeading:e=>this.updBlock(b.id,'heading',e.target.value),
+      onBody:e=>this.updBlock(b.id,'body',e.target.value),
+      onCaption:e=>this.updBlock(b.id,'caption',e.target.value),
+      onUp:()=>this.moveBlock(b.id,-1), onDown:()=>this.moveBlock(b.id,1), onRemove:()=>this.removeBlock(b.id),
+      canUp:idx>0, canDown:idx<arr.length-1,
+    }));
+    const pageData={ coverId:'cover-'+am.id, kicker:pg.kicker||'', title:pg.title||'', intro:pg.intro||'', paper:preview.paper, ink:preview.ink, word:preview.word, display:preview.display, text:preview.text };
+
+    // category modal
+    const cm=st.cat;
+    const catDraftSubs=(cm?cm.subs:[]).map((s,idx)=>({ name:s.name, onName:e=>this.setSubName(idx,e.target.value), onRemove:()=>this.removeSub(idx) }));
+
+    return {
+      ...base, active,
+      q:st.q, onSearch:e=>this.setState({q:e.target.value}),
+      cats, stats, noResults: q && visibleItems===0,
+      onAddCategory:()=>this.openCatAdd(),
+      onAddItem:()=>this.openAdd(am.cats[0]&&am.cats[0].id, ''),
+
+      itemModalOpen:!!im,
+      itemModalTitle: im&&im.mode==='edit' ? 'Modifica voce' : (drinks?'Nuova bevanda':'Nuovo piatto'),
+      isEdit:!!(im&&im.mode==='edit'), isAdd:!!(im&&im.mode==='add'),
+      isFood:!drinks, isDrinks:drinks,
+      showWineDetails:isWineItem, showSimpleFields:showSimple, showAF:drinks,
+      showSubSelect: selSubs.length>0,
+      subOptions: [{id:'', name:'— nessuna —'}, ...selSubs.map(s=>({id:s.id, name:s.name}))],
+      namePlaceholder: drinks?'es. Spritz Salentino':'es. Orecchiette alle cime di rapa',
+      descLabel: drinks?'Ingredienti':'Descrizione',
+      descPlaceholder: drinks?'es. Aperol, Prosecco, soda, arancia':'Breve descrizione del piatto…',
+      draft:{...d, catName}, set, catOptions:am.cats.map(c=>({id:c.id, name:c.name})),
+      drinkKinds, priceModes, dietChips,
+      showSingle: showSimple || (isWineItem && d.priceMode==='single'),
+      showGB: isWineItem && d.priceMode==='gb',
+      onSaveItem:()=>this.saveItem(), onDelete:()=>this.removeItem(),
+
+      catModalOpen:!!cm,
+      catModalTitle: cm&&cm.mode==='edit' ? 'Modifica categoria' : 'Nuova categoria',
+      catSaveLabel: cm&&cm.mode==='edit' ? 'Salva' : 'Crea categoria',
+      catIsEdit: !!(cm&&cm.mode==='edit'), catIsAdd: !!(cm&&cm.mode==='add'),
+      catDraft:{ name:cm?cm.name:'', subs:catDraftSubs }, noSubs: catDraftSubs.length===0,
+      showPage: st.view==='page', page:pageData, pageBlocks,
+      onEditPage:()=>this.setState({view:'page'}), onBackToVoci:()=>this.setState({view:'menu'}), onGoTemplate:()=>this.setState({view:'template'}),
+      onAddText:()=>this.addBlock('text'), onAddImage:()=>this.addBlock('image'),
+    };
+  }
+}
+</script>
+</body>
+</html>
