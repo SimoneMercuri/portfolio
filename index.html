@@ -14,6 +14,7 @@
 <meta property="og:url" content="https://simonemercuri.github.io/portfolio/">
 <meta property="og:locale" content="it_IT">
 <meta name="twitter:card" content="summary">
+<script>try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion')}catch(e){}</script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -38,6 +39,177 @@ h1,h2,h3,h4,p{text-wrap:pretty}
 input,textarea{caret-color:#0A0A0A}
 html{scrollbar-color:#0A0A0A #F2F2F2}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* ---------- Motion system ---------- */
+.sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+/* the runtime sizes its host to the viewport: let it grow so the sticky header stays put */
+html,body{height:auto!important}
+#dc-root,#dc-root>.sc-host{height:auto!important}
+[role="group"] a[hreflang],[role="group"] a[aria-current]{min-height:44px!important;min-width:44px;justify-content:center}
+@media (hover:none){.kbd-hint{display:none!important}}
+@media (max-width:820px){
+  header>div{flex-wrap:nowrap!important;min-height:56px!important;gap:12px!important}
+  header>div>a{flex:none;font-size:15px!important}
+  header nav{position:relative;min-width:0;flex:1 1 auto;flex-wrap:nowrap!important;overflow-x:auto;scrollbar-width:none;justify-content:flex-start}
+  header>div{padding:0 16px!important}
+  header nav>a{padding:0 7px!important}
+  [role="group"] a[hreflang],[role="group"] a[aria-current]{padding:0 8px!important}
+  header nav::-webkit-scrollbar{display:none}
+  header nav a{white-space:nowrap;flex:none}
+  header nav [role="group"]{flex:none;margin-left:4px!important}
+  header nav>a:nth-child(2),header nav>a:nth-child(3),header nav>a:nth-child(4),header nav>a:nth-child(5){display:none!important}
+  .amf-phone-block{display:none!important}
+  #hero-title{margin-top:40px!important}
+}
+@media (max-width:370px){
+  header nav>a:nth-child(6){display:none!important}
+}
+:root{--ease:cubic-bezier(.16,1,.3,1);--ease-io:cubic-bezier(.65,0,.35,1)}
+.progress{position:absolute;left:0;right:0;bottom:-2px;height:4px;background:#0A0A0A;transform-origin:0 50%;transform:scaleX(var(--p,0));pointer-events:none}
+/* hero title: words rise from a mask */
+.h1w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}
+.h1w>span{display:inline-block}
+html.motion .h1w>span{transform:translateY(105%);animation:wordUp 1.1s var(--ease) forwards;animation-delay:calc(var(--i,0) * 70ms + 150ms)}
+@keyframes wordUp{to{transform:none}}
+html.motion .hero-fade{opacity:0;animation:fadeUp .9s var(--ease) forwards;animation-delay:calc(var(--i,0) * 90ms + 650ms)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+/* scroll reveals */
+html.motion .rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform 1s var(--ease);transition-delay:var(--d,0ms)}
+html.motion .rv.in{opacity:1;transform:none}
+html.motion .rv-line{position:relative}
+html.motion .rv-clip>img{clip-path:inset(0 0 100% 0);transition:clip-path 1.3s var(--ease-io);transition-delay:calc(var(--d,0ms) + 100ms)}
+html.motion .rv-clip.in>img{clip-path:inset(0 0 0 0)}
+/* hero disciplines */
+.disc{list-style:none;margin:0;padding:0;border-top:1px solid #0A0A0A}
+.disc li{display:flex;align-items:baseline;gap:12px;padding:8px 0;border-bottom:1px solid #B89B00;font-size:16px;font-weight:700}
+.disc li span{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;font-weight:500;color:#3B3300}
+/* buttons */
+.btn-arrow svg{transition:transform .4s var(--ease)}
+.btn-arrow:hover svg{transform:translateY(3px)}
+/* works */
+.works{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:clamp(56px,8vw,112px)}
+.work{scroll-margin-top:96px}
+.work-link{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:24px 48px;align-items:end;color:#0A0A0A;text-decoration:none}
+.work:nth-child(even) .work-link{grid-template-columns:minmax(0,1fr) minmax(0,1.45fr)}
+.work:nth-child(even) .work-media{order:2}
+.work-media{position:relative;overflow:hidden;aspect-ratio:16 / 10;border-radius:4px;isolation:isolate}
+.work-media>img,.work-media>.amf-trio{position:absolute;inset:-6% 0;width:100%;height:112%;object-fit:cover;transform:translateY(var(--py,0px)) scale(1.001);transition:scale 1.1s var(--ease);will-change:transform}
+.work-link:hover .work-media>img,.work-link:hover .work-media>.amf-trio,.work-link:focus-visible .work-media>img{scale:1.045}
+.work-media::after{content:'';position:absolute;inset:0;background:#FFD60A;transform-origin:100% 50%;transform:scaleX(0);z-index:2;pointer-events:none}
+html.motion .work.rv .work-media::after{transform:scaleX(1);transition:transform 1.1s var(--ease-io) .1s}
+html.motion .work.rv.in .work-media::after{transform:scaleX(0)}
+html.motion .work.rv{opacity:1;transform:none}
+html.motion .work.rv .work-meta{opacity:0;transform:translateY(24px);transition:opacity .9s var(--ease) .45s,transform 1s var(--ease) .45s}
+html.motion .work.rv.in .work-meta{opacity:1;transform:none}
+.amf-trio{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:#E3E1DC}
+.amf-trio video{width:100%;height:100%;object-fit:cover;background:#F5F4F2;display:block}
+.work-num{display:block;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:14px;color:#555555}
+.work-title{margin:6px 0 0;font-size:clamp(40px,5.4vw,80px);line-height:.95;font-weight:800;letter-spacing:-0.035em}
+.work-title span{background:linear-gradient(#FFD60A,#FFD60A) 0 88% / 0 .32em no-repeat;transition:background-size .6s var(--ease)}
+.work-link:hover .work-title span,.work-link:focus-visible .work-title span{background-size:100% .32em}
+.work-kind{display:block;margin-top:12px;font-size:15px;font-weight:800}
+.work-desc{margin:8px 0 0;max-width:44ch;font-size:17px;color:#3D3D3D}
+.work-tags{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.work-tags li{font-size:13px;font-weight:700;border:1px solid #0A0A0A;border-radius:999px;padding:3px 10px}
+@media (max-width:820px){.work-link,.work:nth-child(even) .work-link{grid-template-columns:1fr}.work:nth-child(even) .work-media{order:0}}
+/* cursor label */
+.cursor-pill{position:fixed;left:0;top:0;z-index:90;pointer-events:none;padding:10px 16px;border-radius:999px;background:#0A0A0A;color:#FFD60A;font-weight:800;font-size:15px;white-space:nowrap;transform:translate(-50%,-50%) scale(0);transition:transform .35s var(--ease);will-change:left,top}
+.cursor-pill.on{transform:translate(-50%,-50%) scale(1)}
+/* Tavola showcase */
+.eyebrow{display:block;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#555555}
+.sc-brand{margin:28px 0 0;border-radius:6px;overflow:hidden;background:#9E2A18}
+.sc-brand img{display:block;width:100%;height:auto}
+.swatches{list-style:none;margin:20px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px}
+.swatches li{border:1px solid #DDDDDD;border-radius:6px;overflow:hidden;font-size:15px}
+.swatches .sw{display:block;height:96px;background:var(--c);transform-origin:50% 100%}
+html.motion .swatches.rv .sw{transform:scaleY(0);transition:transform .9s var(--ease);transition-delay:calc(var(--i,0) * 90ms + 150ms)}
+html.motion .swatches.rv.in .sw{transform:none}
+html.motion .swatches.rv{opacity:1;transform:none}
+.swatches strong{display:block;padding:10px 12px 0}
+.swatches code{display:block;padding:0 12px 10px;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;color:#555555}
+.specimen{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:12px;margin-top:12px}
+.specimen>div{border-radius:6px;padding:22px 24px;overflow:hidden}
+.spec-serif{background:#F0E4D0;color:#9E2A18}
+.spec-serif .big{margin:6px 0 0;font-family:'DM Serif Display',serif;font-size:clamp(48px,6vw,84px);line-height:1;letter-spacing:-0.01em}
+.spec-serif .it{margin:4px 0 0;font-family:'DM Serif Display',serif;font-style:italic;font-size:22px}
+.spec-sans{background:#0A0A0A;color:#F0E4D0;font-family:'Archivo',sans-serif}
+.spec-sans .caps{margin:6px 0 0;font-size:clamp(40px,4.6vw,64px);font-weight:700;line-height:1;letter-spacing:.01em;color:#EEC2A0}
+.spec-sans .row{margin:14px 0 0;font-size:16px}
+.specimen .eyebrow{color:inherit;opacity:.75}
+.surfaces{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+.surfaces figure{margin:0}
+.surfaces .frame{position:relative;overflow:hidden;border-radius:6px;aspect-ratio:4 / 5}
+.surfaces .frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;transition:scale 1.1s var(--ease)}
+.surfaces figure:hover .frame img{scale:1.03}
+.surfaces .f-phone{background:#9E2A18;display:flex;align-items:center;justify-content:center}
+.surfaces .f-phone img{position:static;width:auto;height:88%;border-radius:28px;border:8px solid #1B1715;object-fit:cover;box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
+.surfaces .wide{grid-column:1 / -1}
+.surfaces .wide .frame{aspect-ratio:1400 / 880;background:#EEF0F3}
+.surfaces figcaption{margin-top:10px;font-size:16px;max-width:52ch}
+@media (max-width:640px){.surfaces{grid-template-columns:minmax(0,1fr)}}
+/* behind the scenes */
+.bts{margin-top:72px;border-top:2px solid #0A0A0A;border-bottom:2px solid #0A0A0A}
+.bts>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:24px 0;font-size:clamp(24px,2.8vw,36px);font-weight:800;letter-spacing:-0.02em;line-height:1.1}
+.bts>summary::-webkit-details-marker{display:none}
+.bts>summary small{display:block;margin-top:6px;font-size:16px;line-height:1.45;font-weight:400;letter-spacing:0;color:#555555}
+.bts>summary .chev{flex:none;width:56px;height:56px;border-radius:999px;background:#0A0A0A;color:#FFD60A;display:flex;align-items:center;justify-content:center;transition:transform .5s var(--ease),background .3s}
+.bts>summary:hover .chev{background:#FFD60A;color:#0A0A0A}
+.bts[open]>summary .chev{transform:rotate(45deg)}
+.bts-body{padding-bottom:56px}
+/* user flow */
+.flow-wrap{margin-top:72px;padding:clamp(20px,3vw,40px);border-radius:16px;background-color:#F4F4F4;background-image:radial-gradient(#C9C9C9 1px,transparent 1px);background-size:18px 18px}
+.flow{list-style:none;margin:32px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:32px;align-items:center}
+.flow>li{position:relative}
+.flow>li:not(:last-child)::after{content:'';position:absolute;top:50%;right:-28px;width:24px;height:2px;background:#0A0A0A}
+.flow>li:not(:last-child)::before{content:'';position:absolute;top:calc(50% - 4px);right:-29px;border:5px solid transparent;border-left:7px solid #0A0A0A;border-right:0;z-index:1}
+.fn{background:#FFFFFF;border:2px solid #0A0A0A;border-radius:12px;padding:14px;font-size:15px;line-height:1.35;font-weight:700}
+.fn-k{display:block;margin-bottom:4px;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#555555}
+.fn-start,.fn-end{background:#0A0A0A;color:#FFFFFF;border-radius:999px;padding:14px 18px}
+.fn-start .fn-k,.fn-end .fn-k{color:#FFD60A}
+.fn-dec{background:#FFD60A;border-style:dashed}
+.fn-branch ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+html.motion .flow-wrap.rv .flow>li{opacity:0;transform:translateX(-16px);transition:opacity .7s var(--ease),transform .8s var(--ease)}
+html.motion .flow-wrap.rv.in .flow>li{opacity:1;transform:none}
+html.motion .flow-wrap.rv.in .flow>li:nth-child(2){transition-delay:.15s}
+html.motion .flow-wrap.rv.in .flow>li:nth-child(3){transition-delay:.3s}
+html.motion .flow-wrap.rv.in .flow>li:nth-child(4){transition-delay:.45s}
+html.motion .flow-wrap.rv.in .flow>li:nth-child(5){transition-delay:.6s}
+@media (max-width:900px){
+  .flow{grid-template-columns:1fr;gap:30px;max-width:420px}
+  .flow>li:not(:last-child)::after{top:auto;bottom:-26px;right:auto;left:28px;width:2px;height:22px}
+  .flow>li:not(:last-child)::before{top:auto;bottom:-29px;right:auto;left:24px;border:5px solid transparent;border-top:7px solid #0A0A0A;border-bottom:0}
+}
+/* interaction states strip */
+.states{list-style:none;margin:24px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:10px}
+.states li{border:1px solid #DDDDDD;border-radius:10px;padding:14px;background:#FFFFFF;font-size:15px;line-height:1.4}
+.states .st{display:inline-flex;align-items:center;gap:8px;margin-bottom:8px;padding:4px 10px;border-radius:999px;font-weight:800;font-size:13px}
+/* case pages */
+.case-open{position:relative;overflow:hidden}
+.case-open-in{max-width:1160px;margin:0 auto;padding:40px 24px 0}
+.case-back{display:inline-flex;align-items:center;gap:8px;min-height:44px;color:inherit!important;font-weight:800;text-decoration:none}
+.case-back:hover{text-decoration:underline}
+.case-eyebrow{display:block;margin-top:clamp(40px,8vh,96px);font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;letter-spacing:.12em;text-transform:uppercase;opacity:.8}
+.case-title{margin:12px 0 0;max-width:14ch;font-size:clamp(48px,9vw,136px);line-height:.92;font-weight:800;letter-spacing:-0.045em;text-wrap:balance}
+.case-lede{margin:28px 0 0;max-width:52ch;font-size:clamp(19px,1.8vw,23px);line-height:1.45}
+.case-cover{position:relative;margin-top:clamp(40px,6vw,72px);aspect-ratio:16 / 9;border-radius:6px 6px 0 0;overflow:hidden}
+.case-cover>img,.case-cover>.amf-trio{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.case-next{background:#0A0A0A;color:#FFFFFF;border-bottom:1px solid #3A3A3A}
+header nav a[aria-current="page"]{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px;font-weight:800}
+.case-next-in{max-width:1160px;margin:0 auto;padding:56px 24px;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px 48px}
+.case-next a{color:#FFFFFF;text-decoration:none}
+.case-next .all{display:inline-flex;align-items:center;min-height:44px;font-weight:800;border-bottom:2px solid currentColor}
+.case-next .nx{display:flex;flex-direction:column;align-items:flex-end;text-align:right}
+.case-next .nx span{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#FFD60A}
+.case-next .nx strong{font-size:clamp(40px,7vw,96px);line-height:.95;letter-spacing:-0.04em;transition:transform .5s var(--ease)}
+.case-next .nx:hover strong{transform:translateX(-12px)}
+.case-next .nx strong::after{content:' →'}
+/* manifesto rows slide with scroll */
+.slide-row{will-change:transform;transform:translateX(var(--sx,0px))}
+@media (prefers-reduced-motion:reduce){
+  .work-media>img,.work-media>.amf-trio{inset:0;height:100%;transform:none}
+  .slide-row{transform:none}
+  .cursor-pill{display:none}
+}
 </style>
 </helmet>
 
@@ -45,17 +217,18 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
 
 <header style="position:sticky;top:0;z-index:50;background:#FFD60A;border-bottom:2px solid #0A0A0A">
   <div style="max-width:1160px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:16px 24px;min-height:64px;flex-wrap:wrap">
-    <a href="#top" style="display:flex;align-items:center;min-height:44px;font-weight:800;font-size:18px;color:#0A0A0A;text-decoration:none;letter-spacing:.02em">Simone Mercuri</a>
+    <a href="index.html" style="display:flex;align-items:center;min-height:44px;font-weight:800;font-size:18px;color:#0A0A0A;text-decoration:none;letter-spacing:.02em">Simone Mercuri</a>
     <nav aria-label="Principale" style="display:flex;flex-wrap:wrap;align-items:center;gap:2px">
-      <a href="#lavori" style="display:flex;align-items:center;min-height:44px;padding:0 10px;color:#0A0A0A;text-decoration:none;font-size:16px" style-hover="text-decoration:underline">Lavori</a>
-      <a href="#tavola" style="display:flex;align-items:center;min-height:44px;padding:0 10px;color:#0A0A0A;text-decoration:none;font-size:16px" style-hover="text-decoration:underline">Tavola</a>
-      <a href="#accessibilita" style="display:flex;align-items:center;min-height:44px;padding:0 10px;color:#0A0A0A;text-decoration:none;font-size:16px" style-hover="text-decoration:underline">Accessibilità</a>
-      <a href="#amf" style="display:flex;align-items:center;min-height:44px;padding:0 10px;color:#0A0A0A;text-decoration:none;font-size:16px" style-hover="text-decoration:underline">AMF</a>
-      <a href="#metodo" style="display:flex;align-items:center;min-height:44px;padding:0 10px;color:#0A0A0A;text-decoration:none;font-size:16px" style-hover="text-decoration:underline">Come lavoro</a>
+      <a href="index.html#lavori" style="display:flex;align-items:center;min-height:44px;padding:0 10px;color:#0A0A0A;text-decoration:none;font-size:16px" style-hover="text-decoration:underline">Lavori</a>
+      <a href="tavola.html" style="display:flex;align-items:center;min-height:44px;padding:0 10px;color:#0A0A0A;text-decoration:none;font-size:16px" style-hover="text-decoration:underline">Tavola</a>
+      <a href="amf.html" style="display:flex;align-items:center;min-height:44px;padding:0 10px;color:#0A0A0A;text-decoration:none;font-size:16px" style-hover="text-decoration:underline">AMF</a>
+      <a href="servizi-pubblici.html" style="display:flex;align-items:center;min-height:44px;padding:0 10px;color:#0A0A0A;text-decoration:none;font-size:16px" style-hover="text-decoration:underline">Accessibilità</a>
+      <a href="index.html#metodo" style="display:flex;align-items:center;min-height:44px;padding:0 10px;color:#0A0A0A;text-decoration:none;font-size:16px" style-hover="text-decoration:underline">Come lavoro</a>
       <a href="#contatti" style="display:flex;align-items:center;min-height:44px;padding:0 10px;color:#0A0A0A;text-decoration:none;font-size:16px" style-hover="text-decoration:underline">Contatti</a>
       <div role="group" aria-label="Lingua" style="display:flex;align-items:center;margin-left:10px;border:1px solid #0A0A0A;border-radius:999px;padding:3px"><a href="#top" aria-current="true" lang="it" style="display:flex;align-items:center;min-height:36px;padding:0 12px;border-radius:999px;background:#0A0A0A;color:#FFFFFF;font-weight:800;font-size:14px;text-decoration:none"><span aria-hidden="true">IT</span><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Italiano, lingua attuale</span></a><a href="en.html" hreflang="en" lang="en" style="display:flex;align-items:center;min-height:36px;padding:0 12px;border-radius:999px;color:#0A0A0A;font-weight:800;font-size:14px;text-decoration:none" style-hover="text-decoration:underline"><span aria-hidden="true">EN</span><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">English version</span></a></div>
     </nav>
   </div>
+  <span class="progress" aria-hidden="true"></span>
 </header>
 
 <main id="contenuto" tabindex="-1" style="outline:none">
@@ -64,29 +237,29 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
  <div style="max-width:1160px;margin:0 auto;padding:32px 24px 96px">
   <ul style="list-style:none;margin:0;padding:12px 0 0;border-top:2px solid #0A0A0A;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:8px 24px;font-size:15px;line-height:1.4">
     <li style="font-weight:800">Portfolio 2026</li>
-    <li style="font-weight:400">UX designer</li>
-    <li style="font-weight:400">Usabilità, design system, accessibilità</li>
+    <li style="font-weight:400">UX/UI e visual designer</li>
+    <li style="font-weight:800">Cerco un ruolo UX/UI</li>
     <li style="font-weight:400">Lecce, Italia · anche da remoto</li>
   </ul>
-  <h1 id="hero-title" style="margin:clamp(72px,14vh,160px) 0 0;max-width:11ch;font-size:clamp(52px,10vw,148px);line-height:.92;font-weight:800;letter-spacing:-0.04em;text-wrap:balance">Progetto prodotti digitali che tutti sanno usare.</h1>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:32px 24px;margin-top:72px;padding-top:16px;border-top:1px solid #0A0A0A;align-items:start">
+  <h1 id="hero-title" style="margin:clamp(72px,14vh,160px) 0 0;max-width:11ch;font-size:clamp(52px,10vw,148px);line-height:.92;font-weight:800;letter-spacing:-0.04em;text-wrap:balance"><span class="sr">Progetto prodotti digitali che tutti sanno usare.</span><span aria-hidden="true"><span class="h1w"><span style="--i:0">Progetto</span></span> <span class="h1w"><span style="--i:1">prodotti</span></span> <span class="h1w"><span style="--i:2">digitali</span></span> <span class="h1w"><span style="--i:3">che</span></span> <span class="h1w"><span style="--i:4">tutti</span></span> <span class="h1w"><span style="--i:5">sanno</span></span> <span class="h1w"><span style="--i:6">usare.</span></span></span></h1>
+  <div class="hero-fade" style="--i:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:32px 24px;margin-top:72px;padding-top:16px;border-top:1px solid #0A0A0A;align-items:start">
     <p style="margin:0;max-width:38ch;font-size:clamp(18px,1.6vw,21px);line-height:1.5">Sono Simone Mercuri. Rendo semplici servizi e prodotti complessi, dalla pubblica amministrazione alla moda, con l’usabilità come metro di ogni scelta e un carattere visivo che si fa ricordare.</p>
     <div style="display:flex;flex-direction:column;gap:14px;align-items:flex-start">
-      <a href="#lavori" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 24px;background:#0A0A0A;color:#FFFFFF;border:2px solid #0A0A0A;border-radius:0;font-weight:800;text-decoration:none" style-hover="background:transparent;color:#0A0A0A">Vedi i lavori<svg aria-hidden="true" width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v10M3.5 8.5L8 13l4.5-4.5"></path></svg></a>
+      <a href="#lavori" class="btn-arrow" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 24px;background:#0A0A0A;color:#FFFFFF;border:2px solid #0A0A0A;border-radius:0;font-weight:800;text-decoration:none" style-hover="background:transparent;color:#0A0A0A">Vedi i lavori<svg aria-hidden="true" width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v10M3.5 8.5L8 13l4.5-4.5"></path></svg></a>
       <a href="#metodo" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 24px;background:transparent;color:#0A0A0A;border:2px solid #0A0A0A;border-radius:0;font-weight:800;text-decoration:none" style-hover="background:#0A0A0A;color:#FFFFFF">Come lavoro</a>
     </div>
     <div style="display:flex;flex-direction:column;gap:12px">
-      <ul aria-label="Standard di riferimento" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid #0A0A0A">
-        <li style="padding:6px 0;border-bottom:1px solid #B89B00;font-size:15px;font-weight:700">Linee guida AgID</li>
-        <li style="padding:6px 0;border-bottom:1px solid #B89B00;font-size:15px;font-weight:700">WCAG 2.2 AA</li>
-        <li style="padding:6px 0;border-bottom:1px solid #B89B00;font-size:15px;font-weight:700">EN 301 549</li>
-        <li style="padding:6px 0;border-bottom:1px solid #B89B00;font-size:15px;font-weight:700">Legge 4/2004</li>
+      <ul aria-label="Cosa progetto" class="disc">
+        <li><span>01</span>Interfacce e prodotti digitali</li>
+        <li><span>02</span>Design system</li>
+        <li><span>03</span>Identità visive e art direction</li>
+        <li><span>04</span>Motion e prototipi in codice</li>
       </ul>
     </div>
   </div>
   <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;margin-top:48px">
     <sc-if value="{{ showKeyboardHint }}" hint-placeholder-val="{{ true }}">
-      <p style="margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:16px;color:#3B3300">
+      <p class="hero-fade kbd-hint" style="--i:2;margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:16px;color:#3B3300">
         <span>Questa pagina è costruita come i prodotti che progetto. Provala solo con la tastiera:</span>
         <span style="display:inline-flex;gap:6px;align-items:center"><kbd style="display:inline-flex;align-items:center;height:28px;padding:0 9px;border:1px solid #0A0A0A;border-bottom-width:3px;border-radius:0;background:#FFFFFF;font:700 14px 'Atkinson Hyperlegible Next',sans-serif">Tab</kbd><kbd style="display:inline-flex;align-items:center;height:28px;padding:0 9px;border:1px solid #0A0A0A;border-bottom-width:3px;border-radius:0;background:#FFFFFF;font:700 14px 'Atkinson Hyperlegible Next',sans-serif">Invio</kbd><kbd style="display:inline-flex;align-items:center;height:28px;padding:0 9px;border:1px solid #0A0A0A;border-bottom-width:3px;border-radius:0;background:#FFFFFF;font:700 14px 'Atkinson Hyperlegible Next',sans-serif">Spazio</kbd></span>
       </p>
@@ -95,560 +268,64 @@ html{scrollbar-color:#0A0A0A #F2F2F2}
  </div>
 </section>
 
-<section id="lavori" aria-labelledby="lavori-title" style="max-width:1160px;margin:0 auto;padding:80px 24px;border-top:1px solid #DDDDDD;scroll-margin-top:72px">
-  <h2 id="lavori-title" style="margin:0 0 40px;font-size:clamp(30px,3.6vw,44px);line-height:1.08;font-weight:800;letter-spacing:-0.02em">Lavori</h2>
-  <ul style="list-style:none;margin:0;padding:0;border-top:1px solid #111111">
-    <li style="border-bottom:1px solid #DDDDDD">
-      <a href="#tavola" style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 32px;align-items:baseline;padding:32px 0;color:#111111;text-decoration:none" style-hover="background:#FFD60A;padding-left:12px">
-        <span style="font-size:clamp(24px,2.8vw,34px);font-weight:800;line-height:1.15;letter-spacing:-0.015em">Tavola</span>
-        <span style="font-size:16px;color:#555555">Caso studio</span>
-        <span style="grid-column:1 / -1;max-width:64ch;font-size:17px;color:#555555">Uno studio per menù e carta dei vini, progettato e sviluppato da solo: menù QR, carta da stampare e console operatori da un’unica fonte.</span>
-      </a>
-    </li>
-    <li style="border-bottom:1px solid #DDDDDD">
-      <a href="#accessibilita" style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 32px;align-items:baseline;padding:32px 0;color:#111111;text-decoration:none" style-hover="background:#FFD60A;padding-left:12px">
-        <span style="font-size:clamp(24px,2.8vw,34px);font-weight:800;line-height:1.15;letter-spacing:-0.015em">Accessibilità nei servizi digitali pubblici</span>
-        <span style="font-size:16px;color:#555555">Approfondimento</span>
-        <span style="grid-column:1 / -1;max-width:64ch;font-size:17px;color:#555555">Tre pattern ricorrenti nelle piattaforme della PA, ricostruiti da zero e funzionanti: elenchi di pratiche, azioni sui documenti, richieste in più passaggi.</span>
-      </a>
-    </li>
-    <li style="border-bottom:1px solid #DDDDDD">
-      <a href="#amf" style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 32px;align-items:baseline;padding:32px 0;color:#111111;text-decoration:none" style-hover="background:#FFD60A;padding-left:12px">
-        <span style="font-size:clamp(24px,2.8vw,34px);font-weight:800;line-height:1.15;letter-spacing:-0.015em">AMF</span>
-        <span style="font-size:16px;color:#555555">Caso studio</span>
-        <span style="grid-column:1 / -1;max-width:64ch;font-size:17px;color:#555555">Restyling di un e-commerce di moda: l’indossato in loop al posto dello still life, con un movimento che si può sempre fermare.</span>
-      </a>
-    </li>
-  </ul>
-</section>
-
-<section id="tavola" aria-labelledby="tavola-title" style="max-width:1160px;margin:0 auto;padding:80px 24px 96px;border-top:1px solid #DDDDDD;scroll-margin-top:72px">
-  <h2 id="tavola-title" style="margin:0;font-size:clamp(34px,4.4vw,56px);line-height:1.04;font-weight:800;letter-spacing:-0.022em">Tavola</h2>
-  <p style="margin:20px 0 0;max-width:56ch;font-size:clamp(19px,1.8vw,23px);line-height:1.45">Uno studio per gestire menù e carta dei vini, nato per Terra Rossa, un locale nel Regno Unito gestito da proprietari italiani. Da un’unica fonte escono il menù QR per gli ospiti e la carta da stampare.</p>
-  <dl style="margin:28px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 32px;padding:16px 0;border-top:2px solid #0A0A0A;border-bottom:1px solid #DDDDDD"><div><dt style="font-size:14px;font-weight:800">Ruolo</dt><dd style="margin:2px 0 0;font-size:16px;line-height:1.4">Ideazione, design ed engineering, da solo</dd></div><div><dt style="font-size:14px;font-weight:800">Cliente</dt><dd style="margin:2px 0 0;font-size:16px;line-height:1.4">Terra Rossa (La Cantina), Regno Unito</dd></div><div><dt style="font-size:14px;font-weight:800">Consegnato</dt><dd style="margin:2px 0 0;font-size:16px;line-height:1.4">Specifiche funzionali, studio web e Android, menù QR, carta A3, console operatori</dd></div></dl>
-  <div style="margin-top:48px">
-    <h3 style="margin:0;font-size:clamp(24px,2.6vw,32px);font-weight:800;line-height:1.15;letter-spacing:-0.015em">Il prodotto, dal vivo</h3>
-    <p style="margin:10px 0 0;max-width:60ch">Non sono screenshot: è il design di Tavola montato qui dentro. Apri i menù, cambia sezione, prova il menù ospite.</p>
-    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:24px">
-      <div role="tablist" aria-label="Viste di Tavola" style="display:flex;flex-wrap:wrap;border:2px solid #0A0A0A">
-        <sc-for list="{{ tvTabs }}" as="t" hint-placeholder-count="4">
-          <button type="button" role="tab" aria-selected="{{ t.sel }}" aria-controls="tv-panel" onClick="{{ t.onClick }}" style="min-height:44px;padding:0 18px;border:0;background:{{ t.bg }};color:{{ t.fg }};font-weight:800;font-size:15px;cursor:pointer">{{ t.label }}</button>
-        </sc-for>
-      </div>
-      <a href="{{ tvSrc }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;font-weight:700">Apri a tutta pagina<svg aria-hidden="true" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h5v5M14 2L7 9M12 10v4H2V4h4"></path></svg></a>
-    </div>
-    <div id="tv-panel" role="tabpanel" style="margin-top:20px">
-      <div ref="{{ tvRef }}" style="width:100%;display:flex;justify-content:center">
-        <sc-if value="{{ tvSmall }}" hint-placeholder-val="{{ false }}">
-          <div style="width:100%;padding:28px 24px;border-radius:20px;background:#F4F4F4;display:flex;flex-direction:column;align-items:flex-start;gap:14px">
-            <p style="margin:0;font-size:17px">Su uno schermo piccolo questa vista si usa meglio a tutta pagina.</p>
-            <a href="{{ tvSrc }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;min-height:48px;padding:0 20px;background:#0A0A0A;color:#FFFFFF;font-weight:800;text-decoration:none;border-radius:999px">Apri a tutta pagina</a>
-          </div>
-        </sc-if>
-        <sc-if value="{{ tvShowFrame }}" hint-placeholder-val="{{ true }}">
-        <div style="position:relative;overflow:hidden;width:{{ tvBoxW }};height:{{ tvBoxH }};background:#FFFFFF;border-radius:{{ tvRadius }};box-shadow:0 1px 0 rgba(10,10,10,.06),0 24px 60px -24px rgba(10,10,10,.35);outline:1px solid rgba(10,10,10,.08)">
-          <iframe src="{{ tvSrc }}" title="Tavola, vista interattiva: {{ tvLabel }}" loading="lazy" style="position:absolute;left:0;top:0;border:0;width:{{ tvW }};height:{{ tvH }};transform:scale({{ tvScale }});transform-origin:0 0"></iframe>
+<section id="lavori" aria-labelledby="lavori-title" style="max-width:1160px;margin:0 auto;padding:96px 24px 120px;scroll-margin-top:72px">
+  <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 32px;margin-bottom:56px;padding-bottom:18px;border-bottom:2px solid #0A0A0A">
+    <h2 id="lavori-title" style="margin:0;font-size:clamp(44px,7vw,104px);line-height:.92;font-weight:800;letter-spacing:-0.04em">Lavori scelti</h2>
+    <p style="margin:0;max-width:34ch;font-size:17px;color:#3D3D3D">Quattro progetti, quattro mondi: un prodotto con la sua identità, la moda, il servizio pubblico, uno strumento AI.</p>
+  </div>
+  <ol class="works">
+    <li class="work" id="lavori-tavola">
+      <a href="tavola.html" class="work-link" data-cursor="Apri il caso">
+        <div class="work-media" style="background:#9E2A18"><img src="assets/covers/tavola.jpg" alt="" loading="lazy" width="1600" height="1000"></div>
+        <div class="work-meta">
+          <span class="work-num">01 / 04</span>
+          <h3 class="work-title"><span>Tavola</span></h3>
+          <span class="work-kind">Progetto personale · Prodotto e identità</span>
+          <p class="work-desc">Identità, design system e prodotto per un locale italiano a Londra: menù QR, carta da stampare e studio di gestione da un’unica fonte.</p>
+          <ul class="work-tags"><li>Brand</li><li>Design system</li><li>UI mobile</li><li>Stampa</li></ul>
         </div>
-        </sc-if>
-      </div>
-    </div>
-  </div>
-
-
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px 48px;margin-top:64px">
-    <div><h3 style="margin:0 0 8px;font-size:20px;font-weight:800">Problema</h3><p style="margin:0">La carta dei vini cambia di continuo: annate che finiscono, prezzi al calice e alla bottiglia, nuove etichette. Ogni modifica voleva dire rifare il PDF e ristampare, e il menù online restava indietro.</p></div>
-    <div><h3 style="margin:0 0 8px;font-size:20px;font-weight:800">Obiettivo</h3><p style="margin:0">Uno strumento che i proprietari usano da soli, in italiano, e che tiene allineati menù QR e carta stampata senza lavoro doppio.</p></div>
-  </div>
-  <h3 style="margin:56px 0 16px;font-size:20px;font-weight:800">Processo</h3>
-  <ol style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px 32px">
-    <li style="border-top:1px solid #0A0A0A;padding-top:14px"><span style="display:block;font-size:15px;color:#555555">Passo 1</span><strong style="display:block;margin:2px 0 4px">Capire il locale</strong><span style="font-size:16px;color:#3D3D3D">Partire dalla carta vera: come è organizzata, chi la aggiorna, in che momento della giornata.</span></li>
-    <li style="border-top:1px solid #0A0A0A;padding-top:14px"><span style="display:block;font-size:15px;color:#555555">Passo 2</span><strong style="display:block;margin:2px 0 4px">Un solo modello dati</strong><span style="font-size:16px;color:#3D3D3D">Vini, drink e piatti con prezzo al calice e alla bottiglia, regione e allergeni: tutte le viste nascono da qui.</span></li>
-    <li style="border-top:1px solid #0A0A0A;padding-top:14px"><span style="display:block;font-size:15px;color:#555555">Passo 3</span><strong style="display:block;margin:2px 0 4px">Un tema per ogni locale</strong><span style="font-size:16px;color:#3D3D3D">Lo studio resta neutro; il menù ospite e la carta prendono l’identità del locale, gestita come design system.</span></li>
-    <li style="border-top:1px solid #0A0A0A;padding-top:14px"><span style="display:block;font-size:15px;color:#555555">Passo 4</span><strong style="display:block;margin:2px 0 4px">Dal prototipo al prodotto</strong><span style="font-size:16px;color:#3D3D3D">React e Node, dall’editor alla stampa. Costruito per Terra Rossa, poi aperto su invito ad altri locali.</span></li>
+      </a>
+    </li>
+    <li class="work" id="lavori-amf">
+      <a href="amf.html" class="work-link" data-cursor="Guarda i loop">
+        <div class="work-media" style="background:#F5F4F2"><div class="amf-trio"><video class="js-loop" data-hover src="amf/macalune.mp4" poster="amf/macalune-frame.jpg" muted loop playsinline preload="none" aria-hidden="true"></video><video class="js-loop" data-hover src="amf/kala.mp4" poster="amf/kala-frame.jpg" muted loop playsinline preload="none" aria-hidden="true"></video><video class="js-loop" data-hover src="amf/fennex.mp4" poster="amf/fennex-frame.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div></div>
+        <div class="work-meta">
+          <span class="work-num">02 / 04</span>
+          <h3 class="work-title"><span>AMF</span></h3>
+          <span class="work-kind">Concept · Art direction e visual</span>
+          <p class="work-desc">Restyling di un e-commerce di moda: l’indossato in loop al posto dello still life, con un movimento che si può sempre fermare.</p>
+          <ul class="work-tags"><li>Art direction</li><li>Visual design</li><li>Motion</li><li>E-commerce</li></ul>
+        </div>
+      </a>
+    </li>
+    <li class="work" id="lavori-pa">
+      <a href="servizi-pubblici.html" class="work-link" data-cursor="Provalo">
+        <div class="work-media" style="background:#FFD60A"><img src="assets/covers/accessibilita.jpg" alt="" loading="lazy" width="1600" height="1000"></div>
+        <div class="work-meta">
+          <span class="work-num">03 / 04</span>
+          <h3 class="work-title"><span>Servizi pubblici accessibili</span></h3>
+          <span class="work-kind">Lavoro reale, ricostruito · UI e interazione</span>
+          <p class="work-desc">Tre pattern ricorrenti nelle piattaforme della PA, ridisegnati da zero e funzionanti: elenchi di pratiche, azioni sui documenti, richieste in più passaggi.</p>
+          <ul class="work-tags"><li>UI</li><li>Interaction design</li><li>WCAG 2.2</li></ul>
+        </div>
+      </a>
+    </li>
+    <li class="work" id="lavori-som">
+      <a href="sommelier.html" class="work-link" data-cursor="Provalo">
+        <div class="work-media" style="background:#9E2A18"><img src="assets/covers/sommelier.jpg" alt="" loading="lazy" width="1600" height="1000"></div>
+        <div class="work-meta">
+          <span class="work-num">04 / 04</span>
+          <h3 class="work-title"><span>Sommelier di Tavola</span></h3>
+          <span class="work-kind">Concept · Prodotto AI</span>
+          <p class="work-desc">Quando un’etichetta finisce, il ristoratore sceglie se riordinarla o sostituirla e riceve alternative per tipologia e prezzo, ognuna con il suo perché e i contatti di cantina e rivenditori.</p>
+          <ul class="work-tags"><li>UX per l’AI</li><li>User flow</li><li>Prototipo in codice</li></ul>
+        </div>
+      </a>
+    </li>
   </ol>
-
-  <div style="margin-top:72px">
-    <h3 style="margin:0;font-size:clamp(28px,3.2vw,40px);font-weight:800;line-height:1.08;letter-spacing:-0.02em">Dall’analisi alla specifica</h3>
-    <p style="margin:14px 0 0;max-width:60ch;font-size:clamp(18px,1.6vw,20px);line-height:1.5">Prima di disegnare, scrivo. Qui c’è un estratto della specifica funzionale di un’evolutiva di Tavola, come l’ho consegnata su Confluence e poi scomposta in Jira.</p>
-    <article aria-label="TAV-42 Disponibilità dei vini" style="margin-top:32px;background:#FFFFFF;border:2px solid #0A0A0A;border-radius:16px;overflow:hidden">
-      <header style="background:#0A0A0A;color:#FFFFFF;padding:18px clamp(18px,3vw,32px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
-        <p style="margin:0;font-size:clamp(20px,2vw,24px);font-weight:800"><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:.8em;color:#FFD60A;margin-right:10px">TAV-42</span>Disponibilità dei vini</p>
-        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;font-size:14px">
-          <li style="background:#FFD60A;color:#0A0A0A;font-weight:800;border-radius:999px;padding:4px 12px">Pronta per lo sviluppo</li>
-          <li style="border:1px solid #FFFFFF;border-radius:999px;padding:3px 12px">Autore: Simone Mercuri</li>
-          <li style="border:1px solid #FFFFFF;border-radius:999px;padding:3px 12px;font-family:'IBM Plex Mono',ui-monospace,monospace">v1.2</li>
-        </ul>
-      </header>
-      <div style="padding:clamp(20px,3.4vw,40px);display:flex;flex-direction:column;gap:40px">
-        <div><h4 style="margin:0 0 12px;font-size:15px;font-weight:800;letter-spacing:.02em">Requisito di partenza</h4><blockquote style="margin:0;padding:0 0 0 0;font-size:clamp(22px,2.4vw,30px);font-weight:800;line-height:1.2;letter-spacing:-0.01em;max-width:30ch">“Quando un vino finisce, deve sparire dal menù.”</blockquote><p style="margin:8px 0 0;font-size:15px;color:#555555">I proprietari, durante il primo incontro</p></div>
-        <div><h4 style="margin:0 0 12px;font-size:15px;font-weight:800;letter-spacing:.02em">Ambiguità risolte prima dello sviluppo</h4><ol style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px"><li style="border:1px solid #DDDDDD;border-radius:12px;padding:16px"><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;color:#555555">01 · Domanda</span><p style="margin:4px 0 12px;font-weight:800;line-height:1.35">“Finisce” vale per la bottiglia o anche per il calice?</p><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;color:#555555">Decisione</span><p style="margin:4px 0 0;font-size:16px;line-height:1.45">Disponibilità separata per formato. Un vino può essere finito al calice e restare in bottiglia.</p></li><li style="border:1px solid #DDDDDD;border-radius:12px;padding:16px"><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;color:#555555">02 · Domanda</span><p style="margin:4px 0 12px;font-weight:800;line-height:1.35">“Sparire” vale anche per la carta A3, che è già stampata?</p><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;color:#555555">Decisione</span><p style="margin:4px 0 0;font-size:16px;line-height:1.45">Il menù QR si aggiorna subito. La carta segnala le modifiche dall’ultima stampa.</p></li><li style="border:1px solid #DDDDDD;border-radius:12px;padding:16px"><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;color:#555555">03 · Domanda</span><p style="margin:4px 0 12px;font-weight:800;line-height:1.35">Se una regione resta senza vini?</p><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;color:#555555">Decisione</span><p style="margin:4px 0 0;font-size:16px;line-height:1.45">Si nasconde anche il titolo della regione, e ricompare con il primo vino disponibile.</p></li></ol></div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:32px 48px">
-          <div><h4 style="margin:0 0 12px;font-size:15px;font-weight:800;letter-spacing:.02em">Caso d’uso UC-1 · Segnare un vino come esaurito</h4><dl style="margin:0;display:flex;flex-direction:column;gap:10px"><div><dt style="font-size:14px;color:#555555">Attore</dt><dd style="margin:2px 0 0;font-size:16px">Ristoratore</dd></div><div><dt style="font-size:14px;color:#555555">Precondizione</dt><dd style="margin:2px 0 0;font-size:16px">Il vino è pubblicato in almeno un formato</dd></div><div><dt style="font-size:14px;color:#555555">Postcondizione</dt><dd style="margin:2px 0 0;font-size:16px">Il formato non compare nel menù QR; il vino resta in archivio</dd></div></dl><p style="margin:16px 0 6px;font-size:14px;color:#555555">Flusso principale</p><ol style="margin:0;padding-left:22px;font-size:16px;display:flex;flex-direction:column;gap:4px"><li>Il ristoratore apre il vino dall’editor</li><li>Disattiva il formato: calice, bottiglia o entrambi</li><li>Il sistema salva e aggiorna il menù QR</li><li>La carta A3 segna il vino tra le modifiche da stampare</li></ol></div>
-          <div><h4 style="margin:0 0 12px;font-size:15px;font-weight:800;letter-spacing:.02em">Casi limite</h4><ul style="margin:0;padding:0;list-style:none;border-top:1px solid #0A0A0A"><li style="border-bottom:1px solid #DDDDDD;padding:12px 0"><strong style="display:block;font-size:16px;line-height:1.35">L’ospite ha il menù aperto mentre il vino si esaurisce</strong><span style="font-size:16px;color:#3D3D3D">Il vino resta visibile fino al prossimo aggiornamento, niente sparisce sotto il dito</span></li><li style="border-bottom:1px solid #DDDDDD;padding:12px 0"><strong style="display:block;font-size:16px;line-height:1.35">Due dispositivi modificano lo stesso vino</strong><span style="font-size:16px;color:#3D3D3D">Vale l’ultima modifica; l’altro vede un avviso e ricarica</span></li><li style="border-bottom:1px solid #DDDDDD;padding:12px 0"><strong style="display:block;font-size:16px;line-height:1.35">Il vino è tra i consigliati</strong><span style="font-size:16px;color:#3D3D3D">Esce anche dai consigliati, senza lasciare il posto vuoto</span></li><li style="border-bottom:1px solid #DDDDDD;padding:12px 0"><strong style="display:block;font-size:16px;line-height:1.35">Tutti i formati disattivati</strong><span style="font-size:16px;color:#3D3D3D">Il vino passa in archivio e si ripristina in un tocco</span></li></ul></div>
-        </div>
-        <div><h4 style="margin:0 0 12px;font-size:15px;font-weight:800;letter-spacing:.02em">Criteri di accettazione</h4><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px"><div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:15px;line-height:1.6;background:#F4F4F4;border-radius:10px;padding:14px 16px"><div><strong style="display:inline-block;min-width:7ch">Dato</strong> un vino con calice e bottiglia</div><div><strong style="display:inline-block;min-width:7ch">Quando</strong> il ristoratore disattiva il calice</div><div><strong style="display:inline-block;min-width:7ch">Allora</strong> il menù QR mostra solo il prezzo della bottiglia</div></div><div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:15px;line-height:1.6;background:#F4F4F4;border-radius:10px;padding:14px 16px"><div><strong style="display:inline-block;min-width:7ch">Dato</strong> una regione con un solo vino disponibile</div><div><strong style="display:inline-block;min-width:7ch">Quando</strong> il vino viene esaurito</div><div><strong style="display:inline-block;min-width:7ch">Allora</strong> la regione non compare nel menù QR</div></div></div></div>
-        <div><h4 style="margin:0 0 12px;font-size:15px;font-weight:800;letter-spacing:.02em">Scomposizione in Jira</h4><ul style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px"><li style="display:flex;align-items:center;gap:10px;border:1px solid #0A0A0A;border-radius:999px;padding:6px 14px 6px 6px;font-size:15px"><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;background:#0A0A0A;color:#FFD60A;border-radius:999px;padding:3px 10px">TAV-43</span>API: disponibilità per formato</li><li style="display:flex;align-items:center;gap:10px;border:1px solid #0A0A0A;border-radius:999px;padding:6px 14px 6px 6px;font-size:15px"><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;background:#0A0A0A;color:#FFD60A;border-radius:999px;padding:3px 10px">TAV-44</span>Studio: interruttore “Esaurito”</li><li style="display:flex;align-items:center;gap:10px;border:1px solid #0A0A0A;border-radius:999px;padding:6px 14px 6px 6px;font-size:15px"><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;background:#0A0A0A;color:#FFD60A;border-radius:999px;padding:3px 10px">TAV-45</span>Menù QR: filtro e regioni vuote</li><li style="display:flex;align-items:center;gap:10px;border:1px solid #0A0A0A;border-radius:999px;padding:6px 14px 6px 6px;font-size:15px"><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;background:#0A0A0A;color:#FFD60A;border-radius:999px;padding:3px 10px">TAV-46</span>Carta: modifiche dall’ultima stampa</li><li style="display:flex;align-items:center;gap:10px;border:1px solid #0A0A0A;border-radius:999px;padding:6px 14px 6px 6px;font-size:15px"><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;background:#0A0A0A;color:#FFD60A;border-radius:999px;padding:3px 10px">TAV-47</span>Test di accettazione</li></ul></div>
-      </div>
-    </article>
-    <h3 style="margin:56px 0 8px;font-size:20px;font-weight:800">Revisione critica del prodotto</h3>
-    <p style="margin:0;max-width:60ch">Tre proposte sul prodotto esistente, ordinate per impatto sull’ospite rispetto allo sforzo di sviluppo.</p>
-    <div style="margin-top:20px;overflow-x:auto;border:2px solid #0A0A0A;border-radius:16px">
-      <table style="width:100%;min-width:720px;border-collapse:collapse;font-size:16px;line-height:1.45;text-align:left">
-        <thead><tr style="background:#FFD60A"><th scope="col" style="padding:12px 16px;font-size:14px;font-weight:800;border-bottom:2px solid #0A0A0A">Priorità</th><th scope="col" style="padding:12px 16px;font-size:14px;font-weight:800;border-bottom:2px solid #0A0A0A">Problema osservato</th><th scope="col" style="padding:12px 16px;font-size:14px;font-weight:800;border-bottom:2px solid #0A0A0A">Proposta</th><th scope="col" style="padding:12px 16px;font-size:14px;font-weight:800;border-bottom:2px solid #0A0A0A">Impatto</th><th scope="col" style="padding:12px 16px;font-size:14px;font-weight:800;border-bottom:2px solid #0A0A0A">Sforzo</th></tr></thead>
-        <tbody><tr style="border-bottom:1px solid #DDDDDD"><th scope="row" style="padding:14px 16px;vertical-align:top;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:15px">P1</th><td style="padding:14px 16px;vertical-align:top">Nel menù mobile i nomi lunghi dei vini vanno a capo e si sovrappongono alla riga sotto.</td><td style="padding:14px 16px;vertical-align:top">Righe ad altezza variabile, prezzo allineato alla prima riga del nome.</td><td style="padding:14px 16px;vertical-align:top;white-space:nowrap">Alto</td><td style="padding:14px 16px;vertical-align:top;white-space:nowrap">Basso</td></tr><tr style="border-bottom:1px solid #DDDDDD"><th scope="row" style="padding:14px 16px;vertical-align:top;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:15px">P2</th><td style="padding:14px 16px;vertical-align:top">Per sapere se la carta stampata è aggiornata bisogna confrontarla a mano.</td><td style="padding:14px 16px;vertical-align:top">Anteprima della carta con le modifiche evidenziate dall’ultima stampa.</td><td style="padding:14px 16px;vertical-align:top;white-space:nowrap">Alto</td><td style="padding:14px 16px;vertical-align:top;white-space:nowrap">Medio</td></tr><tr style="border-bottom:1px solid #DDDDDD"><th scope="row" style="padding:14px 16px;vertical-align:top;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:15px">P3</th><td style="padding:14px 16px;vertical-align:top">Nella console operatori nomi e colonne si troncano sotto i 1280 pixel.</td><td style="padding:14px 16px;vertical-align:top">Colonne prioritarie in tabella, dettaglio in un pannello laterale.</td><td style="padding:14px 16px;vertical-align:top;white-space:nowrap">Medio</td><td style="padding:14px 16px;vertical-align:top;white-space:nowrap">Medio</td></tr></tbody>
-      </table>
-    </div>
-  </div>
-
-  <div style="margin-top:72px;padding-top:28px;border-top:2px solid #0A0A0A">
-    <h3 style="margin:0;font-size:clamp(28px,3.2vw,40px);font-weight:800;line-height:1.08;letter-spacing:-0.02em">Dal design al codice</h3>
-    <p style="margin:14px 0 0;max-width:60ch;font-size:clamp(18px,1.6vw,20px);line-height:1.5">Tavola l’ho progettata e costruita da solo: ricerca, identità, design system, frontend e backend. Ogni decisione di interfaccia ha una controparte precisa nel codice.</p>
-    <dl style="margin:32px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:#0A0A0A;border:1px solid #0A0A0A">
-      <div style="background:#FFD60A;padding:14px 16px"><dt style="font-size:14px;font-weight:800">Frontend</dt><dd style="margin:4px 0 0;font-size:16px;line-height:1.4">React 18, Vite, CSS senza framework</dd></div>
-      <div style="background:#FFD60A;padding:14px 16px"><dt style="font-size:14px;font-weight:800">Backend</dt><dd style="margin:4px 0 0;font-size:16px;line-height:1.4">Node, Express, PostgreSQL, autenticazione JWT</dd></div>
-      <div style="background:#FFD60A;padding:14px 16px"><dt style="font-size:14px;font-weight:800">Piattaforme</dt><dd style="margin:4px 0 0;font-size:16px;line-height:1.4">Web, menù QR pubblico, carta stampata, Android con Capacitor</dd></div>
-    </dl>
-    <div style="display:flex;flex-direction:column;gap:40px;margin-top:48px">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px 40px;align-items:start;padding-top:18px;border-top:1px solid #DDDDDD">
-        <div><h4 style="margin:0 0 6px;font-size:20px;font-weight:800">Un prezzo, una sola verità</h4><p style="margin:0;max-width:44ch;color:#3D3D3D">Editor e menù ospite usano la stessa funzione di formattazione: quello che scrive il ristoratore è esattamente quello che legge il cliente.</p></div>
-        <pre tabindex="0" role="region" aria-label="Codice: Un prezzo, una sola verità" style="margin:0;padding:18px 20px;background:#0A0A0A;color:#F2F2F2;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:14px;line-height:1.6;overflow-x:auto;white-space:pre"><span style="color:#9A9A9A">// src/lib/format.js — condivisa da editor e menù ospite</span>
-export const priceText = (it, cur = '£') =&gt; {
-  const f = v =&gt; cur + v;
-  if (it.wine &amp;&amp; it.priceMode === 'gb')
-    return (it.glass ? f(it.glass) : '—') + ' · ' + (it.bottle ? f(it.bottle) : '—');
-  return it.single ? f(it.single) : '—';
-};</pre>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px 40px;align-items:start;padding-top:18px;border-top:1px solid #DDDDDD">
-        <div><h4 style="margin:0 0 6px;font-size:20px;font-weight:800">Nessuna modifica persa in silenzio</h4><p style="margin:0;max-width:44ch;color:#3D3D3D">Il salvataggio aspetta che si smetta di scrivere e, se non riesce, lo dice. Senza backend l’app funziona offline, sul dispositivo.</p></div>
-        <pre tabindex="0" role="region" aria-label="Codice: Nessuna modifica persa in silenzio" style="margin:0;padding:18px 20px;background:#0A0A0A;color:#F2F2F2;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:14px;line-height:1.6;overflow-x:auto;white-space:pre"><span style="color:#9A9A9A">// src/lib/store.js</span>
-async save(d, onError) {
-  if (api.apiEnabled()) {
-    <span style="color:#9A9A9A">// debounce: niente PUT a ogni tasto</span>
-    clearTimeout(_saveTimer);
-    _saveTimer = setTimeout(() =&gt; {
-      api.saveState(d).catch(err =&gt; { if (onError) onError(err); });
-    }, 700);
-    return;
-  }
-  try { localStorage.setItem(KEY, JSON.stringify(d)); }
-  catch (e) { if (onError) onError(e); } <span style="color:#9A9A9A">// quota piena: lo dico</span>
-}</pre>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px 40px;align-items:start;padding-top:18px;border-top:1px solid #DDDDDD">
-        <div><h4 style="margin:0 0 6px;font-size:20px;font-weight:800">L’anteprima è il prodotto</h4><p style="margin:0;max-width:44ch;color:#3D3D3D">Nel pannello del tema non c’è un mockup: si monta il template vero, sia per il menù QR sia per la carta da stampare.</p></div>
-        <pre tabindex="0" role="region" aria-label="Codice: L’anteprima è il prodotto" style="margin:0;padding:18px 20px;background:#0A0A0A;color:#F2F2F2;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:14px;line-height:1.6;overflow-x:auto;white-space:pre"><span style="color:#9A9A9A">// src/components/ThemePreview.jsx</span>
-const Tpl = getTemplate(templateId);
-<span style="color:#9A9A9A">// ...</span>
-{view === 'menu'
-  ? &lt;Tpl.GuestMenu ws={ws} cur={cur} tab={tab} setTab={setTab} /&gt;
-  : &lt;Tpl.Carta ws={ws} cur={cur} tab={tab} setTab={setTab} /&gt;}</pre>
-      </div>
-    </div>
-  </div>
-
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px 48px;margin-top:56px">
-    <div><h3 style="margin:0 0 8px;font-size:20px;font-weight:800">Stato attuale</h3><p style="margin:0">Studio, menù QR e carta stampata completi. I nuovi locali entrano su invito, gestiti dalla console operatori.</p></div>
-    <div><h3 style="margin:0 0 8px;font-size:20px;font-weight:800">Prossimi passi</h3><ul style="margin:0;padding-left:20px"><li>Test di usabilità durante il servizio</li><li>Nuovi temi pronti per altri locali</li><li>Documentazione pubblica del design system</li></ul></div>
-  </div>
 </section>
 
-<section id="accessibilita" aria-labelledby="a11y-title" style="max-width:1160px;margin:0 auto;padding:80px 24px 96px;border-top:1px solid #DDDDDD;scroll-margin-top:72px">
-  <h2 id="a11y-title" style="margin:0;max-width:20ch;font-size:clamp(34px,4.4vw,56px);line-height:1.04;font-weight:800;letter-spacing:-0.022em">Accessibilità nei servizi digitali pubblici</h2>
-  <dl style="margin:28px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 32px;padding:16px 0;border-top:2px solid #0A0A0A;border-bottom:1px solid #DDDDDD"><div><dt style="font-size:14px;font-weight:800">Ruolo</dt><dd style="margin:2px 0 0;font-size:16px;line-height:1.4">Design e prototipazione in codice</dd></div><div><dt style="font-size:14px;font-weight:800">Contesto</dt><dd style="margin:2px 0 0;font-size:16px;line-height:1.4">Piattaforme per la PA seguite in ZeroDD, riservate</dd></div><div><dt style="font-size:14px;font-weight:800">Consegnato</dt><dd style="margin:2px 0 0;font-size:16px;line-height:1.4">Tre pattern ricostruiti e funzionanti</dd></div></dl>
-  <div style="max-width:64ch;margin-top:32px;display:flex;flex-direction:column;gap:18px">
-    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 16px;background:#FFFFFF;border:1px solid #DDDDDD;border-radius:8px">
-      <p style="margin:0;flex:1;min-width:200px;font-size:16px">Progetto secondo le <strong>Linee guida AgID</strong> sull’accessibilità degli strumenti informatici e il modello di Designers Italia.</p>
-    </div>
-    <p style="margin:0">In Italia i servizi digitali pubblici devono rispettare la Legge 4/2004 e le Linee guida AgID, che rimandano alla norma EN 301 549 e quindi alle WCAG. È il minimo richiesto, non l'obiettivo.</p>
-    <p style="margin:0">Dietro ogni modulo c'è chi lo compila dal telefono in pausa pranzo, chi usa un lettore di schermo, chi ha poca familiarità con il linguaggio amministrativo e poco tempo. Progetto per queste persone, poi verifico i criteri.</p>
-    <p style="margin:0;padding:14px 0 0;border-top:1px solid #DDDDDD;font-size:16px;color:#555555">I progetti per la PA su cui lavoro sono riservati. I componenti qui sotto sono ricostruiti da zero, con dati di fantasia, e funzionano davvero.</p>
-  </div>
-
-  <h3 style="margin:72px 0 24px;font-size:24px;font-weight:800;letter-spacing:-0.01em">Quattro sfide ricorrenti</h3>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:28px 32px">
-    <div style="border-top:1px solid #111111;padding-top:16px">
-      <h4 style="margin:0 0 6px;font-size:18px;font-weight:800">Linguaggio amministrativo</h4>
-      <p style="margin:0;font-size:16px;color:#555555">Termini tecnici e sigle che l'ufficio conosce e chi fa la richiesta no.</p>
-    </div>
-    <div style="border-top:1px solid #111111;padding-top:16px">
-      <h4 style="margin:0 0 6px;font-size:18px;font-weight:800">Tabelle dense</h4>
-      <p style="margin:0;font-size:16px;color:#555555">Centinaia di pratiche da filtrare e ordinare, spesso lette con un lettore di schermo.</p>
-    </div>
-    <div style="border-top:1px solid #111111;padding-top:16px">
-      <h4 style="margin:0 0 6px;font-size:18px;font-weight:800">Stati poco chiari</h4>
-      <p style="margin:0;font-size:16px;color:#555555">Pallini colorati come unica informazione: invisibili per chi non distingue i colori.</p>
-    </div>
-    <div style="border-top:1px solid #111111;padding-top:16px">
-      <h4 style="margin:0 0 6px;font-size:18px;font-weight:800">Moduli lunghi</h4>
-      <p style="margin:0;font-size:16px;color:#555555">Errori scoperti solo alla fine, lontani dal campo, e dati persi tornando indietro.</p>
-    </div>
-  </div>
-
-  <!-- Pattern 1 -->
-  <div style="margin-top:96px">
-    <h3 style="margin:0;font-size:clamp(24px,2.6vw,32px);font-weight:800;line-height:1.15;letter-spacing:-0.015em">Elenco pratiche</h3>
-    <p style="margin:12px 0 0;max-width:64ch">Filtri per stato, ordinamento su ogni colonna e un conteggio dei risultati che il lettore di schermo annuncia. Lo stato ha sempre un'icona di forma diversa, non solo un colore.</p>
-    <div style="margin-top:28px;background:#FFFFFF;border:1px solid #DDDDDD;border-radius:8px;padding:24px">
-      <div role="group" aria-label="Filtra per stato" style="display:flex;flex-wrap:wrap;gap:8px">
-        <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
-          <button type="button" aria-pressed="{{ f.pressed }}" onClick="{{ f.onClick }}" style="min-height:44px;padding:0 16px;border-radius:999px;border:1px solid #111111;background:{{ f.bg }};color:{{ f.fg }};font-size:16px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px">{{ f.label }}<span style="font-weight:400">{{ f.count }}</span></button>
-        </sc-for>
-      </div>
-      <p aria-live="polite" style="margin:18px 0 12px;font-size:16px;color:#555555">{{ resultText }}</p>
-      <div role="region" aria-label="Tabella pratiche, scorrevole" tabindex="0" style="overflow-x:auto">
-        <table style="width:100%;min-width:720px;border-collapse:collapse;font-size:16px;font-variant-numeric:tabular-nums">
-          <caption style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Pratiche ricevute. Le intestazioni delle colonne ordinano la tabella.</caption>
-          <thead>
-            <tr>
-              <sc-for list="{{ columns }}" as="c" hint-placeholder-count="5">
-                <th scope="col" aria-sort="{{ c.ariaSort }}" style="text-align:left;padding:0;border-bottom:2px solid #111111">
-                  <button type="button" onClick="{{ c.onSort }}" style="display:flex;align-items:center;gap:6px;width:100%;min-height:48px;padding:0 12px;background:transparent;border:0;font-weight:800;font-size:16px;text-align:left;cursor:pointer" style-hover="text-decoration:underline">{{ c.label }}<svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="{{ c.iconColor }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ c.icon }}"></path></svg></button>
-                </th>
-              </sc-for>
-            </tr>
-          </thead>
-          <tbody>
-            <sc-for list="{{ rows }}" as="r" hint-placeholder-count="8">
-              <tr>
-                <td style="padding:14px 12px;border-bottom:1px solid #DDDDDD;white-space:nowrap">{{ r.id }}</td>
-                <td style="padding:14px 12px;border-bottom:1px solid #DDDDDD">{{ r.nome }}</td>
-                <td style="padding:14px 12px;border-bottom:1px solid #DDDDDD">{{ r.tipo }}</td>
-                <td style="padding:14px 12px;border-bottom:1px solid #DDDDDD;white-space:nowrap">{{ r.dataLabel }}</td>
-                <td style="padding:14px 12px;border-bottom:1px solid #DDDDDD">
-                  <span style="display:inline-flex;align-items:center;gap:8px;white-space:nowrap"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 16 16"><path d="{{ r.shape }}" fill="{{ r.color }}"></path><path d="{{ r.glyph }}" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>{{ r.statoLabel }}</span>
-                </td>
-              </tr>
-            </sc-for>
-          </tbody>
-        </table>
-      </div>
-      <sc-if value="{{ noRows }}" hint-placeholder-val="{{ false }}">
-        <p style="margin:16px 0 0;color:#555555">Nessuna pratica con questo stato.</p>
-      </sc-if>
-    </div>
-    <sc-if value="{{ showCriteria }}" hint-placeholder-val="{{ true }}">
-      <ul aria-label="Criteri WCAG applicati" style="list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 20px;font-size:15px;color:#555555">
-        <li><strong style="color:#111111">1.3.1</strong> Info e correlazioni</li>
-        <li><strong style="color:#111111">1.4.1</strong> Uso del colore</li>
-        <li><strong style="color:#111111">2.1.1</strong> Tastiera</li>
-        <li><strong style="color:#111111">4.1.3</strong> Messaggi di stato</li>
-      </ul>
-    </sc-if>
-  </div>
-
-  <!-- Pattern 2 -->
-  <div style="margin-top:96px">
-    <h3 style="margin:0;font-size:clamp(24px,2.6vw,32px);font-weight:800;line-height:1.15;letter-spacing:-0.015em">Azioni su un documento</h3>
-    <p style="margin:12px 0 0;max-width:64ch">Validare è immediato e si può annullare. Rifiutare e chiedere un'integrazione richiedono una motivazione, perché dall'altra parte qualcuno la leggerà. Ogni azione ha lo stesso nome dal pulsante al messaggio di conferma.</p>
-    <div style="margin-top:28px;background:#FFFFFF;border:1px solid #DDDDDD;border-radius:8px;padding:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px">
-      <div style="display:flex;gap:16px;align-items:flex-start">
-        <div aria-hidden="true" style="flex:none;width:56px;height:72px;border:2px solid #111111;border-radius:4px;position:relative;background:#FFFFFF">
-          <div style="position:absolute;left:10px;right:10px;top:16px;height:2px;background:#DDDDDD"></div>
-          <div style="position:absolute;left:10px;right:10px;top:26px;height:2px;background:#DDDDDD"></div>
-          <div style="position:absolute;left:10px;right:20px;top:36px;height:2px;background:#DDDDDD"></div>
-          <div style="position:absolute;left:10px;bottom:8px;font-size:11px;font-weight:800">PDF</div>
-        </div>
-        <div style="min-width:0">
-          <p style="margin:0;font-weight:800;font-size:18px;line-height:1.3">Attestazione ISEE 2026</p>
-          <p style="margin:4px 0 0;font-size:16px;color:#555555">Pratica PR-2026-0142 · Laura Bianchi</p>
-          <p style="margin:0;font-size:16px;color:#555555">Caricato il 18 settembre 2026</p>
-          <p style="margin:14px 0 0;display:inline-flex;align-items:center;gap:8px;font-size:16px"><span style="color:#555555">Stato:</span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 16 16"><path d="{{ docShape }}" fill="{{ docColor }}"></path><path d="{{ docGlyph }}" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg><strong>{{ docLabel }}</strong></p>
-        </div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:16px">
-        <sc-if value="{{ docIsPending }}" hint-placeholder-val="{{ true }}">
-          <div style="display:flex;flex-wrap:wrap;gap:8px">
-            <button type="button" onClick="{{ onValida }}" style="min-height:48px;padding:0 20px;background:#111111;color:#FFFFFF;border:2px solid #111111;border-radius:6px;font-weight:700;cursor:pointer" style-hover="background:#444444;border-color:#444444">Valida</button>
-            <button type="button" aria-expanded="{{ panelRifiuta }}" onClick="{{ onOpenRifiuta }}" style="min-height:48px;padding:0 20px;background:#FFFFFF;color:#111111;border:2px solid #111111;border-radius:6px;font-weight:700;cursor:pointer" style-hover="background:#FFFFFF">Rifiuta</button>
-            <button type="button" aria-expanded="{{ panelIntegra }}" onClick="{{ onOpenIntegra }}" style="min-height:48px;padding:0 20px;background:#FFFFFF;color:#111111;border:2px solid #111111;border-radius:6px;font-weight:700;cursor:pointer" style-hover="background:#FFFFFF">Richiedi integrazione</button>
-          </div>
-        </sc-if>
-        <sc-if value="{{ docPanelOpen }}" hint-placeholder-val="{{ false }}">
-          <div style="border-top:1px solid #DDDDDD;padding-top:16px;display:flex;flex-direction:column;gap:8px">
-            <label for="doc-text" style="font-weight:800">{{ panelLabel }}</label>
-            <p id="doc-hint" style="margin:0;font-size:15px;color:#555555">{{ panelHint }}</p>
-            <sc-if value="{{ docHasErr }}" hint-placeholder-val="{{ false }}">
-              <p id="doc-err" style="margin:0;display:flex;gap:8px;align-items:flex-start;color:#B42318;font-weight:700;font-size:16px"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 16 16" style="flex:none;margin-top:3px"><path d="M5.1 1h5.8L15 5.1v5.8L10.9 15H5.1L1 10.9V5.1z" fill="#B42318"></path><path d="M5.6 5.6l4.8 4.8M10.4 5.6l-4.8 4.8" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"></path></svg>{{ docErr }}</p>
-            </sc-if>
-            <textarea id="doc-text" ref="{{ docTaRef }}" rows="3" value="{{ docText }}" onChange="{{ onDocText }}" aria-invalid="{{ docHasErr }}" aria-describedby="doc-hint doc-err" style="width:100%;padding:12px;border:2px solid {{ docTaBorder }};border-radius:6px;background:#FFFFFF;font-size:17px;resize:vertical"></textarea>
-            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px">
-              <button type="button" onClick="{{ onDocConfirm }}" style="min-height:48px;padding:0 20px;background:#111111;color:#FFFFFF;border:2px solid #111111;border-radius:6px;font-weight:700;cursor:pointer" style-hover="background:#444444;border-color:#444444">{{ panelConfirm }}</button>
-              <button type="button" onClick="{{ onDocClose }}" style="min-height:48px;padding:0 20px;background:transparent;color:#111111;border:0;font-weight:700;text-decoration:underline;cursor:pointer">Chiudi senza salvare</button>
-            </div>
-          </div>
-        </sc-if>
-        <div role="status" aria-live="polite">
-          <sc-if value="{{ docHasMsg }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:14px 16px;border:1px solid {{ docColor }};border-radius:6px;background:#FFFFFF">
-              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" style="flex:none"><path d="{{ docShape }}" fill="{{ docColor }}"></path><path d="{{ docGlyph }}" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-              <span style="flex:1;min-width:180px;font-weight:700">{{ docMsg }}</span>
-              <sc-if value="{{ docCanUndo }}" hint-placeholder-val="{{ false }}">
-                <button type="button" onClick="{{ onDocUndo }}" style="min-height:44px;padding:0 14px;background:transparent;border:2px solid #111111;border-radius:6px;font-weight:700;cursor:pointer">Annulla validazione</button>
-              </sc-if>
-              <sc-if value="{{ docCanReset }}" hint-placeholder-val="{{ false }}">
-                <button type="button" onClick="{{ onDocReset }}" style="min-height:44px;padding:0 14px;background:transparent;border:2px solid #111111;border-radius:6px;font-weight:700;cursor:pointer">Ripristina l'esempio</button>
-              </sc-if>
-            </div>
-          </sc-if>
-        </div>
-      </div>
-    </div>
-    <sc-if value="{{ showCriteria }}" hint-placeholder-val="{{ true }}">
-      <ul aria-label="Criteri WCAG applicati" style="list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 20px;font-size:15px;color:#555555">
-        <li><strong style="color:#111111">3.3.1</strong> Identificazione di errori</li>
-        <li><strong style="color:#111111">3.3.2</strong> Etichette o istruzioni</li>
-        <li><strong style="color:#111111">3.3.4</strong> Prevenzione degli errori</li>
-        <li><strong style="color:#111111">4.1.3</strong> Messaggi di stato</li>
-      </ul>
-    </sc-if>
-  </div>
-
-  <!-- Pattern 3 -->
-  <div style="margin-top:96px">
-    <h3 style="margin:0;font-size:clamp(24px,2.6vw,32px);font-weight:800;line-height:1.15;letter-spacing:-0.015em">Richiesta in tre passaggi</h3>
-    <p style="margin:12px 0 0;max-width:64ch">Un indicatore dice dove sei. Gli errori compaiono vicino al campo e riepilogati in cima, con un link che porta al punto giusto. Prima di inviare, un riepilogo modificabile. Prova a continuare senza compilare.</p>
-    <div style="margin-top:28px;background:#FFFFFF;border:1px solid #DDDDDD;border-radius:8px;padding:clamp(20px,3vw,40px)">
-      <nav aria-label="Avanzamento della richiesta">
-        <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
-          <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
-            <li aria-current="{{ s.current }}" style="border-top:4px solid {{ s.bar }};padding-top:10px;display:flex;align-items:flex-start;gap:8px;font-size:15px;line-height:1.35">
-              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 16 16" style="flex:none;margin-top:1px"><path d="{{ s.shape }}" fill="{{ s.fill }}" stroke="{{ s.bar }}" stroke-width="1.5"></path><path d="{{ s.glyph }}" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-              <span><span style="display:block;color:#555555">{{ s.num }}</span><span style="font-weight:{{ s.weight }}">{{ s.label }}</span></span>
-            </li>
-          </sc-for>
-        </ol>
-      </nav>
-
-      <div style="max-width:620px;margin-top:36px">
-        <sc-if value="{{ hasErrList }}" hint-placeholder-val="{{ false }}">
-          <div ref="{{ sumRef }}" tabindex="-1" role="alert" aria-labelledby="err-sum-title" style="border:2px solid #B42318;border-radius:6px;padding:18px 20px;margin-bottom:28px">
-            <h4 id="err-sum-title" style="margin:0 0 8px;font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 16 16"><path d="M5.1 1h5.8L15 5.1v5.8L10.9 15H5.1L1 10.9V5.1z" fill="#B42318"></path><path d="M5.6 5.6l4.8 4.8M10.4 5.6l-4.8 4.8" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"></path></svg>{{ errSumTitle }}</h4>
-            <ul style="margin:0;padding-left:22px">
-              <sc-for list="{{ errList }}" as="e" hint-placeholder-count="2">
-                <li style="margin:4px 0"><a href="{{ e.href }}" onClick="{{ e.onClick }}" style="color:#B42318;font-weight:700">{{ e.msg }}</a></li>
-              </sc-for>
-            </ul>
-          </div>
-        </sc-if>
-
-        <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
-          <h4 ref="{{ stepRef }}" tabindex="-1" style="margin:0 0 24px;font-size:24px;font-weight:800;outline:none">Dati personali</h4>
-          <div style="display:flex;flex-direction:column;gap:24px">
-            <div style="display:flex;flex-direction:column;gap:6px">
-              <label for="f-nome" style="font-weight:800">Nome e cognome</label>
-              <sc-if value="{{ hasENome }}" hint-placeholder-val="{{ false }}"><p id="e-nome" style="margin:0;color:#B42318;font-weight:700;font-size:16px">{{ eNome }}</p></sc-if>
-              <input id="f-nome" type="text" autocomplete="name" value="{{ vNome }}" onChange="{{ onNome }}" aria-invalid="{{ hasENome }}" aria-describedby="e-nome" style="min-height:48px;padding:0 12px;border:2px solid {{ bNome }};border-radius:6px;background:#FFFFFF;font-size:17px;max-width:420px">
-            </div>
-            <div style="display:flex;flex-direction:column;gap:6px">
-              <label for="f-cf" style="font-weight:800">Codice fiscale</label>
-              <p id="h-cf" style="margin:0;font-size:15px;color:#555555">16 caratteri, lo trovi sulla tessera sanitaria.</p>
-              <sc-if value="{{ hasECf }}" hint-placeholder-val="{{ false }}"><p id="e-cf" style="margin:0;color:#B42318;font-weight:700;font-size:16px">{{ eCf }}</p></sc-if>
-              <input id="f-cf" type="text" autocomplete="off" spellcheck="false" value="{{ vCf }}" onChange="{{ onCf }}" aria-invalid="{{ hasECf }}" aria-describedby="h-cf e-cf" style="min-height:48px;padding:0 12px;border:2px solid {{ bCf }};border-radius:6px;background:#FFFFFF;font-size:17px;max-width:300px;text-transform:uppercase;letter-spacing:0.04em">
-            </div>
-            <div style="display:flex;flex-direction:column;gap:6px">
-              <label for="f-email" style="font-weight:800">Email</label>
-              <p id="h-email" style="margin:0;font-size:15px;color:#555555">Ti scriviamo solo quando la pratica cambia stato.</p>
-              <sc-if value="{{ hasEEmail }}" hint-placeholder-val="{{ false }}"><p id="e-email" style="margin:0;color:#B42318;font-weight:700;font-size:16px">{{ eEmail }}</p></sc-if>
-              <input id="f-email" type="email" autocomplete="email" value="{{ vEmail }}" onChange="{{ onEmail }}" aria-invalid="{{ hasEEmail }}" aria-describedby="h-email e-email" style="min-height:48px;padding:0 12px;border:2px solid {{ bEmail }};border-radius:6px;background:#FFFFFF;font-size:17px;max-width:420px">
-            </div>
-          </div>
-        </sc-if>
-
-        <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
-          <h4 ref="{{ stepRef }}" tabindex="-1" style="margin:0 0 24px;font-size:24px;font-weight:800;outline:none">Dettagli della richiesta</h4>
-          <div style="display:flex;flex-direction:column;gap:24px">
-            <fieldset aria-describedby="e-tipo" style="border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:6px">
-              <legend style="font-weight:800;padding:0;margin-bottom:6px">Tipo di richiesta</legend>
-              <sc-if value="{{ hasETipo }}" hint-placeholder-val="{{ false }}"><p id="e-tipo" style="margin:0 0 4px;color:#B42318;font-weight:700;font-size:16px">{{ eTipo }}</p></sc-if>
-              <sc-for list="{{ tipi }}" as="t" hint-placeholder-count="3">
-                <label for="{{ t.id }}" style="display:flex;align-items:center;gap:12px;min-height:48px;padding:0 14px;border:2px solid {{ t.border }};border-radius:6px;cursor:pointer;max-width:420px">
-                  <input id="{{ t.id }}" type="radio" name="tipo" value="{{ t.label }}" checked="{{ t.checked }}" onChange="{{ t.onChange }}" style="width:20px;height:20px;margin:0;accent-color:#111111">
-                  <span>{{ t.label }}</span>
-                </label>
-              </sc-for>
-            </fieldset>
-            <div style="display:flex;flex-direction:column;gap:6px">
-              <label for="f-descr" style="font-weight:800">Descrivi la tua situazione</label>
-              <p id="h-descr" style="margin:0;font-size:15px;color:#555555">Almeno 20 caratteri. Scrivi come parleresti allo sportello.</p>
-              <sc-if value="{{ hasEDescr }}" hint-placeholder-val="{{ false }}"><p id="e-descr" style="margin:0;color:#B42318;font-weight:700;font-size:16px">{{ eDescr }}</p></sc-if>
-              <textarea id="f-descr" rows="4" value="{{ vDescr }}" onChange="{{ onDescr }}" aria-invalid="{{ hasEDescr }}" aria-describedby="h-descr e-descr" style="padding:12px;border:2px solid {{ bDescr }};border-radius:6px;background:#FFFFFF;font-size:17px;resize:vertical"></textarea>
-            </div>
-          </div>
-        </sc-if>
-
-        <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
-          <h4 ref="{{ stepRef }}" tabindex="-1" style="margin:0 0 8px;font-size:24px;font-weight:800;outline:none">Riepilogo</h4>
-          <p style="margin:0 0 24px;color:#555555">Controlla i dati prima di inviare. Puoi ancora modificarli.</p>
-          <div style="border-top:1px solid #111111">
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0 4px"><h5 style="margin:0;font-size:17px;font-weight:800">Dati personali</h5><button type="button" onClick="{{ onEdit1 }}" style="min-height:44px;padding:0 4px;background:transparent;border:0;color:#111111;text-decoration:underline;font-weight:700;cursor:pointer">Modifica dati personali</button></div>
-            <dl style="margin:0 0 12px;display:grid;grid-template-columns:minmax(120px,180px) minmax(0,1fr);gap:6px 16px">
-              <dt style="color:#555555">Nome e cognome</dt><dd style="margin:0">{{ vNome }}</dd>
-              <dt style="color:#555555">Codice fiscale</dt><dd style="margin:0">{{ vCfUp }}</dd>
-              <dt style="color:#555555">Email</dt><dd style="margin:0;overflow-wrap:anywhere">{{ vEmail }}</dd>
-            </dl>
-          </div>
-          <div style="border-top:1px solid #DDDDDD;border-bottom:1px solid #DDDDDD">
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0 4px"><h5 style="margin:0;font-size:17px;font-weight:800">Dettagli</h5><button type="button" onClick="{{ onEdit2 }}" style="min-height:44px;padding:0 4px;background:transparent;border:0;color:#111111;text-decoration:underline;font-weight:700;cursor:pointer">Modifica dettagli</button></div>
-            <dl style="margin:0 0 12px;display:grid;grid-template-columns:minmax(120px,180px) minmax(0,1fr);gap:6px 16px">
-              <dt style="color:#555555">Tipo</dt><dd style="margin:0">{{ vTipo }}</dd>
-              <dt style="color:#555555">Descrizione</dt><dd style="margin:0">{{ vDescr }}</dd>
-            </dl>
-          </div>
-        </sc-if>
-
-        <sc-if value="{{ isStep4 }}" hint-placeholder-val="{{ false }}">
-          <div style="display:flex;gap:14px;align-items:flex-start">
-            <svg aria-hidden="true" width="32" height="32" viewBox="0 0 16 16" style="flex:none"><path d="M8 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1z" fill="#17663A"></path><path d="M4.8 8.3l2.1 2.1 4.3-4.6" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-            <div>
-              <h4 ref="{{ stepRef }}" tabindex="-1" style="margin:0;font-size:24px;font-weight:800;outline:none">Richiesta inviata</h4>
-              <p style="margin:8px 0 0">Numero pratica <strong>PR-2026-0143</strong>. Ti scriveremo a <strong style="overflow-wrap:anywhere">{{ vEmail }}</strong> quando cambia stato.</p>
-            </div>
-          </div>
-        </sc-if>
-
-        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:32px">
-          <sc-if value="{{ canContinue }}" hint-placeholder-val="{{ true }}">
-            <button type="button" onClick="{{ onNext }}" style="min-height:48px;padding:0 22px;background:#111111;color:#FFFFFF;border:2px solid #111111;border-radius:6px;font-weight:700;cursor:pointer" style-hover="background:#444444;border-color:#444444">{{ nextLabel }}</button>
-          </sc-if>
-          <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
-            <button type="button" onClick="{{ onSubmit }}" style="min-height:48px;padding:0 22px;background:#111111;color:#FFFFFF;border:2px solid #111111;border-radius:6px;font-weight:700;cursor:pointer" style-hover="background:#444444;border-color:#444444">Invia richiesta</button>
-          </sc-if>
-          <sc-if value="{{ canBack }}" hint-placeholder-val="{{ false }}">
-            <button type="button" onClick="{{ onBack }}" style="min-height:48px;padding:0 22px;background:transparent;color:#111111;border:2px solid #111111;border-radius:6px;font-weight:700;cursor:pointer" style-hover="background:#FFFFFF">Indietro</button>
-          </sc-if>
-          <sc-if value="{{ isStep4 }}" hint-placeholder-val="{{ false }}">
-            <button type="button" onClick="{{ onRestart }}" style="min-height:48px;padding:0 22px;background:transparent;color:#111111;border:2px solid #111111;border-radius:6px;font-weight:700;cursor:pointer" style-hover="background:#FFFFFF">Nuova richiesta</button>
-          </sc-if>
-        </div>
-      </div>
-    </div>
-    <sc-if value="{{ showCriteria }}" hint-placeholder-val="{{ true }}">
-      <ul aria-label="Criteri WCAG applicati" style="list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 20px;font-size:15px;color:#555555">
-        <li><strong style="color:#111111">2.4.6</strong> Intestazioni ed etichette</li>
-        <li><strong style="color:#111111">3.3.1</strong> Identificazione di errori</li>
-        <li><strong style="color:#111111">3.3.3</strong> Suggerimenti per gli errori</li>
-        <li><strong style="color:#111111">3.3.4</strong> Prevenzione degli errori</li>
-      </ul>
-    </sc-if>
-  </div>
-</section>
-
-<section id="amf" aria-labelledby="amf-title" style="max-width:1160px;margin:0 auto;padding:80px 24px 96px;border-top:1px solid #DDDDDD;scroll-margin-top:72px">
-  <h2 id="amf-title" style="margin:0;max-width:18ch;font-size:clamp(34px,4.4vw,56px);line-height:1.04;font-weight:800;letter-spacing:-0.022em">AMF: dallo still life all’indossato in loop</h2>
-  <p style="margin:20px 0 0;max-width:56ch;font-size:clamp(19px,1.8vw,23px);line-height:1.45">Per lo shop di un brand di pellicce fake fur ho proposto di aprire ogni prodotto con un video muto di pochi secondi: il capo addosso, in movimento, front e back in un solo asset.</p>
-  <dl style="margin:28px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 32px;padding:16px 0;border-top:2px solid #0A0A0A;border-bottom:1px solid #DDDDDD"><div><dt style="font-size:14px;font-weight:800">Ruolo</dt><dd style="margin:2px 0 0;font-size:16px;line-height:1.4">Concept e visual design</dd></div><div><dt style="font-size:14px;font-weight:800">Contesto</dt><dd style="margin:2px 0 0;font-size:16px;line-height:1.4">Proposta di restyling per lo shop AMF</dd></div><div><dt style="font-size:14px;font-weight:800">Consegnato</dt><dd style="margin:2px 0 0;font-size:16px;line-height:1.4">Concept, art direction dei loop, regole desktop e mobile</dd></div></dl>
-
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px 48px;margin-top:56px">
-    <div>
-      <h3 style="margin:0 0 8px;font-size:20px;font-weight:800">Problema</h3>
-      <p style="margin:0">Il capo appeso non racconta come cade, come si apre, quanto è lungo addosso. In una pelliccia sono proprio queste le informazioni che decidono l’acquisto.</p>
-    </div>
-    <div>
-      <h3 style="margin:0 0 8px;font-size:20px;font-weight:800">Direzione</h3>
-      <p style="margin:0">L’indossato diventa la prima lettura, lo still life scende a dettaglio. Tutto dentro l’universo AMF: bianco, nero, tipografia stretta, nessun ornamento.</p>
-    </div>
-  </div>
-
-  <h3 style="margin:56px 0 16px;font-size:20px;font-weight:800">Tre decisioni</h3>
-  <ol style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px 32px">
-    <li style="border-top:1px solid #111111;padding-top:14px"><strong style="display:block;margin-bottom:4px">Il capo è addosso</strong><span style="font-size:16px;color:#555555">Front e back sullo stesso fondo bianco, con una luce coerente su tutto lo shop.</span></li>
-    <li style="border-top:1px solid #111111;padding-top:14px"><strong style="display:block;margin-bottom:4px">Il loop al posto della posa</strong><span style="font-size:16px;color:#555555">Pochi secondi: il modello entra di fronte, fa mezzo giro e chiude di spalle. Primo e ultimo frame combaciano, il loop non ha stacco.</span></li>
-    <li style="border-top:1px solid #111111;padding-top:14px"><strong style="display:block;margin-bottom:4px">Un’aggiunta, non un vincolo</strong><span style="font-size:16px;color:#555555">Dove il video non c’è, la card resta sull’indossato fermo e al passaggio mostra lo still life. La griglia non si rompe.</span></li>
-  </ol>
-
-  <h3 style="margin:72px 0 8px;font-size:clamp(24px,2.6vw,32px);font-weight:800;line-height:1.15;letter-spacing:-0.015em">Visual design: lo stesso capo, due letture</h3>
-  <p style="margin:0;max-width:60ch">Il cuore della proposta in un confronto. A sinistra lo still life di oggi, a destra l’indossato che apre la scheda prodotto.</p>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:24px;margin-top:28px">
-    <figure style="margin:0"><div style="aspect-ratio:4 / 5;border:1px solid #0A0A0A;background:#FFFFFF;overflow:hidden"><img src="amf/selenite-still.jpg" alt="Selenite in still life, capo appeso su fondo bianco" loading="lazy" style="width:100%;height:100%;object-fit:contain;display:block"></div><figcaption style="margin-top:10px;font-size:16px;max-width:44ch"><strong>Prima · still life.</strong> Il capo appeso: si vede il colore, non la misura né il movimento.</figcaption></figure>
-    <figure style="margin:0"><div style="aspect-ratio:4 / 5;border:1px solid #0A0A0A;background:#FFFFFF;overflow:hidden"><img src="amf/selenite-look.jpg" alt="Selenite indossata dal modello, figura intera su fondo bianco" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div><figcaption style="margin-top:10px;font-size:16px;max-width:44ch"><strong>Dopo · indossato.</strong> Come cade, quanto è lungo, come si porta: le informazioni che decidono l’acquisto.</figcaption></figure>
-  </div>
-
-  <h3 style="margin:56px 0 8px;font-size:20px;font-weight:800">La griglia dello shop</h3>
-  <p style="margin:0;max-width:64ch">Tre dei loop già girati, scelti perché hanno la stessa inquadratura e la stessa distanza dal modello. Il movimento si può fermare in ogni momento e parte fermo se il sistema chiede di ridurre le animazioni.</p>
-
-  <div style="margin-top:28px;background:#FFFFFF;color:#111110;border:1px solid #111110;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:16px 20px;border-bottom:1px solid #111110">
-      <img src="amf/amf-logo.svg" alt="AMF" style="height:22px;width:auto;display:block">
-      <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#5E5B55">Collezione · Shop · Pianeta AMF</span>
-    </div>
-    <div aria-hidden="true" style="background:#111110;color:#F5F4F2;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:8px 20px">fake is the new real.</div>
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 20px;border-bottom:1px solid #E3E1DC">
-      <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase">Coll. 00 — AM Fake</span>
-      <button type="button" aria-pressed="{{ amfPausedStr }}" onClick="{{ onAmfToggle }}" style="min-height:44px;padding:0 16px;display:inline-flex;align-items:center;gap:10px;background:#FFFFFF;color:#111110;border:1px solid #111110;border-radius:0;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer" style-hover="background:#111110;color:#FFFFFF">
-        <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="{{ amfIcon }}"></path></svg>{{ amfBtn }}
-      </button>
-    </div>
-    <ul style="list-style:none;margin:0;padding:1px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:#E3E1DC">
-      <sc-for list="{{ amfProducts }}" as="p" hint-placeholder-count="0">
-        <li tabindex="{{ p.tab }}" aria-label="{{ p.aria }}" onMouseEnter="{{ p.onEnter }}" onMouseLeave="{{ p.onLeave }}" onFocus="{{ p.onEnter }}" onBlur="{{ p.onLeave }}" style="background:#FFFFFF;display:flex;flex-direction:column">
-          <div style="position:relative;aspect-ratio:3 / 4;background:#FFFFFF;overflow:hidden">
-            {{ p.imgEl }}
-            {{ p.stillEl }}
-            {{ p.video }}
-            <span style="position:absolute;left:10px;top:10px;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:#FFFFFF;color:#111110;padding:3px 6px;border:1px solid #111110">{{ p.badge }}</span>
-          </div>
-          <div style="padding:12px 12px 14px;display:flex;flex-direction:column;gap:2px">
-            <div style="display:flex;justify-content:space-between;gap:10px;font-size:15px;font-weight:500;text-transform:uppercase;letter-spacing:.02em"><span>{{ p.name }}</span><span style="white-space:nowrap">{{ p.price }}</span></div>
-            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#5E5B55">Fake fur · {{ p.variants }}</span>
-          </div>
-        </li>
-      </sc-for>
-    </ul>
-  </div>
-  <p aria-live="polite" style="margin:12px 0 0;font-size:15px;color:#555555">{{ amfNote }}</p>
-  <sc-if value="{{ showCriteria }}" hint-placeholder-val="{{ true }}">
-    <ul aria-label="Criteri WCAG applicati" style="list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 20px;font-size:15px;color:#555555">
-      <li><strong style="color:#111111">2.2.2</strong> Pausa, stop, nascondi</li>
-      <li><strong style="color:#111111">2.3.3</strong> Animazione da interazioni</li>
-      <li><strong style="color:#111111">2.1.1</strong> Tastiera</li>
-    </ul>
-  </sc-if>
-
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px 56px;align-items:center;margin-top:72px">
-    <div>
-      <h3 style="margin:0 0 8px;font-size:20px;font-weight:800">Su mobile</h3>
-      <p style="margin:0;max-width:52ch">Una colonna, card a tutta larghezza. Il loop parte solo quando la card è al centro dello schermo e si ferma quando esce: un video alla volta, meno batteria e meno dati. Scorri dentro il telefono.</p>
-      <p aria-live="polite" style="margin:16px 0 0;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#111111">{{ amfMobNote }}</p>
-    </div>
-    <div style="display:flex;justify-content:center">
-      <div style="width:320px;max-width:100%;border:10px solid #111110;border-radius:44px;background:#111110;box-shadow:0 30px 60px -30px rgba(17,17,16,.5)">
-        <div style="border-radius:34px;overflow:hidden;background:#FFFFFF;color:#111110;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif">
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px 10px;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;border-bottom:1px solid #111110">
-            <span>Menu</span>
-            <img src="amf/amf-logo.svg" alt="AMF" style="height:14px;width:auto;display:block">
-            <span>Carrello (0)</span>
-          </div>
-          <div ref="{{ amfMobRef }}" role="region" aria-label="Shop AMF su mobile, scorrevole" tabindex="0" style="height:560px;overflow-y:auto;overscroll-behavior:contain;scroll-snap-type:y mandatory">
-            <sc-for list="{{ amfMobile }}" as="m" hint-placeholder-count="0">
-              <div data-amf="{{ m.name }}" style="scroll-snap-align:start;border-bottom:1px solid #E3E1DC">
-                <div style="position:relative;aspect-ratio:3 / 4;background:#FFFFFF;overflow:hidden">
-                  {{ m.imgEl }}
-                  {{ m.video }}
-                  <span style="position:absolute;left:10px;top:10px;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:#FFFFFF;padding:3px 6px;border:1px solid #111110">{{ m.badge }}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;gap:10px;padding:10px 14px 14px;font-size:13px;font-weight:500;text-transform:uppercase"><span>{{ m.name }}</span><span>{{ m.price }}</span></div>
-              </div>
-            </sc-for>
-            <div style="padding:16px 14px 22px;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5E5B55;text-align:center">fake is the new real.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px 48px;margin-top:56px">
-    <div>
-      <h3 style="margin:0 0 8px;font-size:20px;font-weight:800">Regole di comportamento</h3>
-      <ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px">
-        <li>In griglia il frame è fermo al caricamento, il movimento parte da solo solo dove c’è il loop.</li>
-        <li>Nella scheda prodotto il loop apre la galleria: indossato, poi look completo, poi still life.</li>
-              </ul>
-    </div>
-  </div>
-</section>
-
-<section id="metodo" aria-labelledby="metodo-title" style="background:#FFD60A;border-top:2px solid #0A0A0A;scroll-margin-top:72px">
+<section id="metodo" aria-labelledby="metodo-title" style="overflow:hidden;background:#FFD60A;border-top:2px solid #0A0A0A;scroll-margin-top:72px">
  <div style="max-width:1160px;margin:0 auto;padding:96px 24px 104px">
   <h2 id="metodo-title" style="margin:0;max-width:15ch;font-size:clamp(38px,5.4vw,72px);line-height:1.02;font-weight:800;letter-spacing:-0.03em">Se non si usa con facilità, non è finito.</h2>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px 56px;margin-top:40px">
@@ -656,11 +333,11 @@ const Tpl = getTemplate(templateId);
     <p style="margin:0;color:#3B3300">Questo non significa rinunciare alla creatività. Significa costruirla sopra fondamenta solide: prima la chiarezza, poi il carattere. Quando una soluzione visiva è anche la più comprensibile, il prodotto non si limita a funzionare. Si fa ricordare.</p>
   </div>
   <div style="margin-top:80px">
-    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 32px;padding:0 0 18px;border-bottom:2px solid #0A0A0A">
+    <div class="slide-row" data-dir="1" style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 32px;padding:0 0 18px;border-bottom:2px solid #0A0A0A">
       <p style="margin:0;font-size:clamp(40px,9vw,120px);font-weight:800;line-height:.86;letter-spacing:-0.035em">USABILE</p>
       <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;font-size:16px;font-weight:700;line-height:1.35;color:#0A0A0A"><li>chiaro</li><li>prevedibile</li><li>accessibile</li></ul>
     </div>
-    <div style="display:flex;flex-wrap:wrap-reverse;align-items:flex-end;justify-content:space-between;gap:12px 32px;padding:22px 24px 20px;background:#0A0A0A;color:#FFD60A">
+    <div class="slide-row" data-dir="-1" style="display:flex;flex-wrap:wrap-reverse;align-items:flex-end;justify-content:space-between;gap:12px 32px;padding:22px 24px 20px;background:#0A0A0A;color:#FFD60A">
       <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;font-size:16px;font-weight:700;line-height:1.35;color:#FFD60A"><li>riconoscibile</li><li>espressivo</li><li>curato</li></ul>
       <p style="margin:0;margin-left:auto;font-size:clamp(40px,9vw,120px);font-weight:800;line-height:.86;letter-spacing:-0.035em;text-align:right">ACCATTIVANTE</p>
     </div>
@@ -680,17 +357,17 @@ const Tpl = getTemplate(templateId);
     <li style="border-top:1px solid #0A0A0A;padding-top:14px"><strong style="display:block;font-size:18px;margin-bottom:4px">Verificare</strong><span style="font-size:16px;color:#3B3300">Test di usabilità, WCAG, tastiera e lettori di schermo. Poi si ripete.</span></li>
   </ol>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px;margin-top:72px;padding-top:32px;border-top:1px solid #B89B00">
-    <div><h3 style="margin:0 0 10px;font-size:17px;font-weight:800">Strumenti</h3><ul style="margin:0;padding:0;list-style:none;color:#3B3300;display:flex;flex-direction:column;gap:4px"><li>Figma</li><li>Miro</li><li>HTML e CSS</li><li>Git</li></ul></div>
+    <div><h3 style="margin:0 0 10px;font-size:17px;font-weight:800">Strumenti</h3><ul style="margin:0;padding:0;list-style:none;color:#3B3300;display:flex;flex-direction:column;gap:4px"><li>Figma</li><li>Miro</li><li>HTML, CSS e React</li><li>Git</li></ul></div>
     <div><h3 style="margin:0 0 10px;font-size:17px;font-weight:800">Metodi</h3><ul style="margin:0;padding:0;list-style:none;color:#3B3300;display:flex;flex-direction:column;gap:4px"><li>Design Thinking</li><li>Lean UX</li><li>Agile UX</li><li>Prototipi e test di usabilità</li></ul></div>
-    <div><h3 style="margin:0 0 10px;font-size:17px;font-weight:800">Accessibilità</h3><ul style="margin:0;padding:0;list-style:none;color:#3B3300;display:flex;flex-direction:column;gap:4px"><li>WCAG 2.2 AA</li><li>EN 301 549</li><li>NVDA e VoiceOver</li><li>Linee guida AgID</li></ul></div>
+    <div><h3 style="margin:0 0 10px;font-size:17px;font-weight:800">Accessibilità</h3><ul style="margin:0;padding:0;list-style:none;color:#3B3300;display:flex;flex-direction:column;gap:4px"><li>WCAG 2.2 AA</li><li>EN 301 549 e Legge 4/2004</li><li>NVDA e VoiceOver</li><li>Linee guida AgID</li></ul></div>
   </div>
  </div>
 </section>
 
 <section id="contatti" aria-labelledby="contatti-title" style="background:#0A0A0A;color:#FFFFFF;scroll-margin-top:72px">
   <div style="max-width:1160px;margin:0 auto;padding:96px 24px 56px">
-    <h2 id="contatti-title" style="color:#FFD60A;margin:0;max-width:16ch;font-size:clamp(36px,5vw,64px);line-height:1.04;font-weight:800;letter-spacing:-0.022em">Hai un prodotto complesso da rendere semplice?</h2>
-    <p style="margin:24px 0 0;max-width:52ch;font-size:19px;color:#D6D6D6">Cerco un ruolo da UX designer dove usabilità e qualità visiva contano allo stesso modo. Rispondo entro due giorni lavorativi.</p>
+    <h2 id="contatti-title" style="color:#FFD60A;margin:0;max-width:16ch;font-size:clamp(36px,5vw,64px);line-height:1.04;font-weight:800;letter-spacing:-0.022em">Cerchi un UX/UI designer per il tuo team?</h2>
+    <p style="margin:24px 0 0;max-width:52ch;font-size:19px;color:#D6D6D6">Cerco un ruolo da UX/UI designer in un team di prodotto, anche da remoto, dove usabilità e qualità visiva contano allo stesso modo. Rispondo entro due giorni lavorativi.</p>
     <img src="assets/firma-bianca.png" alt="Firma di Simone Mercuri" width="1466" height="668" style="display:block;width:220px;max-width:60%;height:auto;margin-top:28px">
     <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:36px">
       <a href="mailto:simonemercuri.me@gmail.com" style="display:inline-flex;align-items:center;min-height:52px;padding:0 26px;background:#FFD60A;color:#0A0A0A;border:2px solid #FFD60A;border-radius:0;font-weight:800;text-decoration:none" style-hover="background:#0A0A0A;color:#FFFFFF">Scrivimi</a>
@@ -698,6 +375,7 @@ const Tpl = getTemplate(templateId);
     </div>
     <ul style="list-style:none;margin:64px 0 0;padding:24px 0 0;border-top:1px solid #3A3A3A;display:flex;flex-wrap:wrap;gap:8px 32px;font-size:16px">
       <li><a href="mailto:simonemercuri.me@gmail.com" style="color:#FFFFFF;display:inline-flex;align-items:center;min-height:44px">simonemercuri.me@gmail.com</a></li>
+      <li><a href="https://www.linkedin.com/in/simone-mercuri/" rel="me noopener" target="_blank" style="color:#FFFFFF;display:inline-flex;align-items:center;min-height:44px">LinkedIn</a></li>
       <li style="color:#D6D6D6;display:inline-flex;align-items:center;min-height:44px">Lecce, Italia · disponibile anche da remoto</li>
     </ul>
   </div>
@@ -737,6 +415,8 @@ class Component extends DCLogic {
   docTaRef = React.createRef();
 
   focusLater(ref) { setTimeout(() => ref.current && ref.current.focus(), 40); }
+  focusDoc() { setTimeout(() => { const b = document.querySelector('#doc-card button'); if (b) b.focus(); }, 60); }
+  focusOpener() { const o = this._docOpener; setTimeout(() => { if (o && o.isConnected) o.focus(); }, 60); }
   fmtDate(iso) { const [y, m, d] = iso.split('-'); return `${+d} ${this.MESI[+m - 1]} ${y}`; }
   priceOk(p) { return /^\d{1,4}([.,]\d{1,2})?(\s*\/\s*\d{1,4}([.,]\d{1,2})?)?$/.test(String(p).trim()); }
   priceFmt(p) { return this.priceOk(p) ? parseFloat(p.replace(',', '.')).toFixed(2).replace('.', ',') : '—'; }
@@ -779,7 +459,7 @@ class Component extends DCLogic {
   }
 
   // Azioni documento
-  docOpen(p) { this.setState({ docPanel: p, docText: '', docErr: '', docMsg: '' }); this.focusLater(this.docTaRef); }
+  docOpen(p) { this._docOpener = document.activeElement; this.setState({ docPanel: p, docText: '', docErr: '', docMsg: '' }); this.focusLater(this.docTaRef); }
   docConfirm() {
     const { docPanel, docText } = this.state;
     if (docText.trim().length < 5) {
@@ -790,6 +470,7 @@ class Component extends DCLogic {
     this.setState(docPanel === 'rifiuta'
       ? { doc: 'rifiutato', docPanel: null, docErr: '', docMsg: 'Documento rifiutato. La motivazione è stata inviata a Laura Bianchi.' }
       : { doc: 'integrazione', docPanel: null, docErr: '', docMsg: 'Integrazione richiesta. Laura Bianchi riceverà la tua nota.' });
+    this.focusDoc();
   }
   docVals() {
     const { doc, docPanel, docText, docErr, docMsg } = this.state, S = this.S;
@@ -806,13 +487,13 @@ class Component extends DCLogic {
       docMsg, docHasMsg: !!docMsg, docCanUndo: doc === 'validato', docCanReset: doc === 'rifiutato' || doc === 'integrazione',
       docTaRef: this.docTaRef,
       onDocText: e => this.setState({ docText: e.target.value }),
-      onValida: () => this.setState({ doc: 'validato', docPanel: null, docMsg: 'Documento validato.' }),
+      onValida: () => { this.setState({ doc: 'validato', docPanel: null, docMsg: 'Documento validato.' }); this.focusDoc(); },
       onOpenRifiuta: () => this.docOpen('rifiuta'),
       onOpenIntegra: () => this.docOpen('integra'),
       onDocConfirm: () => this.docConfirm(),
-      onDocClose: () => this.setState({ docPanel: null, docErr: '', docText: '' }),
-      onDocUndo: () => this.setState({ doc: 'attesa', docMsg: 'Validazione annullata. Il documento è di nuovo in attesa.' }),
-      onDocReset: () => this.setState({ doc: 'attesa', docMsg: '', docText: '' })
+      onDocClose: () => { this.setState({ docPanel: null, docErr: '', docText: '' }); this.focusOpener(); },
+      onDocUndo: () => { this.setState({ doc: 'attesa', docMsg: 'Validazione annullata. Il documento è di nuovo in attesa.' }); this.focusDoc(); },
+      onDocReset: () => { this.setState({ doc: 'attesa', docMsg: '', docText: '' }); this.focusDoc(); }
     };
   }
 
@@ -899,7 +580,7 @@ class Component extends DCLogic {
     }, { root, threshold: 0.6 });
     root.querySelectorAll('[data-amf]').forEach(el => this._io.observe(el));
   }
-  componentWillUnmount() { if (this._io) this._io.disconnect(); if (this._tvRO) this._tvRO.disconnect(); }
+  componentWillUnmount() { if (this._io) this._io.disconnect(); if (this._tvRO) this._tvRO.disconnect(); if (this._rvIO) this._rvIO.disconnect(); if (this._loopIO) this._loopIO.disconnect(); if (this._onScroll) { window.removeEventListener('scroll', this._onScroll); window.removeEventListener('resize', this._onScroll); } if (this._pill) this._pill.remove(); }
   TV = [
     { src: 'design-reference/Terra%20Rossa%20-%20Admin.dc.html', w: 1400, h: 880, kind: 'desk' },
     { src: 'design-reference/Terra%20Rossa%20-%20Mobile%20Menu.dc.html', w: 390, h: 844, kind: 'phone' },
@@ -912,6 +593,7 @@ class Component extends DCLogic {
     const el = this.tvRef.current;
     if (!el || this._tvRO || !window.ResizeObserver) return;
     const w0 = Math.round(el.clientWidth); if (w0 && w0 !== this.state.tvAw) this.setState({ tvAw: w0 });
+    if (this.state.tvTab == null && w0 && w0 < 640) this.setState({ tvTab: 1 });
     this._tvRO = new ResizeObserver(es => { const w = Math.round(es[0].contentRect.width); if (w && w !== this.state.tvAw) this.setState({ tvAw: w }); });
     this._tvRO.observe(el);
   }
@@ -930,26 +612,125 @@ class Component extends DCLogic {
       tvTabs: this.TV_LABELS.map((label, k) => ({ label, sel: k === i ? 'true' : 'false', bg: k === i ? '#0A0A0A' : '#FFFFFF', fg: k === i ? '#FFD60A' : '#0A0A0A', onClick: () => this.setState({ tvTab: k }) }))
     };
   }
+  // ---------- Motion ----------
+  motionSetup() {
+    if (this._motionDone) return; this._motionDone = true;
+    const doc = document, root = doc.documentElement;
+    const mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+    const rm = !!(mq && mq.matches);
+    if (rm) root.classList.remove('motion');
+    const bar = doc.querySelector('header .progress');
+    const slides = Array.from(doc.querySelectorAll('.slide-row'));
+    const medias = Array.from(doc.querySelectorAll('.work-media'));
+    // reveal on scroll
+    if (!rm && window.IntersectionObserver) {
+      const sel = 'main section:not(#top) h2, main section:not(#top) > p, main section:not(#top) > dl, main section:not(#top) > div > p, main section h3, main section ol > li, main section figure, .work, #metodo .slide-row';
+      const picked = [];
+      doc.querySelectorAll(sel).forEach(el => {
+        if (el.closest('.flow, .marquee, .work, #tv-panel, [role="tabpanel"], table, form, .rv:not(.work)') && !el.classList.contains('rv')) return;
+        if (el.classList.contains('slide-row')) return;
+        if (!el.classList.contains('rv')) el.classList.add('rv');
+        picked.push(el);
+      });
+      doc.querySelectorAll('.rv').forEach(el => { if (!picked.includes(el)) picked.push(el); });
+      picked.forEach(el => {
+        if (el.style.getPropertyValue('--d')) return;
+        const sib = Array.from(el.parentElement ? el.parentElement.children : []).filter(c => c.classList.contains('rv'));
+        const i = Math.min(Math.max(sib.indexOf(el), 0), 4);
+        el.style.setProperty('--d', (i * 90) + 'ms');
+      });
+      this._rvIO = new IntersectionObserver(es => es.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); this._rvIO.unobserve(e.target); }
+      }), { rootMargin: '0px', threshold: 0.01 });
+      const revealAll = () => doc.querySelectorAll('.rv:not(.in)').forEach(el => el.classList.add('in'));
+      this._revealAll = revealAll;
+      picked.forEach(el => this._rvIO.observe(el));
+    } else {
+      doc.querySelectorAll('.rv').forEach(el => el.classList.add('in'));
+    }
+    // loops in the work cards: play only while visible
+    const loops = Array.from(doc.querySelectorAll('video.js-loop'));
+    loops.forEach(v => { v.muted = true; });
+    if (window.IntersectionObserver) {
+      this._loopIO = new IntersectionObserver(es => { es.forEach(e => { e.target._vis = e.isIntersecting; }); this.loopSync(); this.amfSync(); }, { threshold: 0.25 });
+      doc.querySelectorAll('video').forEach(v => this._loopIO.observe(v));
+      doc.querySelectorAll('.work-link').forEach(a => {
+        const vs = a.querySelectorAll('video[data-hover]'); if (!vs.length) return;
+        const set = on => { vs.forEach(v => { v._hover = on; }); this.loopSync(); };
+        ['pointerenter', 'focus'].forEach(ev => a.addEventListener(ev, () => set(true)));
+        ['pointerleave', 'blur'].forEach(ev => a.addEventListener(ev, () => set(false)));
+      });
+    }
+    this._loops = loops;
+    // scroll-linked: progress bar, parallax, manifesto rows
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return; ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        const h = root.scrollHeight - window.innerHeight;
+        if (this._revealAll && h - window.scrollY < 120) this._revealAll();
+        if (bar) bar.style.setProperty('--p', h > 0 ? (window.scrollY / h).toFixed(4) : 0);
+        if (rm) return;
+        const vh = window.innerHeight;
+        medias.forEach(m => {
+          const r = m.getBoundingClientRect(); if (r.bottom < 0 || r.top > vh) return;
+          const k = (r.top + r.height / 2 - vh / 2) / vh;
+          m.style.setProperty('--py', (k * -36).toFixed(1) + 'px');
+        });
+        slides.forEach(sr => {
+          const r = sr.getBoundingClientRect(); if (r.bottom < -200 || r.top > vh + 200) return;
+          const k = (r.top + r.height / 2 - vh / 2) / vh;
+          sr.style.setProperty('--sx', (k * 120 * (+sr.dataset.dir || 1)).toFixed(1) + 'px');
+        });
+      });
+    };
+    this._onScroll = onScroll;
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+    // cursor label on work cards (mouse only)
+    const fine = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (fine && !rm) {
+      const pill = doc.createElement('div'); pill.className = 'cursor-pill'; pill.setAttribute('aria-hidden', 'true'); doc.body.appendChild(pill);
+      this._pill = pill;
+      doc.querySelectorAll('[data-cursor]').forEach(a => {
+        const media = a.querySelector('.work-media') || a;
+        media.addEventListener('pointerenter', () => { pill.textContent = a.getAttribute('data-cursor'); pill.classList.add('on'); });
+        media.addEventListener('pointerleave', () => pill.classList.remove('on'));
+        media.addEventListener('pointermove', e => { pill.style.left = e.clientX + 'px'; pill.style.top = e.clientY + 'px'; });
+      });
+    }
+  }
+  loopSync() {
+    const paused = !!this.state.amfPaused;
+    (this._loops || []).forEach(v => {
+      if (paused || !v._vis || (v.hasAttribute('data-hover') && !v._hover)) { if (!v.paused) v.pause(); }
+      else if (v.paused) { const pr = v.play(); if (pr && pr.catch) pr.catch(() => {}); }
+    });
+  }
   componentDidMount() {
+    setTimeout(() => this.motionSetup(), 80);
+    setTimeout(() => { const h = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1))); if (h) h.scrollIntoView(); }, 150);
     setTimeout(() => this.tvSetup(), 60);
     document.documentElement.lang = 'it';
     const rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (rm) this.setState({ amfPaused: true, amfRM: true });
     setTimeout(() => { this.amfSetupIO(); this.amfSync(); }, 60);
   }
-  componentDidUpdate() { this.tvSetup(); this.amfSetupIO(); this.amfSync(); }
+  componentDidUpdate() { this.tvSetup(); this.amfSetupIO(); this.amfSync(); this.loopSync(); }
   amfSync() {
     Object.values(this.amfRefs).forEach(r => {
       const v = r.current; if (!v) return;
       v.muted = true;
-      if (this.state.amfPaused) { if (!v.paused) v.pause(); }
+      if (this.state.amfPaused || v._vis === false) { if (!v.paused) v.pause(); }
       else if (v.paused) { const pr = v.play(); if (pr && pr.catch) pr.catch(() => {}); }
     });
     const act = this.state.amfMobActive ?? 'Kala';
     Object.entries(this.amfMobRefs).forEach(([n, r]) => {
       const v = r.current; if (!v) return;
       v.muted = true;
-      if (this.state.amfPaused || n !== act) { if (!v.paused) v.pause(); }
+      if (this.state.amfPaused || n !== act || v._vis === false) { if (!v.paused) v.pause(); }
       else if (v.paused) { const pr = v.play(); if (pr && pr.catch) pr.catch(() => {}); }
     });
   }
